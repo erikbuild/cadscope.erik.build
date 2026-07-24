@@ -769,8 +769,35 @@ window.loadModel = loadModel;
 // Model selector
 modelSelect.addEventListener('change', () => loadModel(modelSelect.value));
 
+// Mobile-ish detection by capability: coarse pointer plus a small screen.
+// Used to gate the heavy model download behind an explicit tap.
+function isProbablyMobile() {
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  const shortEdge = Math.min(window.screen.width, window.screen.height);
+  return coarse && shortEdge < 820;
+}
+
+// On mobile, show a best-on-desktop warning and load only when the user
+// explicitly asks. Desktop loads immediately.
+function confirmMobileLoad() {
+  const warning = document.getElementById('mobileWarning');
+  if (!warning || !isProbablyMobile()) {
+    return Promise.resolve();
+  }
+  const controls = document.getElementById('viewControls');
+  controls.style.display = 'none';
+  warning.classList.remove('hidden');
+  return new Promise((resolve) => {
+    document.getElementById('mobileLoadBtn').addEventListener('click', () => {
+      warning.classList.add('hidden');
+      controls.style.display = '';
+      resolve();
+    }, { once: true });
+  });
+}
+
 // Load the initially selected model
-loadModel(modelSelect.value);
+confirmMobileLoad().then(() => loadModel(modelSelect.value));
 
 // Applies pending share-state color overrides after the picker UI is built.
 function applySharedColors(state) {
