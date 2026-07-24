@@ -1,0 +1,921 @@
+{
+  "palette": {
+    "Main": {
+      "color": "#797979"
+    },
+    "Accent": {
+      "color": "#9F6204"
+    },
+    "Frame": {
+      "color": "#3a3a3a",
+      "metalness": 0.7,
+      "showInPicker": false
+    },
+    "Hardware": {
+      "color": "#888888",
+      "metalness": 0.9,
+      "showInPicker": false
+    },
+    "Bed": {
+      "color": "#cc8800",
+      "showInPicker": false
+    },
+    "Electronics": {
+      "color": "#1d3b2a",
+      "metalness": 0.5,
+      "showInPicker": false
+    },
+    "Glass": {
+      "color": "#ccddee",
+      "metalness": 0.1,
+      "opacity": 0.15,
+      "showInPicker": false
+    },
+    "PEI Sheet": {
+      "color": "#F0B27A",
+      "showInPicker": false
+    },
+    "White": {
+      "color": "#F5F5F5",
+      "showInPicker": false
+    },
+    "Hidden": {
+      "showInPicker": false,
+      "showInTree": false
+    }
+  },
+  "autoAssign": [
+    {
+      "match": "M2*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M3*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M4*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M5*",
+      "category": "Hardware"
+    },
+    {
+      "match": "*Screw*",
+      "category": "Hardware"
+    },
+    {
+      "match": "*screw*",
+      "category": "Hardware"
+    },
+    {
+      "match": "F623_Bearing*",
+      "category": "Hardware"
+    },
+    {
+      "match": "COMPOU*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SOLID*",
+      "category": "Hidden"
+    },
+    {
+      "match": "Cylinder*",
+      "category": "Hidden"
+    },
+    {
+      "match": "LOGO*",
+      "category": "Hidden"
+    },
+    {
+      "match": "User_Library-*",
+      "category": "Hidden"
+    },
+    {
+      "match": "Extruded_*",
+      "category": "Hidden"
+    },
+    {
+      "match": "CAPC*",
+      "category": "Hidden"
+    },
+    {
+      "match": "RESC*",
+      "category": "Hidden"
+    },
+    {
+      "match": "QFN*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SOT*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SOD*",
+      "category": "Hidden"
+    },
+    {
+      "match": "DO*",
+      "category": "Hidden"
+    },
+    {
+      "match": "INDC*",
+      "category": "Hidden"
+    },
+    {
+      "match": "LED*",
+      "category": "Hidden"
+    },
+    {
+      "match": "HDR*",
+      "category": "Hidden"
+    },
+    {
+      "match": "TSW*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SRN*",
+      "category": "Hidden"
+    },
+    {
+      "match": "MR*",
+      "category": "Hidden"
+    },
+    {
+      "match": "XH*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SD*",
+      "category": "Hidden"
+    },
+    {
+      "match": "ADXL*",
+      "category": "Hidden"
+    },
+    {
+      "match": "GT*",
+      "category": "Hidden"
+    },
+    {
+      "match": "CM*",
+      "category": "Hidden"
+    },
+    {
+      "match": "EASUN*",
+      "category": "Hidden"
+    },
+    {
+      "match": "KF*",
+      "category": "Hidden"
+    },
+    {
+      "match": "SL*",
+      "category": "Hidden"
+    },
+    {
+      "match": "Camera_Connector*",
+      "category": "Hidden"
+    },
+    {
+      "match": "Display_Connector*",
+      "category": "Hidden"
+    },
+    {
+      "match": "*PIN_HEADER*",
+      "category": "Hidden"
+    },
+    {
+      "match": "*USB*PORTS*",
+      "category": "Hidden"
+    },
+    {
+      "match": "PTFE_*",
+      "category": "Hidden"
+    },
+    {
+      "match": "Needle_*",
+      "category": "Hidden"
+    },
+    {
+      "match": "LDO*",
+      "category": "Hardware"
+    },
+    {
+      "match": "a_belt_clip_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_front_grill_logo_plates_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_heat_set_practice_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_lcd_knob_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_motor_mounts_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_rubber_foot_block_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_x_block_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_x_end_clip_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_z_block_*",
+      "category": "Accent"
+    },
+    {
+      "match": "a_z_end_clip_*",
+      "category": "Accent"
+    }
+  ],
+  "nodes": {
+    "16T_Toothed": {
+      "hidden": true
+    },
+    "Accessories": {
+      "displayName": "Accessories"
+    },
+    "Electronics": {
+      "displayName": "Electronics"
+    },
+    "Frame": {
+      "displayName": "Frame"
+    },
+    "Panels": {
+      "displayName": "Panels"
+    },
+    "XZ_Axis": {
+      "displayName": "XZ Axis"
+    },
+    "Y_Axis": {
+      "displayName": "Y Axis"
+    },
+    "Y_Belts_Toothed": {
+      "hidden": true
+    },
+    "Accessories/Front_Grill_&_Screen": {
+      "displayName": "Front Grill & Screen"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004": {
+      "displayName": "Prusa LCD"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/Prusa_LCD_(RepRapDiscount_2004)_v1": {
+      "displayName": "Prusa LCD"
+    },
+    "Accessories/Prusawire_Supplemental_Badge_(Combined)": {
+      "displayName": "Badge"
+    },
+    "Accessories/Spool_Holder": {
+      "displayName": "Spool Holder"
+    },
+    "Accessories/Spool_Holder/Prusament_Spool_v2/filament": {
+      "displayName": "Spool Holder",
+      "category": "Main"
+    },
+    "Accessories/Spool_Holder/Prusament_Spool_v2_(1)/filament_(1)": {
+      "displayName": "Spool Holder",
+      "category": "Accent"
+    },
+    "Electronics/Mainboards": {
+      "displayName": "Mainboards"
+    },
+    "Electronics/Power": {
+      "displayName": "Power"
+    },
+    "Electronics/Raspberry_Pi": {
+      "displayName": "Raspberry Pi"
+    },
+    "Electronics/Toolhead_Boards": {
+      "displayName": "Toolhead Boards"
+    },
+    "Frame/Feet_Assembly_(Assembly)": {
+      "displayName": "Feet"
+    },
+    "Frame/Prusa_MK4_Frame_Assembly": {
+      "displayName": "Prusa MK3/MK4 Frame"
+    },
+    "Panels/FrontDeckAssembly": {
+      "displayName": "Front Deck Panel"
+    },
+    "Panels/Rear_Panel_Assembly": {
+      "displayName": "Rear Deck Panel"
+    },
+    "XZ_Axis/Door_Puller": {
+      "displayName": "Door Puller"
+    },
+    "XZ_Axis/Door_Puller_Idler": {
+      "displayName": "Door Puller Idler"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)": {
+      "displayName": "XZ Belts"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/16T002": {
+      "displayName": "16T"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/16T002/16T": {
+      "displayName": "16T X-Belt"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/16T002/16T001": {
+      "displayName": "16T Z-Belt"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/20T002": {
+      "displayName": "20T"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/20T002/20T": {
+      "displayName": "20T"
+    },
+    "XZ_Axis/XZ_Belts_(Assembly)/20T002/20T001": {
+      "displayName": "20T Z-Belt"
+    },
+    "XZ_Axis/XZ_Gantry": {
+      "displayName": "XZ Gantry"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly": {
+      "displayName": "XZ Axis Asssembly"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly": {
+      "displayName": "X Axis"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly": {
+      "displayName": "X Axis - Extrusion Assembly"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage": {
+      "displayName": "X Carriage"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Afterburner_Assembly_With_Owl": {
+      "hidden": true
+    },
+    "Y_Axis/Bed_Assembly_(1)": {
+      "displayName": "Bed"
+    },
+    "Y_Axis/Left_Rod_Assembly": {
+      "displayName": "Left Rod"
+    },
+    "Y_Axis/Right_Rod_Assembly": {
+      "displayName": "Right Rod"
+    },
+    "Y_Axis/Y_Belts": {
+      "displayName": "Y Belts"
+    },
+    "Y_Axis/Y_Idler_Assembly": {
+      "displayName": "Y Idler"
+    },
+    "Y_Axis/Y_Motors_Combined": {
+      "displayName": "Y Motor"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/a_lcd_knob_mk3": {
+      "displayName": "[a]_lcd_knob_mk3"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/a_lcd_knob_mk3_tri_wing": {
+      "displayName": "[a]_lcd_knob_tri_wing_mk3"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/lcd_supports_mk3_v2": {
+      "displayName": "lcd_supports_mk3",
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/lcd_supports_mk3_v2_(1)": {
+      "displayName": "lcd_supports_mk3",
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire001": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire002": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire003": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire004": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire005": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire006": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire007": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire008": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire009": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire010": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire011": {
+      "category": "Main"
+    },
+    "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire": {
+      "category": "Accent"
+    },
+    "Accessories/Spool_Holder/Filament_Guide/filament_guide_ecas": {
+      "displayName": "filament_guide_ecas",
+      "category": "Main"
+    },
+    "Electronics/Mainboards/Rambo_Assembly/heatbed_cable_clip": {
+      "displayName": "heatbed_cable_clip",
+      "category": "Main"
+    },
+    "Electronics/Mainboards/Rambo_Assembly/mcu_cover_einsy": {
+      "displayName": "mcu_cover_einsy",
+      "category": "Main"
+    },
+    "Electronics/Mainboards/SKR_Assembly/heatbed_cable_clip001": {
+      "displayName": "heatbed_cable_clip",
+      "category": "Main"
+    },
+    "Electronics/Mainboards/SKR_Assembly/mcu_cover_skr_mini_e3": {
+      "displayName": "mcu_cover_skr_mini_e3",
+      "category": "Main"
+    },
+    "Electronics/Power/Buck_Converter_Assembly/daygreen_mosfet_bracket": {
+      "displayName": "daygreen_mosfet_bracket",
+      "category": "Main"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/black_psu_cover_prusawire": {
+      "displayName": "black_psu_cover_prusawire",
+      "category": "Main"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Silver_PSU/silver_psu_cover_mk3_bottom": {
+      "displayName": "silver_psu_cover_mk3_bottom",
+      "category": "Main"
+    },
+    "Electronics/Power/Wago_Mount": {
+      "displayName": "wago_mount",
+      "category": "Main"
+    },
+    "Electronics/Raspberry_Pi/raspberry_pi_bracket": {
+      "displayName": "raspberry_pi_bracket",
+      "category": "Main"
+    },
+    "Electronics/Toolhead_Boards/BTT_SB2209_USB_Adapter/btt_sb2209_usb_bracket": {
+      "displayName": "btt_sb2209_usb_bracket",
+      "category": "Main"
+    },
+    "Electronics/Toolhead_Boards/Nitehawk-SB_USB/nitehawk_sb_usb_bracket": {
+      "displayName": "nitehawk_sb_usb_bracket",
+      "category": "Main"
+    },
+    "Frame/Feet_Assembly_(Assembly)/Feet_Assembly/a_rubber_foot_block_x4": {
+      "displayName": "[a]_rubber_foot_block_x4"
+    },
+    "Frame/Feet_Assembly_(Assembly)/Feet_Assembly001/a_rubber_foot_block_x005": {
+      "displayName": "[a]_rubber_foot_block_x4"
+    },
+    "Frame/Feet_Assembly_(Assembly)/Feet_Assembly002/a_rubber_foot_block_x006": {
+      "displayName": "[a]_rubber_foot_block_x4"
+    },
+    "Frame/Feet_Assembly_(Assembly)/Feet_Assembly003/a_rubber_foot_block_x007": {
+      "displayName": "[a]_rubber_foot_block_x4"
+    },
+    "Panels/FrontDeckAssembly/deck_panel_front": {
+      "displayName": "deck_panel_front",
+      "category": "Main"
+    },
+    "Panels/Rear_Panel_Assembly/deck_panel_rear_connector": {
+      "displayName": "deck_panel_rear_connector",
+      "category": "Main"
+    },
+    "Panels/Rear_Panel_Assembly/deck_panel_rear_left": {
+      "displayName": "deck_panel_rear_left",
+      "category": "Main"
+    },
+    "Panels/Rear_Panel_Assembly/deck_panel_rear_right_deltablackpsu": {
+      "displayName": "deck_panel_rear_right_deltablackpsu",
+      "category": "Main"
+    },
+    "Panels/Rear_Panel_Assembly/deck_panel_rear_right_silverpsu-meanwellpsu": {
+      "displayName": "deck_panel_rear_right_silverpsu-meanwellpsu",
+      "category": "Main",
+      "hidden": true
+    },
+    "XZ_Axis/Door_Puller/door_puller_bracket": {
+      "displayName": "door_puller_bracket",
+      "category": "Main"
+    },
+    "XZ_Axis/Door_Puller_Idler/door_puller_idler_bracket": {
+      "displayName": "door_puller_idler_bracket",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8LUU_Adapter_Assembly/8mm_bearing_adapter_x2_LM8LUU": {
+      "displayName": "8mm_bearing_adapter_x2_LM8LUU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8UU_Adapter_Assembly/8mm_bearing_adapter_x2_LM8UU": {
+      "displayName": "8mm_bearing_adapter_x2_LM8UU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8LUU_Adapter_Assembly001/8mm_bearing_adapter_x2_LM8LUU001": {
+      "displayName": "8mm_bearing_adapter_x2_LM8LUU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8UU_Adapter_Assembly001/8mm_bearing_adapter_x2_LM8UU001": {
+      "displayName": "8mm_bearing_adapter_x2_LM8UU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8LUU_Adapter_Assembly002/8mm_bearing_adapter_x2_LM8LUU002": {
+      "displayName": "8mm_bearing_adapter_x2_LM8LUU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8UU_Adapter_Assembly002/8mm_bearing_adapter_x2_LM8UU002": {
+      "displayName": "8mm_bearing_adapter_x2_LM8UU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8LUU_Adapter_Assembly003/8mm_bearing_adapter_x2_LM8LUU003": {
+      "displayName": "8mm_bearing_adapter_x2_LM8LUU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8UU_Adapter_Assembly003/8mm_bearing_adapter_x2_LM8UU003": {
+      "displayName": "8mm_bearing_adapter_x2_LM8UU",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly/Door_Puller_Anchor": {
+      "displayName": "door_puller_anchor",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly/Gantry_Frame_Bumper": {
+      "displayName": "gantry_frame_bumper",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/umbilical_strain_relief_by_nagelwerkstatt": {
+      "displayName": "umbilical_strain_relief_by_nagelwerkstatt",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/a_belt_clip_x006": {
+      "displayName": "[a]_belt_clip_x2"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/a_belt_clip_x007": {
+      "displayName": "[a]_belt_clip_x2"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/carriage_block": {
+      "displayName": "carriage_block",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/x_carriage_left": {
+      "displayName": "x_carriage_left",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/x_carriage_right": {
+      "displayName": "x_carriage_right",
+      "category": "Main"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Bed_Assembly/heatbed_cable_cover_bottom_2mm_nylon": {
+      "displayName": "heatbed_cable_cover_bottom_2mm_nylon",
+      "category": "Main"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Bed_Assembly/heatbed_cable_cover_bottom_3mm_nylon": {
+      "displayName": "heatbed_cable_cover_bottom_3mm_nylon",
+      "category": "Main"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Y_Belt_Tensioner/a_belt_clip_x005": {
+      "displayName": "[a]_belt_clip_x2"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Y_Belt_Tensioner/a_belt_clip_x4": {
+      "displayName": "[a]_belt_clip_x2"
+    },
+    "Y_Axis/Y_Motors_Combined/Y_Motor_16T/y_motor_bracket_16T_Pulley": {
+      "displayName": "y_motor_bracket_16T_Pulley",
+      "category": "Main"
+    },
+    "Y_Axis/Y_Motors_Combined/Y_Motor_20T/y_motor_bracket_20T_Pulley": {
+      "displayName": "y_motor_bracket_20T_Pulley",
+      "category": "Main"
+    },
+    "Accessories/Spool_Holder/Spool_Holder_v1": {
+      "displayName": "spool_holder",
+      "category": "Main"
+    },
+    "Accessories/Prusawire_Supplemental_Badge_(Combined)/Badge": {
+      "displayName": "Prusawire Supplemental Badge (Combined)",
+      "category": "Accent"
+    },
+    "Electronics/Mainboards/SKR_Assembly": {
+      "hidden": true
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Silver_PSU": {
+      "hidden": true
+    },
+    "Electronics/Toolhead_Boards/BTT_SB2209_USB_Adapter": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/Stealthburner_Assembly/Stealthburner_Printed/Stealthburner_Body": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/CW2_Assembly/CW2_Printed": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/CW2_Assembly/CW2_Printed/Latch": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/superpinda_mount002/superpinda_mount": {
+      "displayName": "superpinda_bracket",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/superpinda_mount002/superpinda_mount001": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/X_Belt_Tension_Block_Assembly/X_Carriage_belt_clip_x2": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/X_Belt_Tension_Block_Assembly/X_Carriage_belt_clip_x003": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8LUU_Adapter_Assembly": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8UU_Adapter_Assembly": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8LUU_Adapter_Assembly001": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8UU_Adapter_Assembly001": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8LUU_Adapter_Assembly002": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8UU_Adapter_Assembly002": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8LUU_Adapter_Assembly003": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8UU_Adapter_Assembly003": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_front": {
+      "displayName": "[a]_x_block_front_M3Sx16T"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_front_(1)": {
+      "displayName": "[a]_x_block_front_V0Sx16T",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_rear": {
+      "displayName": "[a]_x_block_rear_M3Sx16T"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_rear_(1)": {
+      "displayName": "[a]_x_block_rear_V0Sx16T",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_front001": {
+      "displayName": "[a]_x_block_front_M3Sx20T"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_front_(1)001": {
+      "displayName": "[a]_x_block_front_V0Sx20T",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_rear_(1)001": {
+      "displayName": "[a]_x_block_rear_V0Sx20T",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_rear001": {
+      "displayName": "[a]_x_block_rear_M3Sx20T"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_end_clip_R1/SOLID005": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_end_clip_R002/SOLID006": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/a_z_end_clip_R1/SOLID007": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/a_z_end_clip_R002/SOLID008": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Linear_Rods_-_10x325mm_and_8x320mm001/Linear_Rod_-_8x320mm001": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Linear_Rods_-_10x325mm_and_8x320mm/Linear_Rod_-_8x320mm": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/LDO-42STH38-1684MAC002": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/LDO-42STH38-1684MAC003": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/LDO-42STH38-1684MAC004": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/LDO-42STH38-1684MAC005": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers": {
+      "displayName": "Z Upper Idlers - 8mm MK4",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers001": {
+      "displayName": "Z Upper Idlers - 8mm MK3",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers002": {
+      "displayName": "Z Upper Idlers - 10mm MK4"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers003": {
+      "displayName": "Z Upper Idlers - 10mm MK3",
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Idler_Block_-_Left/x_idler_block_b": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/z_idler_block_b": {
+      "category": "Main"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_Textured_PEI_Sheet041": {
+      "category": "White"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_Textured_PEI_Sheet041/Prusa_Textured_PEI_Sheet": {
+      "category": "PEI Sheet"
+    },
+    "Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_MK3_Y_Carriage_v4": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Idler_Block_-_Left/X_Upper_Idlers": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004": {
+      "category": "Accent"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/Z_Mount": {
+      "displayName": "Z Motor Mount - 16T 10mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/Z_Mount_(1)": {
+      "displayName": "Z Motor Mount - 16T 8mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/Z_Mount_(1)001": {
+      "displayName": "Z Motor Mount - 20T 8mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/Z_Mount001": {
+      "displayName": "Z Motor Mount - 20T 10mm",
+      "category": "Main"
+    },
+    "Y_Axis/Left_Rod_Assembly/Y_Rod_Front_Left/SOLID003": {
+      "displayName": "y_rod_holder_front_left",
+      "category": "Main"
+    },
+    "Y_Axis/Left_Rod_Assembly/Y_Rod_Rear_Left/SOLID002": {
+      "displayName": "y_rod_holder_rear_left",
+      "category": "Main"
+    },
+    "Y_Axis/Right_Rod_Assembly/Y_Rod_Front_Right/SOLID001": {
+      "displayName": "y_rod_holder_front_right",
+      "category": "Main"
+    },
+    "Y_Axis/Right_Rod_Assembly/Y_Rod_Rear_Right/SOLID": {
+      "displayName": "y_rod_holder_rear_right",
+      "category": "Main"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061/COMPOUND059": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061/COMPOUND060": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND049": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND050": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND051": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND052": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND053": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND054": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND055": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND056": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND057": {
+      "category": "Hardware"
+    },
+    "Accessories/Front_Grill_&_Screen/Front_Grill/front_grill002": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Revo_Voron/sb_printhead_revo_voron_front": {
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Revo_Voron/sb_printhead_revo_voron_rear": {
+      "category": "Main"
+    },
+    "Y_Axis/Y_Motors_Combined/Y_Motor_20T": {
+      "hidden": true
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/X_Mount": {
+      "displayName": "X Motor Mount - 16T 10mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/X_Mount_(1)": {
+      "displayName": "X Motor Mount - 16T 8mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/X_Mount_(1)001": {
+      "displayName": "X Motor Mount - 20T 8mm",
+      "category": "Main"
+    },
+    "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/X_Mount001": {
+      "displayName": "X Motor Mount - 20T 10mm",
+      "category": "Main"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND017": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND018": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND019": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND020": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND021": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND022": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND023": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND024": {
+      "category": "Hardware"
+    },
+    "XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND025": {
+      "category": "Hardware"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Black_PSU/black_psu_cover": {
+      "displayName": "black_psu_cover_voron",
+      "category": "Main"
+    },
+    "Electronics/Power/PSU_Assembly/Prusa_Silver_PSU/silver_psu_cover_mk3": {
+      "displayName": "silver_psu_cover_mk3_rewired",
+      "category": "Main"
+    },
+    "Y_Axis/Y_Idler_Assembly/IdlerBracket": {
+      "displayName": "y_idler_bracket",
+      "category": "Main"
+    }
+  }
+}

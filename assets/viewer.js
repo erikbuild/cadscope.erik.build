@@ -6,6 +6,14 @@ import { RGBELoader } from "https://unpkg.com/three@0.164.1/examples/jsm/loaders
 import { GLTFLoader } from 'https://unpkg.com/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'https://unpkg.com/three@0.164.1/examples/jsm/loaders/DRACOLoader.js';
 import { models } from '../models/models.js';
+import {
+  writeShareToParams,
+  readShareFromParams,
+  walkNodes,
+  paletteName,
+  collectColorOverrides,
+} from './cadscope_state.js';
+import { treeLabel } from './prettify.js';
 
 const hdriLocation = "./assets/bg.hdr";
 const loadingPhrases = [
@@ -70,6 +78,7 @@ document.getElementById('brightnessSlider').addEventListener('input', (e) => {
   for (const { light, base } of baseLightIntensities) {
     light.intensity = base * scale;
   }
+  requestRender();
 });
 
 pmrem = new THREE.PMREMGenerator(renderer);
@@ -79,6 +88,100 @@ camera.position.set(0.5, 0.5, 0.5);
 
 controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+
+// Render-on-demand: schedule one render per animation frame; OrbitControls
+// fires 'change' synchronously inside controls.update() while damping is
+// settling, so the natural feedback loop quiesces when the camera stops.
+// During an in-flight camera animation, controls.update() is skipped so the
+// damping decay doesn't fight the lerp.
+let renderQueued = false;
+let cameraAnimation = null;     // { from, to, startedAt, duration }
+let defaultView = null;         // { position, quaternion, up, target } — captured per loadModel
+const ANIM_DEFAULT = 600;       // view-button transitions
+const ANIM_ZOOM    = 250;       // zoom / resetZoom
+const ANIM_FIT     = 800;       // isolate-fit
+
+function requestRender() {
+  if (renderQueued) return;
+  renderQueued = true;
+  requestAnimationFrame(() => {
+    renderQueued = false;
+    const stillAnimating = tickCameraAnimation();
+    if (!stillAnimating) controls.update();
+    renderer.render(scene, camera);
+    if (stillAnimating) requestRender();
+  });
+}
+controls.addEventListener('change', requestRender);
+
+function animateCameraTo(target, duration = ANIM_DEFAULT) {
+  cameraAnimation = {
+    from: {
+      position:   camera.position.clone(),
+      quaternion: camera.quaternion.clone(),
+      up:         camera.up.clone(),
+      target:     controls.target.clone(),
+    },
+    to: target,
+    startedAt: performance.now(),
+    duration,
+  };
+  controls.enabled = false;
+  requestRender();
+}
+
+function tickCameraAnimation() {
+  if (!cameraAnimation) return false;
+  const t = Math.min(1, (performance.now() - cameraAnimation.startedAt) / cameraAnimation.duration);
+  const eased = t * t * (3 - 2 * t);
+  const { from, to } = cameraAnimation;
+  camera.position.lerpVectors(from.position, to.position, eased);
+  camera.quaternion.slerpQuaternions(from.quaternion, to.quaternion, eased);
+  camera.up.lerpVectors(from.up, to.up, eased);
+  controls.target.copy(from.target).lerp(to.target, eased);
+  camera.updateProjectionMatrix();
+  if (t >= 1) {
+    cameraAnimation = null;
+    controls.enabled = true;
+    return false;
+  }
+  return true;
+}
+
+// Build a target pose looking at modelCenter from a given direction at the
+// canonical model-fit distance. Used by all axis-view buttons.
+function poseFromDirection(direction, up) {
+  const distance = modelSize * 1.5;
+  const eye = modelCenter.clone().addScaledVector(direction.clone().normalize(), distance);
+  const m = new THREE.Matrix4().lookAt(eye, modelCenter, up);
+  return {
+    position:   eye,
+    quaternion: new THREE.Quaternion().setFromRotationMatrix(m),
+    up:         up.clone(),
+    target:     modelCenter.clone(),
+  };
+}
+
+// Animate the camera to frame an isolated subtree. Keeps the user's current
+// viewing direction; just translates so the subtree's bounding sphere fills
+// the FOV with a small padding margin.
+function fitCameraToSubtree(obj) {
+  if (!obj) return;
+  const sphere = new THREE.Sphere();
+  new THREE.Box3().setFromObject(obj).getBoundingSphere(sphere);
+  if (!(sphere.radius > 0)) return;
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  const fovRad = camera.fov * Math.PI / 180;
+  const distance = (sphere.radius * 1.6) / Math.tan(fovRad / 2);
+  const eye = sphere.center.clone().addScaledVector(dir, distance);
+  const m = new THREE.Matrix4().lookAt(eye, sphere.center, camera.up);
+  animateCameraTo({
+    position:   eye,
+    quaternion: new THREE.Quaternion().setFromRotationMatrix(m),
+    up:         camera.up.clone(),
+    target:     sphere.center.clone(),
+  }, ANIM_FIT);
+}
 
 // Store model bounds globally for view controls
 let modelCenter = new THREE.Vector3();
@@ -90,6 +193,7 @@ new RGBELoader(loadingManager).load(
       const envMap = pmrem.fromEquirectangular(texture).texture;
       scene.environment = envMap;
       texture.dispose();
+      requestRender();
   },
   (xhr) => {
       if (xhr.total) {
@@ -120,6 +224,12 @@ let loadGeneration = 0;
 const categoryMeshes = new Map();
 const categoryPickers = new Map();
 let currentColorSet = null;
+let currentLookups = null;
+
+// Raw-names mode: when false, tree labels show unmodified node names
+// (prettifier and displayName overrides bypassed) for spec authoring.
+let prettifyEnabled = true;
+let refreshTreeLabels = null;
 
 // Selection state for tree-to-3D highlighting
 let selectedObj = null;
@@ -141,6 +251,7 @@ function highlightObject(obj) {
     savedEmissives.set(child, child.material.emissive.clone());
     child.material.emissive.copy(HIGHLIGHT_COLOR);
   });
+  requestRender();
 }
 
 function unhighlightObject() {
@@ -151,6 +262,7 @@ function unhighlightObject() {
   if (selectedTreeItem) selectedTreeItem.classList.remove('selected');
   selectedObj = null;
   selectedTreeItem = null;
+  requestRender();
 }
 
 // Populate model select from manifest
@@ -177,18 +289,62 @@ function updateGithubLink(entry) {
   }
 }
 
-// URL query string support
+// URL query string support. ?model=ID stays plain-text for readability;
+// share state goes into one URL param per non-default field
+// (?c=<colors>&h=<hidden>&i=<isolate>) via the share-link codec.
 function updateURL() {
   const params = new URLSearchParams();
   params.set('model', currentEntry ? currentEntry.id : models[0].id);
-  if (document.getElementById('colorControls').style.display !== 'none') {
-    for (const [name, picker] of categoryPickers) {
-      if (name !== 'model') {
-        params.set(name, picker.value.slice(1));
-      }
-    }
+  if (currentLookups) {
+    const pickerValues = new Map();
+    for (const [name, picker] of categoryPickers) pickerValues.set(name, picker.value);
+    const colorOverrides = collectColorOverrides(currentLookups, pickerValues);
+    const isolatedNode = isolatedObj ? indexOfNode(isolatedObj) : null;
+    // Skip hidden-state diffing while isolated — isolate clobbers visibility
+    // on every off-chain node, which would explode the encoded URL.
+    const hiddenNodes = isolatedObj ? [] : collectHiddenIndices();
+    const shareState = {};
+    if (colorOverrides.length) shareState.colorOverrides = colorOverrides;
+    if (hiddenNodes.length)    shareState.hiddenNodes    = hiddenNodes;
+    if (isolatedNode != null && isolatedNode >= 0) shareState.isolatedNode = isolatedNode;
+    writeShareToParams(shareState, params);
   }
   history.replaceState(null, '', '?' + params.toString());
+}
+
+// Diff live node visibility against the sidecar's defaultConfiguration.
+function collectHiddenIndices() {
+  if (!currentModel || !currentLookups) return [];
+  const out = [];
+  const nodes = walkNodes(currentModel);
+  // Build a path-of-node helper using the same extendPath logic as buildTree.
+  const root = visualRoot(currentModel);
+  const cache = new WeakMap();
+  function pathOf(obj) {
+    if (cache.has(obj)) return cache.get(obj);
+    let p = '';
+    if (obj.parent && obj.parent !== root) p = pathOf(obj.parent);
+    p = extendPath(p, obj.name);
+    cache.set(obj, p);
+    return p;
+  }
+  nodes.forEach((node, idx) => {
+    const entry = lookupNode(currentLookups, pathOf(node));
+    const sidecarHidden = entry?.hidden === true;
+    const liveHidden = node.visible === false;
+    if (liveHidden !== sidecarHidden) out.push(idx);
+  });
+  return out;
+}
+
+function indexOfNode(obj) {
+  if (!currentModel) return -1;
+  return walkNodes(currentModel).indexOf(obj);
+}
+
+function nodeAtIndex(idx) {
+  if (!currentModel || idx == null || idx < 0) return null;
+  return walkNodes(currentModel)[idx] || null;
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -196,7 +352,19 @@ const urlModel = urlParams.get('model');
 if (urlModel && models.some(m => m.id === urlModel)) {
   modelSelect.value = urlModel;
 }
-// URL color overrides are consumed once on initial load, then cleared
+// Decode share state once at startup; `applySharedState` consumes it after
+// the model has loaded and the tree is built. readShareFromParams returns
+// {} when there are no codec params; null when present-but-malformed.
+let pendingShareState = readShareFromParams(urlParams);
+if (pendingShareState === null) {
+  console.warn('Share-link payload is malformed. Ignoring.');
+  pendingShareState = {};
+}
+// Tracked separately because `{}` is truthy — used by the legacy color-param
+// fallback path to know whether codec params were actually provided.
+const codecParamsPresent = Object.keys(pendingShareState).length > 0;
+// Legacy back-compat (one release): old per-category color params like
+// ?Main=ff6600 still apply if no `?c=` is present.
 let urlColorsConsumed = false;
 
 // Populate URL immediately with current model selection
@@ -212,21 +380,20 @@ document.getElementById('copyLinkBtn').addEventListener('click', () => {
 });
 
 document.getElementById('resetColorsBtn').addEventListener('click', () => {
-  if (!currentColorSet || !currentModel) return;
-  for (const [name, cat] of Object.entries(currentColorSet.categories)) {
+  if (!currentLookups || !currentModel) return;
+  for (const [name, entry] of currentLookups.palette) {
     const picker = categoryPickers.get(name);
-    if (picker) picker.value = cat.color;
-    const c = new THREE.Color(cat.color);
-    const metalness = cat.metalness ?? 0.0;
-    const opacity = cat.opacity ?? 1.0;
+    if (picker) picker.value = entry.color;
+    const c = new THREE.Color(entry.color);
     (categoryMeshes.get(name) || []).forEach((mesh) => {
       mesh.material.color.copy(c);
-      mesh.material.metalness = metalness;
-      mesh.material.opacity = opacity;
-      mesh.material.transparent = opacity < 1.0;
+      mesh.material.metalness = entry.metalness;
+      mesh.material.opacity = entry.opacity;
+      mesh.material.transparent = entry.opacity < 1.0;
     });
   }
   updateURL();
+  requestRender();
 });
 
 function cleanNodeName(name) {
@@ -246,51 +413,169 @@ function stripNumericSuffix(name) {
   return name.replace(/-\d+$/, '');
 }
 
-function applyDefaultConfiguration(colorSet, model) {
-  const hiddenNames = new Set(colorSet?.defaultConfiguration?.hidden || []);
-  if (hiddenNames.size === 0) return;
-  model.traverse((obj) => {
-    const cleaned = cleanNodeName(obj.name);
-    const stripped = stripNumericSuffix(cleaned);
-    if (hiddenNames.has(cleaned) || hiddenNames.has(stripped)) {
-      obj.visible = false;
-    }
-  });
+// Translate a shell-style glob (* and ?) to an anchored regex.
+function globToRegExp(glob) {
+  const escaped = glob.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+  const pattern = escaped.replace(/\*/g, '.*').replace(/\?/g, '.');
+  return new RegExp('^' + pattern + '$');
 }
 
-function applyColorSet(colorSet, model) {
+// Append a child's cleaned name to a parent path. Empty/nameless components
+// are skipped so JS paths match the scaffold emitted by dump_parts.py.
+function extendPath(parentPath, childName) {
+  const cleaned = cleanNodeName(childName);
+  if (!cleaned) return parentPath;
+  return parentPath ? `${parentPath}/${cleaned}` : cleaned;
+}
+
+// Resolve a sidecar into ready-to-query lookup tables.
+// palette: name -> { color, metalness, opacity, showInPicker, showInTree }
+// autoAssign: ordered [{ category, regex }] — first match wins
+// nodesByPath: full slash-joined path -> entry
+// nodesByLeaf: bare-leaf key -> entry (legacy/forgiveness path)
+function buildSidecarLookups(colorSet) {
+  const palette = new Map();
+  const autoAssign = [];
+  const nodesByPath = new Map();
+  const nodesByLeaf = new Map();
+
+  if (colorSet?.palette) {
+    for (const [name, raw] of Object.entries(colorSet.palette)) {
+      palette.set(name, {
+        color: raw.color,
+        metalness: raw.metalness ?? 0.0,
+        opacity: raw.opacity ?? 1.0,
+        showInPicker: raw.showInPicker !== false,
+        showInTree: raw.showInTree !== false,
+      });
+    }
+  }
+
+  if (Array.isArray(colorSet?.autoAssign)) {
+    for (const rule of colorSet.autoAssign) {
+      if (!rule || !rule.category || !rule.match) continue;
+      if (!palette.has(rule.category)) {
+        console.warn(`Sidecar autoAssign rule references category "${rule.category}" which is not defined in palette.`);
+      }
+      autoAssign.push({ category: rule.category, regex: globToRegExp(rule.match) });
+    }
+  }
+
+  let warnedAboutLeafKeys = false;
+  if (colorSet?.nodes) {
+    for (const [key, entry] of Object.entries(colorSet.nodes)) {
+      if (entry?.category && !palette.has(entry.category)) {
+        console.warn(`Sidecar node "${key}" references category "${entry.category}" which is not defined in palette.`);
+      }
+      if (key.includes('/')) {
+        nodesByPath.set(key, entry);
+      } else {
+        nodesByLeaf.set(key, entry);
+        if (!warnedAboutLeafKeys) {
+          console.warn(`Sidecar uses bare-leaf node keys (e.g. "${key}"). Path-based keys are preferred for unambiguous matching.`);
+          warnedAboutLeafKeys = true;
+        }
+      }
+    }
+  }
+
+  return { palette, autoAssign, nodesByPath, nodesByLeaf };
+}
+
+// Look up the sidecar entry for a node by its path. Tries exact-path first,
+// then falls back to fuzzy-matched bare-leaf keys (cleaned, then -N stripped).
+function lookupNode(lookups, path) {
+  if (!lookups) return null;
+  const direct = lookups.nodesByPath.get(path);
+  if (direct) return direct;
+  if (lookups.nodesByLeaf.size === 0) return null;
+  const leaf = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
+  const cleaned = cleanNodeName(leaf);
+  return lookups.nodesByLeaf.get(cleaned)
+      || lookups.nodesByLeaf.get(stripNumericSuffix(cleaned))
+      || null;
+}
+
+// Identify the visual root (skip the glTF "Scene" wrapper if present), matching buildTree.
+function visualRoot(model) {
+  return (model.children.length === 1 && model.name === 'Scene') ? model.children[0] : model;
+}
+
+function applyDefaultConfiguration(lookups, model) {
+  if (!lookups || (lookups.nodesByPath.size === 0 && lookups.nodesByLeaf.size === 0)) return;
+  const root = visualRoot(model);
+  function walk(node, path) {
+    const entry = lookupNode(lookups, path);
+    if (entry?.hidden) node.visible = false;
+    if (node.children) {
+      for (const child of node.children) {
+        walk(child, extendPath(path, child.name));
+      }
+    }
+  }
+  for (const child of root.children) {
+    walk(child, extendPath('', child.name));
+  }
+}
+
+function applyColorSet(lookups, model) {
   categoryMeshes.clear();
 
-  // Build per-category part sets, colors, and material properties
-  const categories = [];
-  for (const [name, cat] of Object.entries(colorSet.categories)) {
-    const partSet = new Set(cat.parts || []);
-    categories.push({ name, partSet, color: new THREE.Color(cat.color), metalness: cat.metalness ?? 0.0, opacity: cat.opacity ?? 1.0 });
+  // Pre-resolve palette into Three.js Color objects keyed by category name.
+  const resolved = new Map();
+  for (const [name, entry] of lookups.palette) {
+    resolved.set(name, {
+      color: new THREE.Color(entry.color),
+      metalness: entry.metalness,
+      opacity: entry.opacity,
+    });
     categoryMeshes.set(name, []);
   }
 
-  // First-match semantics: earlier categories win
-  model.traverse((obj) => {
-    if (!obj.isMesh) return;
+  // Resolve a node's own category (explicit > autoAssign first match > none).
+  function resolveCategory(node, path) {
+    const entry = lookupNode(lookups, path);
+    if (entry?.category) return entry.category;
+    const name = node.name || '';
+    for (const rule of lookups.autoAssign) {
+      if (rule.regex.test(name)) return rule.category;
+    }
+    return null;
+  }
 
-    const cleaned = cleanNodeName(obj.name);
-    const stripped = stripNumericSuffix(cleaned);
-    const parentCleaned = obj.parent ? cleanNodeName(obj.parent.name) : '';
-
-    for (const cat of categories) {
-      if (cat.partSet.has(cleaned) || cat.partSet.has(stripped) || cat.partSet.has(parentCleaned)) {
-        obj.material = obj.material.clone();
-        obj.material.color.copy(cat.color);
-        obj.material.roughness = 0.5;
-        obj.material.metalness = cat.metalness;
-        obj.material.opacity = cat.opacity;
-        obj.material.transparent = cat.opacity < 1.0;
-        obj.material.side = THREE.DoubleSide;
-        categoryMeshes.get(cat.name).push(obj);
-        break;
+  // Top-down walk: each node inherits its nearest ancestor's category if it doesn't define its own.
+  const warnedMissing = new Set();
+  function walk(node, path, inheritedCategory) {
+    const myCategory = resolveCategory(node, path) || inheritedCategory;
+    // Stash effective category for downstream consumers (tree-build filter, etc).
+    if (myCategory) node.userData.cadscope_category = myCategory;
+    if (node.isMesh && myCategory) {
+      if (resolved.has(myCategory)) {
+        const cat = resolved.get(myCategory);
+        node.material = node.material.clone();
+        node.material.color.copy(cat.color);
+        node.material.roughness = 0.5;
+        node.material.metalness = cat.metalness;
+        node.material.opacity = cat.opacity;
+        node.material.transparent = cat.opacity < 1.0;
+        node.material.side = THREE.DoubleSide;
+        categoryMeshes.get(myCategory).push(node);
+      } else if (!warnedMissing.has(myCategory)) {
+        warnedMissing.add(myCategory);
+        console.warn(`Sidecar references category "${myCategory}" which is not defined in palette.`);
       }
     }
-  });
+    if (node.children) {
+      for (const child of node.children) {
+        walk(child, extendPath(path, child.name), myCategory);
+      }
+    }
+  }
+
+  const root = visualRoot(model);
+  for (const child of root.children) {
+    walk(child, extendPath('', child.name), null);
+  }
 }
 
 function fetchColorSet(entry) {
@@ -300,15 +585,15 @@ function fetchColorSet(entry) {
     .catch(() => null);
 }
 
-function buildColorPickerUI(colorSet) {
+function buildColorPickerUI(lookups) {
   const colorControls = document.getElementById('colorControls');
   colorControls.innerHTML = '';
   categoryPickers.clear();
   const heading = document.createElement('h3');
   heading.textContent = 'Colors';
   colorControls.appendChild(heading);
-  for (const [name, cat] of Object.entries(colorSet.categories)) {
-    if (cat.visible === false) continue;
+  for (const [name, entry] of lookups.palette) {
+    if (!entry.showInPicker) continue;
 
     const row = document.createElement('div');
     row.className = 'color-row';
@@ -318,10 +603,12 @@ function buildColorPickerUI(colorSet) {
 
     const picker = document.createElement('input');
     picker.type = 'color';
-    picker.value = cat.color;
+    picker.value = entry.color;
 
-    // Apply URL override on first load
-    if (!urlColorsConsumed && name !== 'model') {
+    // Legacy back-compat: apply old-style ?Category=hex params on first load,
+    // but only when no codec params were supplied. The codec path runs as
+    // applySharedColors after this function returns and would override anyway.
+    if (!urlColorsConsumed && !codecParamsPresent && name !== 'model') {
       const urlVal = urlParams.get(name);
       if (urlVal) {
         const override = '#' + urlVal;
@@ -336,6 +623,7 @@ function buildColorPickerUI(colorSet) {
       const meshes = categoryMeshes.get(name) || [];
       meshes.forEach((mesh) => { mesh.material.color.copy(c); });
       updateURL();
+      requestRender();
     });
 
     row.appendChild(label);
@@ -389,8 +677,10 @@ function loadModel(id) {
   const loadingText = document.getElementById('loadingText');
   const processingLine = document.getElementById('processingLine');
   const processingText = document.getElementById('processingText');
+  const progressFill = document.getElementById('loadingProgressFill');
   overlay.classList.remove('hidden');
   processingLine.classList.add('hidden');
+  progressFill.style.width = '0%';
   loadingText.textContent = 'Retrieving 3D model...';
 
   gltfLoader.load(entry.model, (gltf) => {
@@ -418,28 +708,46 @@ function loadModel(id) {
     );
     camera.lookAt(modelCenter);
     camera.up.set(0, 1, 0);
-    camera.updateProjectionMatrix();   
+    camera.updateProjectionMatrix();
+
+    // Snapshot the rest pose so the Home view animates back to *this* exact
+    // pose instead of recomputing one. Recaptured on every model load so
+    // model swaps work correctly.
+    cameraAnimation = null;
+    controls.enabled = true;
+    defaultView = {
+      position:   camera.position.clone(),
+      quaternion: camera.quaternion.clone(),
+      up:         camera.up.clone(),
+      target:     controls.target.clone(),
+    };
 
     fetchColorSet(entry).then((colorSet) => {
       if (thisGeneration !== loadGeneration) return;
       const colorControls = document.getElementById('colorControls');
       if (colorSet) {
         currentColorSet = colorSet;
-        applyDefaultConfiguration(colorSet, currentModel);
-        applyColorSet(colorSet, currentModel);
-        buildTree(currentModel, entry.name);
-        buildColorPickerUI(colorSet);
+        currentLookups = buildSidecarLookups(colorSet);
+        applyDefaultConfiguration(currentLookups, currentModel);
+        applyColorSet(currentLookups, currentModel);
+        buildTree(currentModel, entry.name, pendingShareState);
+        buildColorPickerUI(currentLookups);
+        applySharedColors(pendingShareState);
       } else {
         currentColorSet = null;
-        buildTree(currentModel, entry.name);
+        currentLookups = null;
+        buildTree(currentModel, entry.name, pendingShareState);
         colorControls.style.display = 'none';
       }
+      pendingShareState = null;
       updateURL();
       overlay.classList.add('hidden');
+      requestRender();
     });
   }, (progress) => {
     if (progress.total) {
       const pct = Math.min(100, progress.loaded / progress.total * 100).toFixed(0);
+      progressFill.style.width = `${pct}%`;
       loadingText.textContent = `Retrieving 3D model... ${pct}%`;
       if (pct >= 100 && processingLine.classList.contains('hidden')) {
         processingText.textContent = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)] + '...';
@@ -460,7 +768,21 @@ modelSelect.addEventListener('change', () => loadModel(modelSelect.value));
 // Load the initially selected model
 loadModel(modelSelect.value);
 
-function buildTree(sceneRoot, rootLabel) {
+// Applies pending share-state color overrides after the picker UI is built.
+function applySharedColors(state) {
+  if (!state?.colorOverrides || !currentLookups) return;
+  for (const [paletteIdx, hex6] of state.colorOverrides) {
+    const name = paletteName(currentLookups, paletteIdx);
+    if (!name) continue;
+    const fullHex = '#' + hex6;
+    const picker = categoryPickers.get(name);
+    if (picker) picker.value = fullHex;
+    const c = new THREE.Color(fullHex);
+    (categoryMeshes.get(name) || []).forEach((mesh) => mesh.material.color.copy(c));
+  }
+}
+
+function buildTree(sceneRoot, rootLabel, pendingState) {
   unhighlightObject();
   isolatedObj = null;
   isolatedTreeItem = null;
@@ -474,6 +796,30 @@ function buildTree(sceneRoot, rootLabel) {
 
   // Map Three.js objects to their tree item DOM elements for syncing
   const objToTreeItem = new Map();
+
+  // Slash-joined cleaned-name path from the visual root (root excluded), with
+  // empty/nameless components skipped to match dump_parts.py's scaffold paths.
+  // Cached per object.
+  const lookups = currentLookups;
+  const pathCache = new WeakMap();
+  function pathOf(obj) {
+    if (pathCache.has(obj)) return pathCache.get(obj);
+    let path = '';
+    if (obj.parent && obj.parent !== root) {
+      path = pathOf(obj.parent);
+    }
+    path = extendPath(path, obj.name);
+    pathCache.set(obj, path);
+    return path;
+  }
+
+  // Resolve a node's tree label under the current raw/prettified mode.
+  function labelTextFor(obj, isRoot) {
+    if (isRoot && rootLabel) return rootLabel;
+    const entry = lookups ? lookupNode(lookups, pathOf(obj)) : null;
+    return treeLabel(obj.name, entry?.displayName, prettifyEnabled)
+        || obj.type || 'Object';
+  }
 
   function syncTreeItemVisibility(treeItem, visible) {
     const cb = treeItem._checkbox;
@@ -532,6 +878,9 @@ function buildTree(sceneRoot, rootLabel) {
     }
 
     setVisibility(root);
+    updateURL();
+    fitCameraToSubtree(obj);
+    requestRender();
   }
 
   function unisolateAll() {
@@ -550,9 +899,31 @@ function buildTree(sceneRoot, rootLabel) {
     }
 
     restoreVisibility(root);
+    updateURL();
+    requestRender();
   }
 
   function createTreeItem(obj, parentElement, depth = 0) {
+    // Tree-hide filter: drop this node if its per-node sidecar entry sets
+    // showInTree: false, or if its effective palette category has
+    // showInTree: false. Children promote up to parentElement at the same
+    // depth so the tree stays connected.
+    const path = pathOf(obj);
+    const sidecarEntry = lookups ? lookupNode(lookups, path) : null;
+    const cat = obj.userData?.cadscope_category;
+    const hiddenFromTree =
+      sidecarEntry?.showInTree === false ||
+      (cat && lookups?.palette?.get(cat)?.showInTree === false);
+
+    if (hiddenFromTree) {
+      if (obj.children) {
+        for (const child of obj.children) {
+          createTreeItem(child, parentElement, depth);
+        }
+      }
+      return;
+    }
+
     const itemDiv = document.createElement('div');
     itemDiv.className = 'tree-item';
     objToTreeItem.set(obj, itemDiv);
@@ -580,6 +951,8 @@ function buildTree(sceneRoot, rootLabel) {
       } else {
         itemDiv.classList.add('hidden');
       }
+      updateURL();
+      requestRender();
     });
     contentDiv.appendChild(checkbox);
     itemDiv._checkbox = checkbox;
@@ -587,7 +960,11 @@ function buildTree(sceneRoot, rootLabel) {
     // Object name — click to highlight in 3D view
     const label = document.createElement('span');
     label.className = 'tree-label';
-    label.textContent = (depth === 0 && rootLabel) ? rootLabel : (obj.name || obj.type || 'Object');
+    label.textContent = labelTextFor(obj, depth === 0);
+    if (obj.name && label.textContent !== obj.name) {
+      label.title = obj.name;  // hover reveals the raw name for spec authoring
+    }
+    itemDiv._label = label;
     label.addEventListener('click', (e) => {
       e.stopPropagation();
       if (selectedObj === obj) {
@@ -638,6 +1015,40 @@ function buildTree(sceneRoot, rootLabel) {
   }
 
   createTreeItem(root, treeContainer);
+
+  // Toggling raw/prettified names relabels in place — expansion, selection,
+  // isolate, and search state all survive.
+  refreshTreeLabels = () => {
+    for (const [obj, itemDiv] of objToTreeItem) {
+      const label = itemDiv._label;
+      if (!label) continue;
+      label.textContent = labelTextFor(obj, obj === root);
+      label.title = (obj.name && label.textContent !== obj.name) ? obj.name : '';
+    }
+  };
+
+  // Apply pending share state — hidden visibility flips and isolated node.
+  // Color overrides are applied separately after buildColorPickerUI runs.
+  if (pendingState) {
+    const allNodes = walkNodes(sceneRoot);
+    if (Array.isArray(pendingState.hiddenNodes)) {
+      for (const idx of pendingState.hiddenNodes) {
+        const node = allNodes[idx];
+        if (!node) continue;
+        // Flip visibility from sidecar default. The collect side emits indices
+        // where live differs from sidecar — flipping here recreates the saved
+        // state on top of the sidecar's already-applied default.
+        node.visible = !node.visible;
+        const item = objToTreeItem.get(node);
+        if (item) syncTreeItemVisibility(item, node.visible);
+      }
+    }
+    if (pendingState.isolatedNode != null) {
+      const node = allNodes[pendingState.isolatedNode];
+      const item = node ? objToTreeItem.get(node) : null;
+      if (node && item) isolateNode(node, item);
+    }
+  }
 }
 
 // Scene tree search — filters and highlights matching nodes
@@ -659,6 +1070,14 @@ treeSearchClear.addEventListener('click', () => {
   filterTree('');
   treeSearch.focus();
 });
+
+// Raw-names mode (console only): setRawNames(true) bypasses prettified
+// labels and displayName overrides so the tree shows exactly what spec
+// paths and autoAssign globs match; setRawNames(false) restores.
+window.setRawNames = (raw) => {
+  prettifyEnabled = !raw;
+  if (refreshTreeLabels) refreshTreeLabels();
+};
 
 function filterTree(query) {
   const tree = document.getElementById('tree');
@@ -714,86 +1133,58 @@ function filterTree(query) {
   });
 }
 
-// View control function
+// View control function — animates the camera to a canonical pose for the
+// requested axis. Home returns to the rest pose captured at model load.
+const Y_UP   = new THREE.Vector3(0, 1, 0);
+const Z_BACK = new THREE.Vector3(0, 0, -1);
+const Z_FWD  = new THREE.Vector3(0, 0, 1);
 window.setView = function(view) {
-  const distance = modelSize * 1.5;
-  controls.target.copy(modelCenter);
-
-  switch(view) {
-    case 'top':
-      camera.position.set(modelCenter.x, modelCenter.y + distance, modelCenter.z);
-      camera.up.set(0, 0, -1);
-      break;
-    case 'bottom':
-      camera.position.set(modelCenter.x, modelCenter.y - distance, modelCenter.z);
-      camera.up.set(0, 0, 1);
-      break;
-    case 'front':
-      camera.position.set(modelCenter.x, modelCenter.y, modelCenter.z + distance);
-      camera.up.set(0, 1, 0);
-      break;
-    case 'back':
-      camera.position.set(modelCenter.x, modelCenter.y, modelCenter.z - distance);
-      camera.up.set(0, 1, 0);
-      break;
-    case 'right':
-      camera.position.set(modelCenter.x + distance, modelCenter.y, modelCenter.z);
-      camera.up.set(0, 1, 0);
-      break;
-    case 'left':
-      camera.position.set(modelCenter.x - distance, modelCenter.y, modelCenter.z);
-      camera.up.set(0, 1, 0);
-      break;
+  switch (view) {
+    case 'top':    animateCameraTo(poseFromDirection(new THREE.Vector3(0,  1, 0), Z_BACK)); break;
+    case 'bottom': animateCameraTo(poseFromDirection(new THREE.Vector3(0, -1, 0), Z_FWD));  break;
+    case 'front':  animateCameraTo(poseFromDirection(new THREE.Vector3(0,  0, 1), Y_UP));   break;
+    case 'back':   animateCameraTo(poseFromDirection(new THREE.Vector3(0,  0,-1), Y_UP));   break;
+    case 'right':  animateCameraTo(poseFromDirection(new THREE.Vector3(1,  0, 0), Y_UP));   break;
+    case 'left':   animateCameraTo(poseFromDirection(new THREE.Vector3(-1, 0, 0), Y_UP));   break;
     case 'home':
-      camera.position.set(
-        modelCenter.x + modelSize,
-        modelCenter.y + modelSize,
-        modelCenter.z + modelSize
-      );
-      camera.up.set(0, 1, 0);
+      if (defaultView) animateCameraTo(defaultView);
+      else animateCameraTo(poseFromDirection(new THREE.Vector3(1, 1, 1), Y_UP));
       break;
   }
-
-  camera.lookAt(modelCenter);
-  camera.updateProjectionMatrix();
-  controls.update();
 };
 
-// Zoom function
+// Zoom — pure-distance change. Orientation, target, and up stay current.
 window.zoom = function(factor) {
-  // Calculate direction from target to camera
-  const direction = new THREE.Vector3();
-  direction.subVectors(camera.position, controls.target);
-
-  // Scale the direction by the factor
+  const direction = new THREE.Vector3().subVectors(camera.position, controls.target);
   const newDistance = direction.length() * (1 + factor);
-
-  // Prevent zooming too close or too far
-  const minDistance = modelSize * 0.1;
-  const maxDistance = modelSize * 10;
-
-  if (newDistance >= minDistance && newDistance <= maxDistance) {
-    direction.normalize().multiplyScalar(newDistance);
-    camera.position.copy(controls.target).add(direction);
-    camera.updateProjectionMatrix();
-  }
+  if (newDistance < modelSize * 0.1 || newDistance > modelSize * 10) return;
+  direction.normalize().multiplyScalar(newDistance);
+  animateCameraTo({
+    position:   controls.target.clone().add(direction),
+    quaternion: camera.quaternion.clone(),
+    up:         camera.up.clone(),
+    target:     controls.target.clone(),
+  }, ANIM_ZOOM);
 };
 
-// Reset zoom to default distance
+// Reset zoom — animates back to modelSize × 1.5 distance from the current target.
 window.resetZoom = function() {
-  const direction = new THREE.Vector3();
-  direction.subVectors(camera.position, controls.target).normalize();
-  camera.position.copy(controls.target).add(direction.multiplyScalar(modelSize * 1.5));
-  camera.updateProjectionMatrix();
+  const direction = new THREE.Vector3()
+    .subVectors(camera.position, controls.target)
+    .normalize()
+    .multiplyScalar(modelSize * 1.5);
+  animateCameraTo({
+    position:   controls.target.clone().add(direction),
+    quaternion: camera.quaternion.clone(),
+    up:         camera.up.clone(),
+    target:     controls.target.clone(),
+  }, ANIM_ZOOM);
 };
 
 
-function animate() {
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
+// Initial render — every interactive control invalidates via requestRender()
+// from here on, so this is the only unconditional draw.
+requestRender();
 
 window.addEventListener('resize', () => {
   const w = canvas.clientWidth;
@@ -801,4 +1192,5 @@ window.addEventListener('resize', () => {
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
   renderer.setSize(w, h);
+  requestRender();
 });
