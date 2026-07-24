@@ -240,6 +240,8 @@ def build_manifest_json(spec, glb_node_paths=None):
         out["compatibility"] = list(spec.compatibility)
     if spec.stl_base is not None:
         out["stlBase"] = spec.stl_base
+    if spec.downloads is not None:
+        out["downloads"] = dict(spec.downloads)
     return out
 
 

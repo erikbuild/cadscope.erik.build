@@ -7,10 +7,10 @@
   --bg-panel: #1c2128;
   --bg-tertiary: #161b22;
 
-  /* Accent colors */
-  --accent: #4a6fa5;
-  --accent-hover: #6989b9;
-  --accent-light: #7ea3cc;
+  /* Accent colors - Positron orange */
+  --accent: #DE9400;
+  --accent-hover: #F5A623;
+  --accent-light: #FFC15E;
 
   /* Text */
   --text-primary: #f0f3f6;

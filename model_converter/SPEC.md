@@ -56,6 +56,13 @@ rules:                     # optional; cross-cutting glob rules
   - { show: "Other/*", when: { boolOption: true } }
 
 stlBase: "https://..."     # optional; prepended to per-node `stl:` paths in the manifest
+
+downloads:                 # optional; drives the configurator's ZIP download
+  base: "https://..."      # URL prefix for every file below
+  always: [ "path.stl" ]   # included in every download
+  groups:                  # option-gated file sets
+    - when: { optionId: choiceId }
+      files: [ "path.stl" ]
 ```
 
 Required: `model.glb`, `palette` (non-empty). Everything else is optional.
@@ -153,8 +160,11 @@ carriage:
 ```
 
 `id` is required on each choice; `label` defaults to `id`; `description` is
-optional. One choice may be `default: true`; if none is flagged, the first is
-used. `type:` defaults to `radio`. Set `type: dropdown` to hint a collapsed
+optional. A choice may carry a `when:` clause (same grammar as
+`visible.when`) — the choice is offered only while the clause matches the
+active configuration, and the consumer auto-resets a selection whose choice
+becomes unavailable. One choice may be `default: true`; if none is flagged,
+the first is used. `type:` defaults to `radio`. Set `type: dropdown` to hint a collapsed
 `<select>` widget — typical for long choice lists.
 
 ### Boolean option
@@ -168,6 +178,17 @@ hexCowl:
 ```
 
 `description:` is optional and renders the same way as on selection options.
+
+## Downloads
+
+The `downloads:` section defines what the configurator's ZIP download
+contains. `base` is the URL prefix (typically the raw-content URL of the git
+repository holding the STLs) applied to every file path. `always` files are
+included in every download; each `groups` entry contributes its `files` when
+its `when` clause matches the active configuration — the same clause grammar
+as `visible.when` (AND across keys, list value = OR within a key). The whole
+section passes through verbatim to `manifest.json`; `colors.json` is
+unaffected.
 
 ## Node entries
 

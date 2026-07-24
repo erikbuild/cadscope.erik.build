@@ -295,6 +295,41 @@ nodes:
                                 capture_output=True, text=True, check=True)
         self.assertIn("Definitely_Does_Not_Exist", result.stderr)
 
+    def test_manifest_carries_downloads(self):
+        self._write_spec("""
+model: { name: T, glb: Model.glb }
+palette: { Main: { color: '#fff' } }
+options:
+  pulley:
+    choices:
+      - { id: a, default: true }
+      - { id: b }
+downloads:
+  base: "https://example.com/STLs/"
+  always: [ "Tools/a.stl" ]
+  groups:
+    - when: { pulley: b }
+      files: [ "X/b.stl" ]
+""")
+        subprocess.run([sys.executable, SCRIPT, self.glb],
+                       capture_output=True, text=True, check=True)
+        with open(os.path.join(self.tmp, "Model.manifest.json")) as f:
+            manifest = json.load(f)
+        self.assertEqual(manifest["downloads"]["base"], "https://example.com/STLs/")
+        self.assertEqual(manifest["downloads"]["always"], ["Tools/a.stl"])
+        self.assertEqual(manifest["downloads"]["groups"][0]["when"], {"pulley": "b"})
+
+    def test_manifest_omits_downloads_when_absent(self):
+        self._write_spec("""
+model: { name: T, glb: Model.glb }
+palette: { Main: { color: '#fff' } }
+""")
+        subprocess.run([sys.executable, SCRIPT, self.glb],
+                       capture_output=True, text=True, check=True)
+        with open(os.path.join(self.tmp, "Model.manifest.json")) as f:
+            manifest = json.load(f)
+        self.assertNotIn("downloads", manifest)
+
     def test_palette_show_in_tree_round_trips_to_colors_json(self):
         self._write_spec("""
 model: { name: T, glb: Model.glb }

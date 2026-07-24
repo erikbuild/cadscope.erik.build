@@ -264,6 +264,35 @@ class TestParse(unittest.TestCase):
         with self.assertRaises(SpecError):
             parse(text)
 
+    def test_choice_when_clause_parsed(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            options:
+              bearing:
+                choices:
+                  - { id: big, default: true, when: { rod: [ten, eleven] } }
+                  - { id: small, when: { rod: eight } }
+                  - { id: any }
+        """).strip()
+        s = parse(text)
+        choices = s.options["bearing"]["choices"]
+        self.assertEqual(choices[0]["when"], {"rod": ["ten", "eleven"]})
+        self.assertEqual(choices[1]["when"], {"rod": "eight"})
+        self.assertNotIn("when", choices[2])
+
+    def test_choice_when_must_be_mapping(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            options:
+              bearing:
+                choices:
+                  - { id: big, when: nope }
+        """).strip()
+        with self.assertRaises(SpecError):
+            parse(text)
+
     def test_palette_show_in_tree_false_preserved(self):
         text = textwrap.dedent("""
             model: { name: T, glb: f.glb }
@@ -310,6 +339,93 @@ class TestParse(unittest.TestCase):
             palette: { Main: { color: '#fff' } }
             nodes:
               Foo: { showInTree: "no" }
+        """).strip()
+        with self.assertRaises(SpecError):
+            parse(text)
+
+    def test_downloads_parsed(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            options:
+              pulley:
+                choices:
+                  - { id: a, default: true }
+                  - { id: b }
+            downloads:
+              base: "https://example.com/STLs/"
+              always: [ "Tools/a.stl" ]
+              groups:
+                - when: { pulley: b }
+                  files: [ "X/b.stl", "X/c.stl" ]
+        """).strip()
+        s = parse(text)
+        self.assertEqual(s.downloads["base"], "https://example.com/STLs/")
+        self.assertEqual(s.downloads["always"], ["Tools/a.stl"])
+        self.assertEqual(s.downloads["groups"][0]["when"], {"pulley": "b"})
+        self.assertEqual(s.downloads["groups"][0]["files"], ["X/b.stl", "X/c.stl"])
+
+    def test_downloads_absent_is_none(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+        """).strip()
+        self.assertIsNone(parse(text).downloads)
+
+    def test_downloads_when_accepts_list_values(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              base: "https://example.com/"
+              groups:
+                - when: { pulley: [a, b] }
+                  files: [ "f.stl" ]
+        """).strip()
+        s = parse(text)
+        self.assertEqual(s.downloads["groups"][0]["when"], {"pulley": ["a", "b"]})
+
+    def test_downloads_requires_base(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              always: [ "a.stl" ]
+        """).strip()
+        with self.assertRaises(SpecError):
+            parse(text)
+
+    def test_downloads_always_must_be_strings(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              base: "https://example.com/"
+              always: [ 42 ]
+        """).strip()
+        with self.assertRaises(SpecError):
+            parse(text)
+
+    def test_downloads_group_requires_files(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              base: "https://example.com/"
+              groups:
+                - when: { pulley: a }
+        """).strip()
+        with self.assertRaises(SpecError):
+            parse(text)
+
+    def test_downloads_group_requires_when(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              base: "https://example.com/"
+              groups:
+                - files: [ "f.stl" ]
         """).strip()
         with self.assertRaises(SpecError):
             parse(text)

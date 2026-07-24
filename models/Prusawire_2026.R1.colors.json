@@ -385,7 +385,8 @@
       "displayName": "[a]_lcd_knob_mk3"
     },
     "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/a_lcd_knob_mk3_tri_wing": {
-      "displayName": "[a]_lcd_knob_tri_wing_mk3"
+      "displayName": "[a]_lcd_knob_tri_wing_mk3",
+      "hidden": true
     },
     "Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/lcd_supports_mk3_v2": {
       "displayName": "lcd_supports_mk3",
@@ -735,6 +736,12 @@
       "hidden": true
     },
     "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/LDO-42STH38-1684MAC005": {
+      "hidden": true
+    },
+    "Y_Axis/Y_Motors_Combined/Y_Motor_16T/LDO-42STH38-1684MAC": {
+      "hidden": true
+    },
+    "Y_Axis/Y_Motors_Combined/Y_Motor_20T/LDO-42STH38-1684MAC001": {
       "hidden": true
     },
     "XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers": {

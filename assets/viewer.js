@@ -83,7 +83,7 @@ document.getElementById('brightnessSlider').addEventListener('input', (e) => {
 
 pmrem = new THREE.PMREMGenerator(renderer);
 
-camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+camera = new THREE.PerspectiveCamera(25, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
 camera.position.set(0.5, 0.5, 0.5);
 
 controls = new OrbitControls(camera, renderer.domElement);
@@ -148,10 +148,17 @@ function tickCameraAnimation() {
   return true;
 }
 
+// Distance at which the model's bounding sphere fills the camera's FOV,
+// with a padding margin. FOV-aware so camera tuning cannot break framing.
+function fitDistance(margin = 1.2) {
+  const fovRad = camera.fov * Math.PI / 180;
+  return ((modelSize / 2) * margin) / Math.tan(fovRad / 2);
+}
+
 // Build a target pose looking at modelCenter from a given direction at the
 // canonical model-fit distance. Used by all axis-view buttons.
 function poseFromDirection(direction, up) {
-  const distance = modelSize * 1.5;
+  const distance = fitDistance();
   const eye = modelCenter.clone().addScaledVector(direction.clone().normalize(), distance);
   const m = new THREE.Matrix4().lookAt(eye, modelCenter, up);
   return {
@@ -701,11 +708,8 @@ function loadModel(id) {
     controls.target.copy(modelCenter);
     const direction = new THREE.Vector3();
     direction.subVectors(camera.position, controls.target).normalize();
-    camera.position.set(
-        modelCenter.x + modelSize,
-        modelCenter.y + modelSize,
-        modelCenter.z + modelSize
-    );
+    const restDir = new THREE.Vector3(1, 1, 1).normalize();
+    camera.position.copy(modelCenter).addScaledVector(restDir, fitDistance());
     camera.lookAt(modelCenter);
     camera.up.set(0, 1, 0);
     camera.updateProjectionMatrix();

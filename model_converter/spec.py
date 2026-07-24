@@ -50,6 +50,8 @@ Visibility DSL:
   A list value means OR within that key. Missing clause = trivially satisfied.
 """
 
+import sys
+
 from dataclasses import dataclass, field
 from fnmatch import fnmatchcase
 from typing import Any
@@ -90,6 +92,7 @@ class Spec:
     nodes: dict[str, NodeSpec] = field(default_factory=dict)
     rules: list[dict] = field(default_factory=list)
     stl_base: str | None = None
+    downloads: dict | None = None
 
 
 def parse(text: str) -> Spec:
@@ -123,6 +126,7 @@ def parse(text: str) -> Spec:
 
     auto_assign = _parse_auto_assign(raw.get("autoAssign"), palette)
     options = _parse_options(raw.get("options"))
+    downloads = _parse_downloads(raw.get("downloads"), options)
     compatibility = _parse_compatibility(raw.get("compatibility"))
     nodes = _parse_nodes(raw.get("nodes"), palette)
     rules = _parse_rules(raw.get("rules"))
@@ -135,6 +139,7 @@ def parse(text: str) -> Spec:
         glb_path=glb_path,
         palette=palette,
         auto_assign=auto_assign,
+        downloads=downloads,
         options=options,
         compatibility=compatibility,
         nodes=nodes,
@@ -167,6 +172,52 @@ def _parse_auto_assign(raw, palette):
             raise SpecError(
                 f"autoAssign[{i}]: unknown category '{category}' (not in palette)")
         out.append({"match": match, "category": category})
+    return out
+
+
+def _parse_downloads(raw, options):
+    """Parse the optional downloads section: a base URL, an always-included
+    file list, and option-gated file groups sharing the visible.when clause
+    grammar (AND across keys; list value = OR within a key)."""
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise SpecError("'downloads' must be a mapping")
+    base = raw.get("base")
+    if not isinstance(base, str) or not base:
+        raise SpecError("downloads: 'base' must be a non-empty string")
+    out = {"base": base}
+    always = raw.get("always")
+    if always is not None:
+        if not isinstance(always, list) or not all(isinstance(f, str) for f in always):
+            raise SpecError("downloads: 'always' must be a list of strings")
+        out["always"] = list(always)
+    groups_raw = raw.get("groups")
+    if groups_raw is not None:
+        if not isinstance(groups_raw, list):
+            raise SpecError("downloads: 'groups' must be a list")
+        groups = []
+        for i, group in enumerate(groups_raw):
+            if not isinstance(group, dict):
+                raise SpecError(f"downloads.groups[{i}]: expected a mapping")
+            when = group.get("when")
+            if not isinstance(when, dict) or not when:
+                raise SpecError(f"downloads.groups[{i}]: 'when' must be a non-empty mapping")
+            for key, value in when.items():
+                if key not in options:
+                    print(f"warning: downloads.groups[{i}].when references unknown option '{key}'",
+                          file=sys.stderr)
+                values = value if isinstance(value, list) else [value]
+                if not all(isinstance(v, (str, bool)) for v in values):
+                    raise SpecError(
+                        f"downloads.groups[{i}].when.{key}: values must be strings or bools")
+            files = group.get("files")
+            if (not isinstance(files, list) or not files
+                    or not all(isinstance(f, str) for f in files)):
+                raise SpecError(
+                    f"downloads.groups[{i}]: 'files' must be a non-empty list of strings")
+            groups.append({"when": dict(when), "files": list(files)})
+        out["groups"] = groups
     return out
 
 
@@ -222,6 +273,17 @@ def _parse_options(raw):
                         raise SpecError(
                             f"options.{opt_id}.choices[{j}]: 'description' must be a string")
                     choice_out["description"] = c_desc
+                c_when = choice.get("when")
+                if c_when is not None:
+                    if not isinstance(c_when, dict) or not c_when:
+                        raise SpecError(
+                            f"options.{opt_id}.choices[{j}]: 'when' must be a non-empty mapping")
+                    for key, value in c_when.items():
+                        values = value if isinstance(value, list) else [value]
+                        if not all(isinstance(v, (str, bool)) for v in values):
+                            raise SpecError(
+                                f"options.{opt_id}.choices[{j}].when.{key}: values must be strings or bools")
+                    choice_out["when"] = dict(c_when)
                 parsed_choices.append(choice_out)
             entry = {
                 "label": body.get("label", opt_id),
