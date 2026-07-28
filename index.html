@@ -10,6 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/viewer.css">
+  <script>
+    // Apply a saved light-theme preference before first paint.
+    try {
+      if (localStorage.getItem('cadscope-theme') === 'light') {
+        document.documentElement.dataset.theme = 'light';
+      }
+    } catch (e) { /* storage unavailable; keep the dark default */ }
+  </script>
 </head>
 <body>
   <div id="app">
@@ -19,6 +27,12 @@
         <h1>CADScope</h1>
       </div>
       <div class="header-links">
+        <label class="theme-switch">
+          <span aria-hidden="true">☾</span>
+          <input type="checkbox" id="themeToggle" role="switch" aria-label="Light theme">
+          <span class="theme-switch-track" aria-hidden="true"></span>
+          <span aria-hidden="true">☀</span>
+        </label>
         <a href="https://github.com/erikbuild/CADScope" target="_blank">GitHub</a>
       </div>
     </header>
@@ -105,7 +119,7 @@
 
         <!-- Attribution -->
         <div class="attribution">
-          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.7.0</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
+          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.8.0</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
         </div>
       </div>
     </main>

@@ -1,6 +1,6 @@
 # CADScope
 
-![Version](https://img.shields.io/badge/version-1.7.0-blue)
+![Version](https://img.shields.io/badge/version-1.8.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Three.js](https://img.shields.io/badge/Three.js-0.161.0-black)
 ![Platform](https://img.shields.io/badge/platform-browser-orange)
@@ -19,6 +19,7 @@ A browser-based 3D Viewer for CAD Assemblies, built with Three.js. Converts STEP
 - **Middle/right-drag** — Pan
 - **Scroll** — Zoom
 - **View buttons** (top-right) — Preset angles + zoom
+- **Theme switch** (title bar, top-right) — Toggle between the dark (default) and light UI themes; the choice is remembered per browser
 - **Model hierarchy** (left sidebar) — Expand/collapse nodes, toggle visibility. The root node displays the model's `name` from `models.js`. Node labels are prettified for display (underscores → spaces, lowercase words capitalized, CAD duplicate suffixes like `(2)`/`003`/`v2` stripped); a sidecar `displayName` overrides this, and hovering a label shows the raw node name. Running `setRawNames(true)` in the browser console temporarily shows unmodified node names (`displayName` overrides included) — handy while authoring spec paths and `autoAssign` globs; `setRawNames(false)` restores
 - **Isolate button** (⊚, hover a tree row) — Hides everything except the clicked node and its ancestors/descendants; click again to restore
 - **Color pickers** (left sidebar) — Change per-category part colors in real-time (when a color set file exists)

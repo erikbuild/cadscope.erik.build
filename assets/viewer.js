@@ -14,6 +14,7 @@ import {
   collectColorOverrides,
 } from './cadscope_state.js';
 import { treeLabel } from './prettify.js';
+import { initTheme } from './theme.js';
 
 const hdriLocation = "./assets/bg.hdr";
 const loadingPhrases = [
@@ -48,7 +49,7 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMappingExposure = 0.5;
 
 scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a0c10);
+applyViewportBackground();
 
 const BASE_BRIGHTNESS = 1.0;
 const DEFAULT_BRIGHTNESS_SCALE = 1.5;
@@ -113,6 +114,18 @@ function requestRender() {
   });
 }
 controls.addEventListener('change', requestRender);
+
+// Canvas background follows the active UI theme.
+function applyViewportBackground() {
+  const bg = getComputedStyle(document.documentElement).getPropertyValue('--viewport-bg').trim();
+  scene.background = new THREE.Color(bg);
+}
+
+document.addEventListener('themechange', () => {
+  applyViewportBackground();
+  requestRender();
+});
+initTheme();
 
 function animateCameraTo(target, duration = ANIM_DEFAULT) {
   cameraAnimation = {
