@@ -1,0 +1,216 @@
+# Edit this file to define how the model is presented and configured.
+# The sibling .scaffold.json lists every group, part, and node path you can
+# target with the autoAssign rules and nodes block below.
+
+model:
+  name: Milo V2 RC3
+  glb: Milo_V2.RC3.glb
+
+palette:
+  Main:        { color: "#6a6a6a" }                                      # printed parts
+  Accent:      { color: "#B02A2A" }                                      # Millennium red, user-pickable
+  Frame:       { color: "#3a3a3a", metalness: 0.7, showInPicker: false } # extrusions, plates, rails
+  Hardware:    { color: "#888888", metalness: 0.9, showInPicker: false } # fasteners, motors, ballscrews
+  Electronics: { color: "#1d3b2a", metalness: 0.5, showInPicker: false } # switches, sensors
+  Aluminum:    { color: "#c8c8cc", metalness: 0.85, showInPicker: false } # bare machined 6061
+  Hidden:      { showInPicker: false, showInTree: false }                # rendered but absent from the tree
+
+# Patterns are fnmatch globs against a node's leaf name (matching what the
+# viewer tests; full paths are NOT matched). Order matters — first match wins.
+# COMPOUND*/SOLID*/Body_*/Component* wrappers are deliberately NOT hidden:
+# in this model every one of them is real geometry of a categorized part and
+# inherits its ancestor's category.
+autoAssign:
+  # ---- Printed parts that must beat broader hardware globs below ------
+  - { match: "Ballnut-plate*",          category: Main }      # printed plate; SFK* below is hardware
+  - { match: "*ThrED*",                 category: Main }      # printed AB-block assemblies (bearings inside self-match Hardware)
+
+  # ---- Accent parts (the repo's [a]-prefixed STLs); must beat the
+  #      broader globs below -------------------------------------------
+  - { match: "Y-Bearing-Block*",        category: Accent }    # block, insert, and (hidden) Voron variant
+  - { match: "Way-Cover-Y-Front-*",     category: Accent }
+  - { match: "Way-Cover-Magnet-Lock*",  category: Accent }
+  - { match: "Interna*Faceplate*",      category: Accent }    # floating-bearing faceplates A/B + Voron variants
+  - { match: "X-Bearing-Block-Insert*", category: Accent }
+  - { match: "Z-Axis_Bearing-Block*",   category: Accent }    # underscore quirk in GLB; Z-Bearing-Block-Insert stays Main
+  - { match: "Bellow-Attachment-Plate*", category: Accent }
+  - { match: "Y-Axis-Bellow-*",         category: Accent }    # column/plate mag mounts
+  - { match: "*bellow-mount*",          category: Accent }    # Y-Axis-Magnetic-bellow-mount assembly
+  - { match: "65mm-Spindle-Mount-Front*", category: Accent }
+  - { match: "80mm-Spindle-Mount-Front*", category: Accent }  # front half of the default printed mount
+  - { match: "*Spindle-Mount-Front-printed*", category: Accent } # HOI printed fronts (Machined halves stay Frame)
+
+  # ---- Non-geometry and placeholder parts ------------------------------
+  - { match: "VHB-Tape*",               category: Hidden }
+  - { match: "Bellow-Stand-In*",        category: Hidden }    # placeholder geometry
+
+  # ---- Organizational groups that cascade a category ------------------
+  - { match: "Plate-Fasteners*",        category: Hardware }
+  - { match: "Fasteners*",              category: Hardware }
+  - { match: "Hardware*",               category: Hardware }
+  - { match: "Rail_carriages*",         category: Frame }
+  - { match: "Plates*",                 category: Frame }
+  - { match: "Extrusions*",             category: Frame }
+  - { match: "*-rails*",                category: Frame }    # X-axis-rails / Y-Axis-rails / Z-Axis-rails groups
+
+  # ---- Fasteners and small hardware -----------------------------------
+  - { match: "ISO*",                    category: Hardware }  # ISO-numbered screws/nuts/washers
+  - { match: "M[0-9]*",                 category: Hardware }  # M2x10 self-tappers, M3x20 SHCS, ...
+  - { match: "DIN*",                    category: Hardware }  # grease nipples etc.
+  - { match: "Din*",                    category: Hardware }
+  - { match: "CNC-kitchen*",            category: Hardware }  # heat-set inserts
+  - { match: "*Voron-Inserts*",         category: Hardware }  # heat-set insert bodies in printed parts
+  - { match: "Heated_Inserts*",         category: Hardware }
+  - { match: "Permanent_fasteners*",    category: Hardware }
+  - { match: "5x20_sex-bolt*",          category: Hardware }
+  - { match: "Sexbolt*",                category: Hardware }  # toolheight setter
+
+  # ---- Bearings and motion hardware -----------------------------------
+  - { match: "608ZZ*",                  category: Hardware }
+  - { match: "5x7x8_Sleeve_Bearing*",   category: Hardware }
+  - { match: "F8-*",                    category: Hardware }  # thrust bearings
+  - { match: "SFK-0802-?00mm-Ballscrew*", category: Aluminum } # 300/600mm ballscrews, bright machined finish
+  - { match: "SFK*",                    category: Hardware }  # ballnuts, AB-block hardware
+  - { match: "TR8x8*",                  category: Hardware }  # leadscrew nuts
+  - { match: "Double-Split-Shaft-Collar*", category: Hardware }
+  - { match: "Coupler*",                category: Hardware }
+  - { match: "Coluper*",                category: Hardware }
+  - { match: "*Spider-Coupler*",        category: Hardware }
+  - { match: "Nema*",                   category: Hardware }  # stepper motors
+  - { match: "*Neodinium-Magnet*",      category: Hardware }
+  - { match: "10x11-Cable*",            category: Hardware }  # cable chain links
+
+  # ---- Electronics ------------------------------------------------------
+  - { match: "D2F*",                    category: Electronics } # Omron microswitches
+  - { match: "AY_v1*",                  category: Electronics } # inductive probe assemblies
+
+  # ---- Frame: extrusions, rails, machined plates ----------------------
+  - { match: "MGN*",                    category: Aluminum }  # linear rails + carriages, all axes
+  - { match: "Internal-Axis-Bearing-Block*", category: Aluminum } # machined block groups (printed floating block inside stays Main)
+  - { match: "*V-slot*",                category: Frame }
+  - { match: "*V-Slot*",                category: Frame }
+  - { match: "Openbuilds*",             category: Frame }
+  - { match: "C-Beam*",                 category: Frame }
+  - { match: "C_Beam*",                 category: Frame }
+  - { match: "C_beam*",                 category: Frame }
+  - { match: "Angle-Corner-Connector*", category: Frame }
+  - { match: "Black_Angle_Corner*",     category: Frame }
+  - { match: "*-Machined*",             category: Frame }     # machined halves of HOI spindle mounts
+  - { match: "FMJ-V003",                category: Frame }     # black powdercoated steel
+  - { match: "FMJ-V2",                  category: Frame }     # black powdercoated steel (FMJ* below is the printed variant)
+  - { match: "*Tram-Plate*",            category: Frame }
+  - { match: "*Joiner-Plate*",          category: Aluminum }  # X-to-Y joiner plate
+  - { match: "X-Axis-Motor-Plate*",     category: Frame }
+  - { match: "Miley-XY-Plate*",         category: Frame }     # group cascade; printed children self-match above
+
+  # ---- Printed parts ----------------------------------------------------
+  - { match: "*Way-Cover*",             category: Main }
+  - { match: "Carriage-Hole-Plug*",     category: Main }
+  - { match: "*Bearing-Block*",         category: Main }      # printed axis blocks
+  - { match: "?-Axis-Motor-Mount*",     category: Main }     # X/Y/Z printed motor mounts
+  - { match: "*Rear-Cable-Run*",        category: Main }
+  - { match: "Rear-*",                  category: Main }      # chain anchors
+  - { match: "Inductive-Probe-Mount*",  category: Main }
+  - { match: "Micro-Switch-Mount*",     category: Main }
+  - { match: "FMJ*",                    category: Main }      # FMJ spindle mount system
+  - { match: "Fixated-V2*",             category: Aluminum }  # machined 6061 fixture plate (+ Full-Monty-Short variant)
+  - { match: "Fixated*",                category: Main }      # printed accessories: centering tool, slot covers
+  - { match: "Printed-Hold-Downs*",     category: Main }
+  - { match: "Dust-cover*",             category: Main }
+  - { match: "Housing*",                category: Main }
+  - { match: "Tram-Aid*",               category: Main }
+  - { match: "Table-Support*",          category: Main }      # printed table supports (per STL list)
+  - { match: "Column-Ballast*",         category: Main }      # printed ballast shells (per STL list)
+  - { match: "Logo_insert*",            category: Main }      # no [a] prefix in the STL repo
+  - { match: "*Spindle-Mount*",         category: Main }      # printed mount halves (machined ones matched above)
+
+# Per-node overrides — displayName, category, hidden, visible (when/unless),
+# stl (download paths), visualOnly. Paths come from .scaffold.json's _nodes.
+nodes:
+  # ---- Spindle mounts: 80mm Printed is the default; the other Standard
+  #      variants overlap it and are hidden until made configurable ------
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Half-Plate-Spindle-Mount:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-HOI-Spindle-Mount:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Printed-Spindle-Mount:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-Half-Plate-Spindle-Mount:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-HOI-Spindle-Mount:
+    hidden: true
+
+  # ---- Fixated centering tools: setup aids, not part of the machine ----
+  Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1):
+    hidden: true
+  Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1)001:
+    hidden: true
+
+  # ---- Y motor mount: two-piece A/B is the default ---------------------
+  Miley-Y-Axis-Assembly_v22/Y-Axis-Motor-Mount_v19/Y-Axis-Motor-Mount/Y-Axis-Motor-Mount-Monobody:
+    hidden: true
+
+  # ---- FMJ: machined FMJ-V2 is the default; printed variant hidden -----
+  Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed003:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed007:
+    hidden: true
+
+  # ---- Manufacturing reference models: duplicate the finished plates ---
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/X-to-Y-Joiner-Plate-Manufacture-Model:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Blank-Tram-Plate-MANUFACTURING-MODEL:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Tram-Plate-MANUFACTURING-MODEL_(1):
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Z-Mounting-Plate-MANUFACTURING-MODEL:
+    hidden: true
+
+  # ---- Voron-insert part variants: duplicates of the plain printed
+  #      parts (bored for heat-set inserts); hidden by default ----------
+  Miley-Y-Axis-Assembly_v22/Internal-Axis-Bearing-Block_v22_(1)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts001:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/Ballnut-plate-Voron-Inserts:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/SFKR-ThrED-AB-Block-Voron-Inserts:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/Ballnut-plate-Voron-Inserts001:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/SFKR-ThrED-AB-Block-Voron-Inserts001:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-AB-Block-Voron-Inserts003:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-Compression-plate-Voron-Inserts:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-AB-Block-Voron-Inserts007:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-Compression-plate-Voron-Inserts001:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Inductive-Probe-Mount-Y-Voron-Inserts:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Micro-Switch-Mount-Y-Voron-Inserts:
+    hidden: true
+  Miley-Y-Axis-Assembly_v22/Y-Bearing-Block-Assembly_v73/Y-Bearing-Block-Voron-Inserts:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Internal-Axis-Bearing-Block_v22_(2)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts002:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Rear-Column-Chain-Anchor-Assembly_v12/Rear-Column-Chain-Anchor-Voron-Inserts:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Axis-Bearing-Block-Assembly_v45/Z-Axis_Bearing-Block-Voron-Inserts:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/Ballnut-plate-Voron-Inserts002:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/SFKR-ThrED-AB-Block-Voron-Inserts002:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-AB-Block-Voron-Inserts011:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-Compression-plate-Voron-Inserts002:
+    hidden: true
+  Miley-Z-Axis-Assembly_v17/Z-axis-motor-mount-assembly_v132/Z-Axis-Motor-Mount-Voron-Inserts:
+    hidden: true
+  Milo-X-axis-assembly_v90/Internal-Axis-Bearing-Block_v22/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts:
+    hidden: true
+  Milo-X-axis-assembly_v90/X-Axis-Bearing-Block_v70/X-Axis-Bearing-Block-Voron-Inserts:
+    hidden: true
+  Milo-X-axis-assembly_v90/X-Axis-Motor-Plate_v72/X-Axis-Motor-Mount-Voron-Inserts:
+    hidden: true

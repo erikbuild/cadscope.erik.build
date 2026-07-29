@@ -1,0 +1,266 @@
+{
+  "version": "2.0.0",
+  "glb": "Milo_V2.RC3.glb",
+  "configOptions": {},
+  "parts": [
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Half-Plate-Spindle-Mount",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Half-Plate-Spindle-Mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-HOI-Spindle-Mount",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-HOI-Spindle-Mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Printed-Spindle-Mount",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/65mm-Printed-Spindle-Mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-Half-Plate-Spindle-Mount",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-Half-Plate-Spindle-Mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-HOI-Spindle-Mount",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Standard-Spindle-Mounts/80mm-HOI-Spindle-Mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1)",
+      "nodes": [
+        "Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1)"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1)001",
+      "nodes": [
+        "Milo-X-axis-assembly_v90/Fixated-V2_v20/Fixated-Centering-Tool_(1)001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Y-Axis-Motor-Mount_v19/Y-Axis-Motor-Mount/Y-Axis-Motor-Mount-Monobody",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Y-Axis-Motor-Mount_v19/Y-Axis-Motor-Mount/Y-Axis-Motor-Mount-Monobody"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed003",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed003"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed007",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/FMJ-V2_v41/FMJ-V2-Printed007"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/X-to-Y-Joiner-Plate-Manufacture-Model",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/X-to-Y-Joiner-Plate-Manufacture-Model"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Blank-Tram-Plate-MANUFACTURING-MODEL",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Blank-Tram-Plate-MANUFACTURING-MODEL"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Tram-Plate-MANUFACTURING-MODEL_(1)",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Tram-Plate-MANUFACTURING-MODEL_(1)"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Z-Mounting-Plate-MANUFACTURING-MODEL",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/Plates/Z-Mounting-Plate-MANUFACTURING-MODEL"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Internal-Axis-Bearing-Block_v22_(1)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts001",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Internal-Axis-Bearing-Block_v22_(1)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/Ballnut-plate-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/Ballnut-plate-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/SFKR-ThrED-AB-Block-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22/SFKR-ThrED-AB-Block-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/Ballnut-plate-Voron-Inserts001",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/Ballnut-plate-Voron-Inserts001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/SFKR-ThrED-AB-Block-Voron-Inserts001",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/SFK0802-ThrED-AB-block-assembly_v22_(1)/SFKR-ThrED-AB-Block-Voron-Inserts001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-AB-Block-Voron-Inserts003",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-AB-Block-Voron-Inserts003"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-Compression-plate-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39/ThrED-Compression-plate-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-AB-Block-Voron-Inserts007",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-AB-Block-Voron-Inserts007"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-Compression-plate-Voron-Inserts001",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Miley-XY-Plate_v7/ThrED-AB-Block-Assembly_v39_(1)/ThrED-Compression-plate-Voron-Inserts001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Inductive-Probe-Mount-Y-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Inductive-Probe-Mount-Y-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Micro-Switch-Mount-Y-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Printed-Hold-Downs_v84/Micro-Switch-Mount-Y-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Y-Axis-Assembly_v22/Y-Bearing-Block-Assembly_v73/Y-Bearing-Block-Voron-Inserts",
+      "nodes": [
+        "Miley-Y-Axis-Assembly_v22/Y-Bearing-Block-Assembly_v73/Y-Bearing-Block-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Internal-Axis-Bearing-Block_v22_(2)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts002",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Internal-Axis-Bearing-Block_v22_(2)/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts002"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Rear-Column-Chain-Anchor-Assembly_v12/Rear-Column-Chain-Anchor-Voron-Inserts",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Rear-Column-Chain-Anchor-Assembly_v12/Rear-Column-Chain-Anchor-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Axis-Bearing-Block-Assembly_v45/Z-Axis_Bearing-Block-Voron-Inserts",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Axis-Bearing-Block-Assembly_v45/Z-Axis_Bearing-Block-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/Ballnut-plate-Voron-Inserts002",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/Ballnut-plate-Voron-Inserts002"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/SFKR-ThrED-AB-Block-Voron-Inserts002",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/SFK0802-ThrED-AB-block-assembly_v22_(2)/SFKR-ThrED-AB-Block-Voron-Inserts002"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-AB-Block-Voron-Inserts011",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-AB-Block-Voron-Inserts011"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-Compression-plate-Voron-Inserts002",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-Mounting-Plate-Assembly_v128/ThrED-AB-Block-Assembly_v39_(2)/ThrED-Compression-plate-Voron-Inserts002"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Miley-Z-Axis-Assembly_v17/Z-axis-motor-mount-assembly_v132/Z-Axis-Motor-Mount-Voron-Inserts",
+      "nodes": [
+        "Miley-Z-Axis-Assembly_v17/Z-axis-motor-mount-assembly_v132/Z-Axis-Motor-Mount-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Milo-X-axis-assembly_v90/Internal-Axis-Bearing-Block_v22/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts",
+      "nodes": [
+        "Milo-X-axis-assembly_v90/Internal-Axis-Bearing-Block_v22/Interna-Axis-Floating-Bearing-Block-Faceplate-A-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Milo-X-axis-assembly_v90/X-Axis-Bearing-Block_v70/X-Axis-Bearing-Block-Voron-Inserts",
+      "nodes": [
+        "Milo-X-axis-assembly_v90/X-Axis-Bearing-Block_v70/X-Axis-Bearing-Block-Voron-Inserts"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Milo-X-axis-assembly_v90/X-Axis-Motor-Plate_v72/X-Axis-Motor-Mount-Voron-Inserts",
+      "nodes": [
+        "Milo-X-axis-assembly_v90/X-Axis-Motor-Plate_v72/X-Axis-Motor-Mount-Voron-Inserts"
+      ],
+      "hidden": true
+    }
+  ]
+}

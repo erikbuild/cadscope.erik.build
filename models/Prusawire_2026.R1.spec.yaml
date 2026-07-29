@@ -1,0 +1,664 @@
+# Edit this file to define how the model is presented and configured.
+# The sibling .scaffold.json lists every group, part, and node path you can
+# target with the autoAssign rules and nodes block below.
+
+model:
+  name: Prusawire 2026.R1
+  glb: Prusawire_2026.R1.glb
+
+palette:
+  Main:               { color: "#797979" }                                            # primary printed parts
+  Accent:             { color: "#9F6204" }                                            # user-pickable contrast
+  Frame:              { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # Misumi extrusions, linear rails
+  Hardware:           { color: "#888888", metalness: 0.9, showInPicker: false }       # NEMA cans, ballscrews, visible motors
+  Bed:                { color: "#cc8800", showInPicker: false }                       # heated bed
+  Electronics:        { color: "#1d3b2a", metalness: 0.5, showInPicker: false }       # PCB substrates, mainboards
+  Glass:              { color: "#ccddee", metalness: 0.1, opacity: 0.15, showInPicker: false }
+  PEI Sheet:          { color: "#F0B27A", showInPicker: false }                       # textured build surface
+  White:              { color: "#F5F5F5", showInPicker: false }                       # sheet steel, labels
+  Hidden:             { showInPicker: false, showInTree: false }    # rendered but absent from the tree
+
+# Patterns are fnmatch globs against a node's leaf name or full path.
+# Order matters — first match wins.
+autoAssign:
+  # ---- Fasteners (M-prefix sizes catch nearly all; a couple of catch-alls
+  #      pick up DIN-named screws and Grub_screw* parts) ----------------
+  - { match: "M2*",                category: Hardware }
+  - { match: "M3*",                category: Hardware }
+  - { match: "M4*",                category: Hardware }
+  - { match: "M5*",                category: Hardware }
+  - { match: "*Screw*",            category: Hardware }   # DIN-named screws
+  - { match: "*screw*",            category: Hardware }   # Grub_screw*
+
+  # ---- Bearings, bushings, linear motion internals --------------------
+  #- { match: "Bearing_*",          category: Hidden }
+  - { match: "F623_Bearing*",      category: Hardware }   # flanged idler bearings
+  #- { match: "LM*",                category: Hidden }   # LM linear bearings + LM_Bearings group
+
+  # ---- STEP-import noise (compound bodies, logos, library parts) ------
+  - { match: "COMPOU*",            category: Hidden }
+  - { match: "SOLID*",             category: Hidden }
+  - { match: "Cylinder*",          category: Hidden }
+  - { match: "LOGO*",              category: Hidden }
+  - { match: "User_Library-*",     category: Hidden }
+  - { match: "Extruded_*",         category: Hidden }   # PCB extruded substrate geometry
+
+  # ---- Electronics: SMD package families ------------------------------
+  - { match: "CAPC*",              category: Hidden }
+  - { match: "RESC*",              category: Hidden }
+  - { match: "QFN*",               category: Hidden }
+  - { match: "SOT*",               category: Hidden }
+  - { match: "SOD*",               category: Hidden }
+  - { match: "DO*",                category: Hidden }
+  - { match: "INDC*",              category: Hidden }
+  - { match: "LED*",               category: Hidden }
+  - { match: "HDR*",               category: Hidden }
+  - { match: "TSW*",               category: Hidden }
+  - { match: "SRN*",               category: Hidden }
+  - { match: "MR*",                category: Hidden }
+  - { match: "XH*",                category: Hidden }
+  - { match: "SD*",                category: Hidden }
+  - { match: "ADXL*",              category: Hidden }
+  - { match: "GT*",                category: Hidden }
+  - { match: "CM*",                category: Hidden }
+  - { match: "EASUN*",             category: Hidden }
+  #- { match: "ZF_Electronics_*",   category: Hidden }
+  - { match: "KF*",                category: Hidden }
+  - { match: "SL*",                category: Hidden }
+
+  # ---- Connectors, wiring, generic motor/encoder internals ------------
+  #- { match: "Crimped_*",          category: Hidden }
+  - { match: "Camera_Connector*",  category: Hidden }
+  - { match: "Display_Connector*", category: Hidden }
+  #- { match: "Microphone_*",       category: Hidden }
+  - { match: "*PIN_HEADER*",       category: Hidden }
+  - { match: "*USB*PORTS*",        category: Hidden }
+  - { match: "PTFE_*",             category: Hidden }
+  #- { match: "VHB*",               category: Hidden }
+  #- { match: "Rubber_*",           category: Hidden }
+  #- { match: "Switch_*",           category: Hidden }
+  - { match: "Needle_*",           category: Hidden }
+
+  # ---- NEMA motor cans (cosmetic, fine to hide; you can flip these
+  #      to Hardware later if you want them visible) --------------------
+  #- { match: "NEMA*",              category: Hidden }
+  - { match: "LDO*",               category: Hardware }   # LDO stepper motors
+
+  # ---- Structural frame parts -----------------------------------------
+  #- { match: "MGN*_Rail*",         category: Frame }
+  #- { match: "MGN*_Carriage*",     category: Frame }
+  #- { match: "Linear_Rod*",        category: Frame }
+  #- { match: "Misumi_*",           category: Frame }
+
+  # ---- Printed accent parts (a_ prefix naming convention) -------------
+  - { match: "a_belt_clip_*",               category: Accent }
+  - { match: "a_front_grill_logo_plates_*", category: Accent }
+  - { match: "a_heat_set_practice_*",       category: Accent }
+  - { match: "a_lcd_knob_*",                category: Accent }
+  - { match: "a_motor_mounts_*",            category: Accent }
+  - { match: "a_rubber_foot_block_*",       category: Accent }
+  - { match: "a_x_block_*",                 category: Accent }
+  - { match: "a_x_end_clip_*",              category: Accent }
+  - { match: "a_z_block_*",                 category: Accent }
+  - { match: "a_z_end_clip_*",              category: Accent }
+
+  # ---- Catch-all for other printed/visible parts ----------------------
+  # No convention emerged yet for non-accent printed parts. Add positive
+  # rules here (e.g. "{ match: 'pp-*', category: Main }") as patterns stabilize.
+
+# User-facing configuration choices consumed by the configurator manifest.
+# Each choice gates nodes below via visible: { when: { <option>: <choice> } };
+# the defaults define which variants render in CADScope's default view.
+options:
+  frame_type:
+    label: "Donor Frame"
+    choices:
+      - { id: mk4, label: "MK4", default: true }
+      - { id: mk3, label: "MK3" }
+  pulley_size:
+    label: "Pulley Size"
+    choices:
+      - { id: 16t, label: "16T (Prusa-spec)", default: true }
+      - { id: 20t, label: "20T (Voron Switchwire-spec)" }
+  z_rod:
+    label: "Z Linear Rods"
+    type: dropdown
+    choices:
+      - { id: 10x325, label: "10mm x 325mm (MK4 Z Rod)", default: true }
+      - { id: 8x320,  label: "8mm x 320mm (MK3 Z Rod)" }
+      - { id: 8x325,  label: "8mm x 325mm" }
+      - { id: 8x330,  label: "8mm x 330mm" }
+      - { id: 10x320, label: "10mm x 320mm" }
+      - { id: 10x330, label: "10mm x 330mm" }
+      - { id: 10x341, label: "10mm x 341mm" }
+  z_rod_bearing:
+    label: "Z Rod Bearing Type"
+    choices:
+      - { id: lm10luu, label: "LM10LUU", default: true, when: { z_rod: [10x320, 10x325, 10x330, 10x341] } }
+      - { id: lm8uu,   label: "LM8UU",  when: { z_rod: [8x320, 8x325, 8x330] } }
+      - { id: lm8luu,  label: "LM8LUU", when: { z_rod: [8x320, 8x325, 8x330] } }
+  nut_type:
+    label: "Square Nuts"
+    choices:
+      - { id: m3s, label: "M3S (Prusa-style M3 Square Nuts)", default: true }
+      - { id: v0s, label: "V0S (Voron V0 1515 Style Square Nuts)" }
+  y_attachment:
+    label: "Y-Carriage Attachment"
+    choices:
+      - { id: bearing_clips, label: "Bearing Clips (MK4 Style)", default: true }
+      - { id: u_bolts,       label: "U-Bolts (MK3 Style)" }
+  mainboard:
+    label: "Mainboard"
+    choices:
+      - { id: rambo, label: "Einsy Rambo", default: true }
+      - { id: skr,   label: "SKR Mini E3" }
+  toolhead_board:
+    label: "Toolhead Board"
+    choices:
+      - { id: nitehawk,   label: "LDO Nitehawk-SB", default: true }
+      - { id: btt_sb2209, label: "BTT SB2209 (USB)" }
+  psu:
+    label: "Power Supply"
+    choices:
+      - { id: delta_black, label: "Prusa Black (Delta)", default: true }
+      - { id: mk3_silver,  label: "MK3 Silver" }
+  toolhead:
+    label: "Toolhead"
+    choices:
+      - { id: stealthburner, label: "Stealthburner (Revo)", default: true }
+      - { id: afterburner,   label: "Afterburner (With Owl)" }
+  lcd_knob:
+    label: "LCD Knob Style"
+    choices:
+      - { id: switchwire, label: "Voron Switchwire", default: true }
+      - { id: tri_wing,   label: "Prusa MK3 Tri-Wing" }
+  badge_type:
+    label: "Supplemental Badge"
+    choices:
+      - { id: combined, label: "Combined (single color)", default: true }
+      - { id: separate, label: "Separate Back + Text (multi-color)" }
+
+# ZIP download contents: base URL + always-included files + option-
+# gated groups. Unassigned STLs are listed at the bottom for sorting.
+downloads:
+  base: "https://raw.githubusercontent.com/Positron3D/Prusawire/main/STLs/"
+  always:
+    - "Door_Puller/door_puller_anchor.stl"
+    - "Door_Puller/door_puller_bracket.stl"
+    - "Door_Puller/door_puller_idler_bracket.stl"
+    - "Electronics/daygreen_mosfet_bracket.stl"
+    - "Electronics/heatbed_cable_clip.stl"
+    - "Electronics/raspberry_pi_bracket.stl"
+    - "Electronics/wago_mount.stl"
+    - "Frame/[a]_rubber_foot_block_x4.stl"
+    - "MK3_LCD/lcd_supports_mk3.stl"
+    - "MK3_LCD/lcd_cable_clip_x4.stl"
+    - "MK3_LCD/lcd_cover_mk3_single_color.stl"
+    - "MK3_LCD/mmu_lcd_cover_mk3.3mf"
+    - "Panels/deck_panel_front.stl"
+    - "Panels/deck_panel_rear_connector.stl"
+    - "Panels/deck_panel_rear_left.stl"
+    - "Spool_Management/filament_guide_ecas.stl"
+    - "Spool_Management/spool_holder.stl"
+    - "X_Gantry/[a]_belt_clip_x2.stl"
+    - "X_Gantry/carriage_block.stl"
+    - "X_Gantry/gantry_frame_bumper.stl"
+    - "X_Gantry/superpinda_bracket.stl"
+    - "X_Gantry/x_carriage_left.stl"
+    - "X_Gantry/x_carriage_right.stl"
+    - "Y_Axis/[a]_belt_clip_x2.stl"
+    - "Y_Axis/heatbed_cable_cover_bottom_2mm_nylon.stl"
+    - "Y_Axis/heatbed_cable_cover_bottom_3mm_nylon.stl"
+    - "Y_Axis/y_idler_bracket.stl"
+    - "XZ_Axis/[a]_motor_mounts_b.stl"
+    - "XZ_Axis/idler_blocks_b.stl"
+    - "X_Gantry/[a]_belt_tensioner_retainers.stl"
+    - "X_Gantry/[a]_xz_end_clips.stl"
+    - "X_Gantry/belt_clip_x2.stl"
+    - "Y_Axis/heatbed_cable_cover_top.stl"
+    - "Frame/[a]_front_grill_logo_plates.stl"
+    - "Frame/front_grill_left.stl"
+    - "Frame/front_grill_right.stl"
+    - "Tools/ADXL_Bed_Mount_Square_Expansion_Joints.stl"
+    - "Tools/ADXL_Bed_Mount_by_Steve_Builds.stl"
+    - "Tools/Align_Tool_XZ_Axis.stl"
+    - "Tools/Align_Tool_Y_Axis.stl"
+    - "Tools/[a]_heat_set_practice.stl"
+    - "Tools/mgn12_rail_guide_x2.stl"
+    - "Printable_M3_T_Nuts_for_3030_Extrusion_by_Kapplion/Printable_M3_T_Nuts_Optional_10x.stl"
+    - "Printable_M3_T_Nuts_for_3030_Extrusion_by_Kapplion/Printable_M3_T_Nuts_Required_17x.stl"
+  groups:
+    - when: { mainboard: rambo }
+      files:
+        - "Electronics/mcu_cover_einsy.stl"
+        - "Electronics/mcu_box_einsy.stl"
+    - when: { mainboard: skr }
+      files:
+        - "Electronics/mcu_cover_skr_mini_e3.stl"
+        - "Electronics/mcu_box_skr_mini_e3.stl"
+    - when: { psu: delta_black }
+      files:
+        - "Electronics/Black PSU Covers/black_psu_cover_prusawire.stl"
+        - "Electronics/Black PSU Covers/black_psu_cover_voron.stl"
+        - "Panels/deck_panel_rear_right_deltablackpsu.stl"
+    - when: { psu: mk3_silver }
+      files:
+        - "Electronics/silver_psu_cover_mk3_bottom.stl"
+        - "Electronics/silver_psu_cover_mk3_rewired.stl"
+        - "Panels/deck_panel_rear_right_silverpsu-meanwellpsu.stl"
+    - when: { pulley_size: 16t }
+      files:
+        - "Y_Axis/y_motor_bracket_16T_Pulley.stl"
+    - when: { pulley_size: 20t }
+      files:
+        - "Y_Axis/y_motor_bracket_20T_Pulley.stl"
+    - when: { toolhead: stealthburner }
+      files:
+        - "Electronics/umbilical_strain_relief_by_nagelwerkstatt.stl"
+    - when: { toolhead_board: btt_sb2209 }
+      files:
+        - "Electronics/btt_sb2209_usb_bracket.stl"
+    - when: { toolhead_board: nitehawk }
+      files:
+        - "Electronics/nitehawk_sb_usb_bracket.stl"
+    - when: { badge_type: combined }
+      files:
+        - "Prusawire Supplemental Badge/Prusawire Supplemental Badge (Combined).stl"
+    - when: { badge_type: separate }
+      files:
+        - "Prusawire Supplemental Badge/Prusawire Supplemental Badge (Back).stl"
+        - "Prusawire Supplemental Badge/Prusawire Supplemental Badge (Text).stl"
+    - when: { lcd_knob: switchwire }
+      files:
+        - "MK3_LCD/[a]_lcd_knob_mk3.stl"
+    - when: { lcd_knob: tri_wing }
+      files:
+        - "MK3_LCD/[a]_lcd_knob_tri_wing_mk3.stl"
+    - when: { z_rod_bearing: lm8uu }
+      files:
+        - "X_Gantry/8mm_bearing_adapter_x2_LM8UU.stl"
+    - when: { z_rod_bearing: lm8luu }
+      files:
+        - "X_Gantry/8mm_bearing_adapter_x2_LM8LUU.stl"
+    - when: { y_attachment: bearing_clips, nut_type: m3s, pulley_size: 16t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_Bearing_Clips_M3S_16T.stl"
+    - when: { y_attachment: bearing_clips, nut_type: m3s, pulley_size: 20t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_Bearing_Clips_M3S_20T.stl"
+    - when: { y_attachment: bearing_clips, nut_type: v0s, pulley_size: 16t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_Bearing_Clips_V0S_16T.stl"
+    - when: { y_attachment: bearing_clips, nut_type: v0s, pulley_size: 20t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_Bearing_Clips_V0S_20T.stl"
+    - when: { y_attachment: u_bolts, nut_type: m3s, pulley_size: 16t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_U_Bolts_M3S_16T.stl"
+    - when: { y_attachment: u_bolts, nut_type: m3s, pulley_size: 20t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_U_Bolts_M3S_20T.stl"
+    - when: { y_attachment: u_bolts, nut_type: v0s, pulley_size: 16t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_U_Bolts_V0S_16T.stl"
+    - when: { y_attachment: u_bolts, nut_type: v0s, pulley_size: 20t }
+      files:
+        - "Y_Axis/y_belt_tensioner_variations/y_belt_tensioner_U_Bolts_V0S_20T.stl"
+    - when: { z_rod: 10x320, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_320mm_16T.stl"
+    - when: { z_rod: 10x325, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_325mm_16T.stl"
+    - when: { z_rod: 10x330, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_330mm_16T.stl"
+    - when: { z_rod: 10x341, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_341mm_16T.stl"
+    - when: { z_rod: 8x320, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_320mm_16T.stl"
+    - when: { z_rod: 8x325, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_325mm_16T.stl"
+    - when: { z_rod: 8x330, pulley_size: 16t }
+      files:
+        - "XZ_Axis/Motor Mounts For 16T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_330mm_16T.stl"
+    - when: { z_rod: 10x320, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_320mm_20T.stl"
+    - when: { z_rod: 10x325, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_325mm_20T.stl"
+    - when: { z_rod: 10x330, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_330mm_20T.stl"
+    - when: { z_rod: 10x341, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/10mm Rod Motor Mounts/motor_mounts_10mm_341mm_20T.stl"
+    - when: { z_rod: 8x320, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_320mm_20T.stl"
+    - when: { z_rod: 8x325, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_325mm_20T.stl"
+    - when: { z_rod: 8x330, pulley_size: 20t }
+      files:
+        - "XZ_Axis/Motor Mounts For 20T Pulleys/8mm Rod Motor Mounts/motor_mounts_8mm_330mm_20T.stl"
+    - when: { z_rod: [10x320, 10x325, 10x330, 10x341], frame_type: mk3 }
+      files:
+        - "XZ_Axis/Z Idler Blocks by Frame Type/[a]_idler_block_10mm_diameter_MK3_frame.stl"
+    - when: { z_rod: [10x320, 10x325, 10x330, 10x341], frame_type: mk4 }
+      files:
+        - "XZ_Axis/Z Idler Blocks by Frame Type/[a]_idler_block_10mm_diameter_MK4_frame.stl"
+    - when: { z_rod: [8x320, 8x325, 8x330], frame_type: mk3 }
+      files:
+        - "XZ_Axis/Z Idler Blocks by Frame Type/[a]_idler_block_8mm_diameter_MK3_frame.stl"
+    - when: { z_rod: [8x320, 8x325, 8x330], frame_type: mk4 }
+      files:
+        - "XZ_Axis/Z Idler Blocks by Frame Type/[a]_idler_block_8mm_diameter_MK4_frame.stl"
+    - when: { nut_type: m3s, pulley_size: 16t }
+      files:
+        - "X_Gantry/16T XZ Joints/[a]_xz_blocks_M3Sx16T.stl"
+    - when: { nut_type: v0s, pulley_size: 16t }
+      files:
+        - "X_Gantry/16T XZ Joints/[a]_xz_blocks_V0Sx16T.stl"
+    - when: { nut_type: m3s, pulley_size: 20t }
+      files:
+        - "X_Gantry/20T XZ Joints/[a]_xz_blocks_M3Sx20T.stl"
+    - when: { nut_type: v0s, pulley_size: 20t }
+      files:
+        - "X_Gantry/20T XZ Joints/[a]_xz_blocks_V0Sx20T.stl"
+    - when: { nut_type: m3s }
+      files:
+        - "Y_Axis/y_rod_holder_front_M3S.stl"
+        - "Y_Axis/y_rod_holder_rear_M3S.stl"
+    - when: { nut_type: v0s }
+      files:
+        - "Y_Axis/y_rod_holder_front_V0S.stl"
+        - "Y_Axis/y_rod_holder_rear_V0S.stl"
+
+# Per-node overrides — displayName, category, hidden, visible (when/unless),
+# stl (download paths), visualOnly. Paths come from .scaffold.json's _nodes.
+nodes:
+  # Top-level group labels.
+  16T_Toothed:  { hidden: true }
+  Accessories:  { displayName: "Accessories" }
+  Electronics:  { displayName: "Electronics" }
+  Frame:        { displayName: "Frame" }
+  Panels:       { displayName: "Panels" }
+  XZ_Axis:      { displayName: "XZ Axis" }
+  Y_Axis:       { displayName: "Y Axis" }
+  Y_Belts_Toothed:  { hidden: true }
+
+  # Accessories sub-assemblies.
+  Accessories/Front_Grill_&_Screen:                       { displayName: "Front Grill & Screen" }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004:  { displayName: "Prusa LCD" }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/Prusa_LCD_(RepRapDiscount_2004)_v1:  { displayName: "Prusa LCD" }
+  Accessories/Prusawire_Supplemental_Badge_(Combined):    { displayName: "Badge"}
+  Accessories/Spool_Holder:                               { displayName: "Spool Holder" }
+  Accessories/Spool_Holder/Prusament_Spool_v2/filament:   { displayName: "Spool Holder", category: Main }
+  Accessories/Spool_Holder/Prusament_Spool_v2_(1)/filament_(1):   { displayName: "Spool Holder", category: Accent }
+
+  # Electronics sub-assemblies.
+  Electronics/Mainboards:        { displayName: "Mainboards" }
+  Electronics/Power:             { displayName: "Power" }
+  Electronics/Raspberry_Pi:      { displayName: "Raspberry Pi" }
+  Electronics/Toolhead_Boards:   { displayName: "Toolhead Boards" }
+
+  # Frame sub-assemblies.
+  Frame/Feet_Assembly_(Assembly):    { displayName: "Feet" }
+  Frame/Prusa_MK4_Frame_Assembly:    { displayName: "Prusa MK3/MK4 Frame" }
+
+  # Panels sub-assemblies.
+  Panels/FrontDeckAssembly:      { displayName: "Front Deck Panel" }
+  Panels/Rear_Panel_Assembly:    { displayName: "Rear Deck Panel" }
+
+  # XZ Axis sub-assemblies.
+  XZ_Axis/Door_Puller:                                  { displayName: "Door Puller" }
+  XZ_Axis/Door_Puller_Idler:                            { displayName: "Door Puller Idler" }
+  XZ_Axis/XZ_Belts_(Assembly):                          { displayName: "XZ Belts" }
+  XZ_Axis/XZ_Belts_(Assembly)/16T002:                   { displayName: "16T" }
+  XZ_Axis/XZ_Belts_(Assembly)/16T002/16T:               { displayName: "16T X-Belt" }
+  XZ_Axis/XZ_Belts_(Assembly)/16T002/16T001:            { displayName: "16T Z-Belt" }
+  XZ_Axis/XZ_Belts_(Assembly)/20T002:                   { displayName: "20T" }
+  XZ_Axis/XZ_Belts_(Assembly)/20T002/20T:               { displayName: "20T" }
+  XZ_Axis/XZ_Belts_(Assembly)/20T002/20T001:            { displayName: "20T Z-Belt" }
+  XZ_Axis/XZ_Gantry:                             { displayName: "XZ Gantry" }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly:            { displayName: "XZ Axis Asssembly" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly:             { displayName: "X Axis" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly:  { displayName: "X Axis - Extrusion Assembly" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage:  { displayName: "X Carriage" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Afterburner_Assembly_With_Owl:  { visible: { when: { toolhead: afterburner } } }
+
+  # Y Axis sub-assemblies.
+  Y_Axis/Bed_Assembly_(1):       { displayName: "Bed" }
+  Y_Axis/Left_Rod_Assembly:      { displayName: "Left Rod" }
+  Y_Axis/Right_Rod_Assembly:     { displayName: "Right Rod" }
+  Y_Axis/Y_Belts:                { displayName: "Y Belts" }
+  Y_Axis/Y_Idler_Assembly:       { displayName: "Y Idler" }
+  Y_Axis/Y_Motors_Combined:      { displayName: "Y Motor" }
+
+  # Printed parts — displayName pinned to the STL filename.
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/a_lcd_knob_mk3:  { displayName: "[a]_lcd_knob_mk3", visible: { when: { lcd_knob: switchwire } } }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/a_lcd_knob_mk3_tri_wing:  { displayName: "[a]_lcd_knob_tri_wing_mk3", visible: { when: { lcd_knob: tri_wing } } }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/lcd_supports_mk3_v2:  { displayName: "lcd_supports_mk3", category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/lcd_supports_mk3_v2_(1):  { displayName: "lcd_supports_mk3", category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire001:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire002:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire003:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire004:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire005:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire006:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire007:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire008:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire009:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire010:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire011:  { category: Main }
+  Accessories/Front_Grill_&_Screen/LCD_-_Prusa_RepRapDiscount_2004/mmu_lcd_cover_prusawire012/mmu_lcd_cover_prusawire:  { category: Accent }
+  Accessories/Spool_Holder/Filament_Guide/filament_guide_ecas:  { displayName: "filament_guide_ecas", category: Main }
+  Electronics/Mainboards/Rambo_Assembly/heatbed_cable_clip:  { displayName: "heatbed_cable_clip", category: Main }
+  Electronics/Mainboards/Rambo_Assembly/mcu_cover_einsy:  { displayName: "mcu_cover_einsy", category: Main }
+  Electronics/Mainboards/SKR_Assembly/heatbed_cable_clip001:  { displayName: "heatbed_cable_clip", category: Main }
+  Electronics/Mainboards/SKR_Assembly/mcu_cover_skr_mini_e3:  { displayName: "mcu_cover_skr_mini_e3", category: Main }
+  Electronics/Power/Buck_Converter_Assembly/daygreen_mosfet_bracket:  { displayName: "daygreen_mosfet_bracket", category: Main }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/black_psu_cover_prusawire:  { displayName: "black_psu_cover_prusawire", category: Main }
+  Electronics/Power/PSU_Assembly/Prusa_Silver_PSU/silver_psu_cover_mk3_bottom:  { displayName: "silver_psu_cover_mk3_bottom", category: Main }
+  Electronics/Power/Wago_Mount:  { displayName: "wago_mount", category: Main }
+  Electronics/Raspberry_Pi/raspberry_pi_bracket:  { displayName: "raspberry_pi_bracket", category: Main }
+  Electronics/Toolhead_Boards/BTT_SB2209_USB_Adapter/btt_sb2209_usb_bracket:  { displayName: "btt_sb2209_usb_bracket", category: Main }
+  Electronics/Toolhead_Boards/Nitehawk-SB_USB/nitehawk_sb_usb_bracket:  { displayName: "nitehawk_sb_usb_bracket", category: Main }
+  Frame/Feet_Assembly_(Assembly)/Feet_Assembly/a_rubber_foot_block_x4:  { displayName: "[a]_rubber_foot_block_x4" }
+  Frame/Feet_Assembly_(Assembly)/Feet_Assembly001/a_rubber_foot_block_x005:  { displayName: "[a]_rubber_foot_block_x4" }
+  Frame/Feet_Assembly_(Assembly)/Feet_Assembly002/a_rubber_foot_block_x006:  { displayName: "[a]_rubber_foot_block_x4" }
+  Frame/Feet_Assembly_(Assembly)/Feet_Assembly003/a_rubber_foot_block_x007:  { displayName: "[a]_rubber_foot_block_x4" }
+  Panels/FrontDeckAssembly/deck_panel_front:  { displayName: "deck_panel_front", category: Main }
+  Panels/Rear_Panel_Assembly/deck_panel_rear_connector:  { displayName: "deck_panel_rear_connector", category: Main }
+  Panels/Rear_Panel_Assembly/deck_panel_rear_left:  { displayName: "deck_panel_rear_left", category: Main }
+  Panels/Rear_Panel_Assembly/deck_panel_rear_right_deltablackpsu:  { displayName: "deck_panel_rear_right_deltablackpsu", category: Main, visible: { when: { psu: delta_black } } }
+  Panels/Rear_Panel_Assembly/deck_panel_rear_right_silverpsu-meanwellpsu:  { displayName: "deck_panel_rear_right_silverpsu-meanwellpsu", category: Main, visible: { when: { psu: mk3_silver } } }
+  XZ_Axis/Door_Puller/door_puller_bracket:  { displayName: "door_puller_bracket", category: Main }
+  XZ_Axis/Door_Puller_Idler/door_puller_idler_bracket:  { displayName: "door_puller_idler_bracket", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8LUU_Adapter_Assembly/8mm_bearing_adapter_x2_LM8LUU:  { displayName: "8mm_bearing_adapter_x2_LM8LUU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8UU_Adapter_Assembly/8mm_bearing_adapter_x2_LM8UU:  { displayName: "8mm_bearing_adapter_x2_LM8UU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8LUU_Adapter_Assembly001/8mm_bearing_adapter_x2_LM8LUU001:  { displayName: "8mm_bearing_adapter_x2_LM8LUU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8UU_Adapter_Assembly001/8mm_bearing_adapter_x2_LM8UU001:  { displayName: "8mm_bearing_adapter_x2_LM8UU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8LUU_Adapter_Assembly002/8mm_bearing_adapter_x2_LM8LUU002:  { displayName: "8mm_bearing_adapter_x2_LM8LUU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8UU_Adapter_Assembly002/8mm_bearing_adapter_x2_LM8UU002:  { displayName: "8mm_bearing_adapter_x2_LM8UU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8LUU_Adapter_Assembly003/8mm_bearing_adapter_x2_LM8LUU003:  { displayName: "8mm_bearing_adapter_x2_LM8LUU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8UU_Adapter_Assembly003/8mm_bearing_adapter_x2_LM8UU003:  { displayName: "8mm_bearing_adapter_x2_LM8UU", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly/Door_Puller_Anchor:  { displayName: "door_puller_anchor", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Axis_-_Extrusion_Assembly/Gantry_Frame_Bumper:  { displayName: "gantry_frame_bumper", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/umbilical_strain_relief_by_nagelwerkstatt:  { displayName: "umbilical_strain_relief_by_nagelwerkstatt", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/a_belt_clip_x006:  { displayName: "[a]_belt_clip_x2" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/a_belt_clip_x007:  { displayName: "[a]_belt_clip_x2" }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/carriage_block:  { displayName: "carriage_block", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/x_carriage_left:  { displayName: "x_carriage_left", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/x_carriage_right:  { displayName: "x_carriage_right", category: Main }
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/heatbed_cable_cover_bottom_2mm_nylon:  { displayName: "heatbed_cable_cover_bottom_2mm_nylon", category: Main }
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/heatbed_cable_cover_bottom_3mm_nylon:  { displayName: "heatbed_cable_cover_bottom_3mm_nylon", category: Main }
+  Y_Axis/Bed_Assembly_(1)/Y_Belt_Tensioner/a_belt_clip_x005:  { displayName: "[a]_belt_clip_x2" }
+  Y_Axis/Bed_Assembly_(1)/Y_Belt_Tensioner/a_belt_clip_x4:  { displayName: "[a]_belt_clip_x2" }
+  Y_Axis/Y_Motors_Combined/Y_Motor_16T/y_motor_bracket_16T_Pulley:  { displayName: "y_motor_bracket_16T_Pulley", category: Main }
+  Y_Axis/Y_Motors_Combined/Y_Motor_20T/y_motor_bracket_20T_Pulley:  { displayName: "y_motor_bracket_20T_Pulley", category: Main }
+  Accessories/Spool_Holder/Spool_Holder_v1:                { displayName: "spool_holder", category: Main }
+  Accessories/Prusawire_Supplemental_Badge_(Combined)/Badge:    { displayName: "Prusawire Supplemental Badge (Combined)", category: Accent }
+
+  # Default configuration: hide the non-default variant assemblies.
+  Electronics/Mainboards/SKR_Assembly:                    { visible: { when: { mainboard: skr } } }
+  Electronics/Power/PSU_Assembly/Prusa_Silver_PSU:        { visible: { when: { psu: mk3_silver } } }
+  Electronics/Toolhead_Boards/BTT_SB2209_USB_Adapter:     { visible: { when: { toolhead_board: btt_sb2209 } } }
+
+  # Stealthburner toolhead colors.
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/Stealthburner_Assembly/Stealthburner_Printed/Stealthburner_Body:  { category: Accent }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/CW2_Assembly/CW2_Printed:  { category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Stealthburner_CW2_Assembly_v1/CW2_Assembly/CW2_Printed/Latch:  { category: Accent }
+
+  # SuperPINDA mount: default variant Main, alternate hidden.
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/superpinda_mount002/superpinda_mount:  { displayName: "superpinda_bracket", category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/superpinda_mount002/superpinda_mount001:  { hidden: true }
+
+  # X-carriage belt clips.
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/X_Belt_Tension_Block_Assembly/X_Carriage_belt_clip_x2:  { category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/X_Belt_Tension_Block_Assembly/X_Carriage_belt_clip_x003:  { category: Main }
+
+  # 20T XZ blocks and all rod-bearing adapter assemblies hidden by default.
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T:  { visible: { when: { pulley_size: 20t } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T:  { visible: { when: { pulley_size: 20t } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8LUU_Adapter_Assembly:  { visible: { when: { z_rod_bearing: lm8luu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/Rod_Bearings/LM8UU_Adapter_Assembly:  { visible: { when: { z_rod_bearing: lm8uu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8LUU_Adapter_Assembly001:  { visible: { when: { z_rod_bearing: lm8luu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/Rod_Bearings001/LM8UU_Adapter_Assembly001:  { visible: { when: { z_rod_bearing: lm8uu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8LUU_Adapter_Assembly002:  { visible: { when: { z_rod_bearing: lm8luu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/Rod_Bearings002/LM8UU_Adapter_Assembly002:  { visible: { when: { z_rod_bearing: lm8uu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8LUU_Adapter_Assembly003:  { visible: { when: { z_rod_bearing: lm8luu } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/Rod_Bearings003/LM8UU_Adapter_Assembly003:  { visible: { when: { z_rod_bearing: lm8uu } } }
+
+  # X-block variant names (derived from the [a]_xz_blocks STL set).
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_front:  { displayName: "[a]_x_block_front_M3Sx16T", visible: { when: { nut_type: m3s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_front_(1):  { displayName: "[a]_x_block_front_V0Sx16T", visible: { when: { nut_type: v0s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_rear:  { displayName: "[a]_x_block_rear_M3Sx16T", visible: { when: { nut_type: m3s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_block_rear_(1):  { displayName: "[a]_x_block_rear_V0Sx16T", visible: { when: { nut_type: v0s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_front001:  { displayName: "[a]_x_block_front_M3Sx20T", visible: { when: { nut_type: m3s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_front_(1)001:  { displayName: "[a]_x_block_front_V0Sx20T", visible: { when: { nut_type: v0s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_rear_(1)001:  { displayName: "[a]_x_block_rear_V0Sx20T", visible: { when: { nut_type: v0s } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_block_rear001:  { displayName: "[a]_x_block_rear_M3Sx20T", visible: { when: { nut_type: m3s } } }
+
+  # End-clip printed meshes: the SOLID children would match the SOLID* Hidden
+  # rule; the explicit category keeps them Accent like their parent clips.
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T/a_x_end_clip_R1/SOLID005:  { category: Accent }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_20T/a_x_end_clip_R002/SOLID006:  { category: Accent }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T/a_z_end_clip_R1/SOLID007:  { category: Accent }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_20T/a_z_end_clip_R002/SOLID008:  { category: Accent }
+
+  # Default configuration: 8x320 rods, 20T motors, and MAC-variant steppers hidden.
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Linear_Rods_-_10x325mm_and_8x320mm001/Linear_Rod_-_8x320mm001:  { visible: { when: { z_rod: 8x320 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Linear_Rods_-_10x325mm_and_8x320mm/Linear_Rod_-_8x320mm:  { visible: { when: { z_rod: 8x320 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T:  { visible: { when: { pulley_size: 20t } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T:  { visible: { when: { pulley_size: 20t } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/LDO-42STH38-1684MAC002:  { hidden: true }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/LDO-42STH38-1684MAC003:  { hidden: true }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/LDO-42STH38-1684MAC004:  { hidden: true }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/LDO-42STH38-1684MAC005:  { hidden: true }
+  Y_Axis/Y_Motors_Combined/Y_Motor_16T/LDO-42STH38-1684MAC:  { hidden: true }
+  Y_Axis/Y_Motors_Combined/Y_Motor_20T/LDO-42STH38-1684MAC001:  { hidden: true }
+
+
+  # Z upper idler variants.
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers:  { displayName: "Z Upper Idlers - 8mm MK4", visible: { when: { z_rod: [8x320, 8x325, 8x330], frame_type: mk4 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers001:  { displayName: "Z Upper Idlers - 8mm MK3", visible: { when: { z_rod: [8x320, 8x325, 8x330], frame_type: mk3 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers002:  { displayName: "Z Upper Idlers - 10mm MK4", visible: { when: { z_rod: [10x320, 10x325, 10x330, 10x341], frame_type: mk4 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004/Z_Upper_Idlers003:  { displayName: "Z Upper Idlers - 10mm MK3", visible: { when: { z_rod: [10x320, 10x325, 10x330, 10x341], frame_type: mk3 } } }
+
+  # Idler block printed halves.
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Idler_Block_-_Left/x_idler_block_b:  { category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/z_idler_block_b:  { category: Main }
+
+  # Build plate: whole sheet stack White, the textured PEI surface pale orange.
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_Textured_PEI_Sheet041:  { category: White }
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_Textured_PEI_Sheet041/Prusa_Textured_PEI_Sheet:  { category: "PEI Sheet" }
+
+  # Y carriage plate hidden; upper idler assemblies preview Accent.
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Prusa_MK3_Y_Carriage_v4:  { visible: { when: { frame_type: mk3 } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/Idler_Block_-_Left/X_Upper_Idlers:  { category: Accent }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Idler_Block_-_Right/Z_Upper_Idlers004:  { category: Accent }
+
+  # Z motor mount variants.
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/Z_Mount:  { displayName: "Z Motor Mount - 16T 10mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T/Z_Mount_(1):  { displayName: "Z Motor Mount - 16T 8mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/Z_Mount_(1)001:  { displayName: "Z Motor Mount - 20T 8mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_20T/Z_Mount001:  { displayName: "Z Motor Mount - 20T 10mm", category: Main }
+
+  # Y-carriage attachment: bearing clips show for the default style; the
+  # tensioner in the GLB is the M3S/bearing-clip/16T variant.
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Bearing_Clip:  { visible: { when: { y_attachment: bearing_clips } } }
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Bearing_Clip001:  { visible: { when: { y_attachment: bearing_clips } } }
+  Y_Axis/Bed_Assembly_(1)/Bed_Assembly/Bearing_Clip002:  { visible: { when: { y_attachment: bearing_clips } } }
+  Y_Axis/Bed_Assembly_(1)/Y_Belt_Tensioner/M3S_Bearing_Clip_16T:  { visible: { when: { y_attachment: bearing_clips, nut_type: m3s, pulley_size: 16t } } }
+
+  # Y rod holder printed bodies are SOLID* meshes — pin them Main so the
+  # SOLID* Hidden rule cannot claim them (and they stay in the tree).
+  Y_Axis/Left_Rod_Assembly/Y_Rod_Front_Left/SOLID003:  { displayName: "y_rod_holder_front_left", category: Main }
+  Y_Axis/Left_Rod_Assembly/Y_Rod_Rear_Left/SOLID002:  { displayName: "y_rod_holder_rear_left", category: Main }
+  Y_Axis/Right_Rod_Assembly/Y_Rod_Front_Right/SOLID001:  { displayName: "y_rod_holder_front_right", category: Main }
+  Y_Axis/Right_Rod_Assembly/Y_Rod_Rear_Right/SOLID:  { displayName: "y_rod_holder_rear_right", category: Main }
+
+  # Delta PSU renders as Hardware; its case and inlet meshes are COMPOUND*
+  # bodies that the COMPOU* Hidden rule would otherwise claim.
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061/COMPOUND059:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061/COMPOUND060:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND049:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND050:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND051:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND052:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND053:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND054:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND055:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND056:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058/COMPOUND057:  { category: Hardware }
+
+  # Front grill and Revo Voron printhead shells print in Main.
+  Accessories/Front_Grill_&_Screen/Front_Grill/front_grill002:  { category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Revo_Voron/sb_printhead_revo_voron_front:  { category: Main }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/Revo_Voron/sb_printhead_revo_voron_rear:  { category: Main }
+  Y_Axis/Y_Motors_Combined/Y_Motor_20T:  { visible: { when: { pulley_size: 20t } } }
+
+  # X motor mount variants.
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/X_Mount:  { displayName: "X Motor Mount - 16T 10mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T/X_Mount_(1):  { displayName: "X Motor Mount - 16T 8mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/X_Mount_(1)001:  { displayName: "X Motor Mount - 20T 8mm", category: Main }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_20T/X_Mount001:  { displayName: "X Motor Mount - 20T 10mm", category: Main }
+
+  # Noise-named meshes inside colored parts: pin the inherited
+  # category so the SOLID*/COMPOU*/Cylinder* Hidden rules cannot
+  # claim them.
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/COMPOUND061:  { category: Hardware }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/Delta_PMZ-24V240WDAL/Mains_Inlet_Wiring_v2/Mains_Inlet/COMPOUND058:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND017:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND018:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND019:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND020:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND021:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND022:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND023:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND024:  { category: Hardware }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner/LDO-36STH20-1004AHG_v1/COMPOUND026/COMPOUND025:  { category: Hardware }
+
+  # Default-side variant gating (counterparts of the when-rules above).
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/X_Carriage/Stealthburner:  { visible: { when: { toolhead: stealthburner } } }
+  Electronics/Mainboards/Rambo_Assembly:  { visible: { when: { mainboard: rambo } } }
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU:  { visible: { when: { psu: delta_black } } }
+  Electronics/Toolhead_Boards/Nitehawk-SB_USB:  { visible: { when: { toolhead_board: nitehawk } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Left/XZ_Block_-_Left_-_16T:  { visible: { when: { pulley_size: 16t } } }
+  XZ_Axis/XZ_Gantry/X_Axis_Assembly/XZ_Block_-_Right/XZ_Block_-_Right_-_16T:  { visible: { when: { pulley_size: 16t } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_X_Assembly/X_Motor/X_Motor_-_16T:  { visible: { when: { pulley_size: 16t } } }
+  XZ_Axis/XZ_Gantry/XZ_Axis_Assembly/XZ_Axis_-_Z_Assembly/Z_Motor/Z_Motor_-_16T:  { visible: { when: { pulley_size: 16t } } }
+  Y_Axis/Y_Motors_Combined/Y_Motor_16T:  { visible: { when: { pulley_size: 16t } } }
+
+  # PSU cover variants pinned to their STL names.
+  Electronics/Power/PSU_Assembly/Prusa_Black_PSU/black_psu_cover:  { displayName: "black_psu_cover_voron", category: Main }
+  Electronics/Power/PSU_Assembly/Prusa_Silver_PSU/silver_psu_cover_mk3:  { displayName: "silver_psu_cover_mk3_rewired", category: Main }
+  Y_Axis/Y_Idler_Assembly/IdlerBracket:  { displayName: "y_idler_bracket", category: Main }
