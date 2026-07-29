@@ -28,13 +28,24 @@
         <a id="modelGithubLink" href="https://github.com/erikbuild/CADScope" target="_blank">GitHub</a>
       </div>
       <div class="header-links">
+        <label class="theme-switch sm-header-toggle">
+          <span>Enable SpaceMouse</span>
+          <input type="checkbox" id="smEnabled" role="switch" aria-label="Enable SpaceMouse">
+          <span class="theme-switch-track" aria-hidden="true"></span>
+        </label>
+        <span class="header-divider" aria-hidden="true"></span>
         <label class="theme-switch">
           <span aria-hidden="true">☾</span>
           <input type="checkbox" id="themeToggle" role="switch" aria-label="Light theme">
           <span class="theme-switch-track" aria-hidden="true"></span>
           <span aria-hidden="true">☀</span>
         </label>
-        <button id="settingsBtn" class="settings-btn" type="button" aria-label="Settings">⚙</button>
+        <button id="settingsBtn" class="settings-btn" type="button" aria-label="Settings">
+          <!-- Material Symbols gear (Apache-2.0) -->
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -120,7 +131,7 @@
 
         <!-- Attribution -->
         <div class="attribution">
-          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.9.0</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
+          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.9.1</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
         </div>
       </div>
     </main>
@@ -132,7 +143,10 @@
       <h2 id="settingsTitle">Settings</h2>
       <section class="settings-section">
         <h3>SpaceMouse</h3>
-        <label class="settings-check"><input type="checkbox" id="smEnabled"> Enable SpaceMouse</label>
+        <p class="settings-help">Requires 3Dconnexion's 3DxWare driver running on
+          this computer. Enabling connects to the driver's local service, so the
+          browser may ask to allow local network access; motion is delivered
+          while this tab is focused.</p>
         <div class="sm-mapping">
           <div class="sm-row"><span>Right</span><select id="smDirRight"></select></div>
           <div class="sm-row"><span>Left</span><select id="smDirLeft"></select></div>
@@ -140,12 +154,12 @@
           <div class="sm-row"><span>Out</span><select id="smDirOut"></select></div>
           <div class="sm-row"><span>Down</span><select id="smDirDown"></select></div>
           <div class="sm-row"><span>Up</span><select id="smDirUp"></select></div>
+          <label class="settings-check"><input type="checkbox" id="smSwap"> Swap In-Out and Down-Up</label>
         </div>
-        <label class="settings-check"><input type="checkbox" id="smSwap"> Swap In-Out and Down-Up</label>
       </section>
       <section class="settings-section">
         <h3>Special</h3>
-        <div class="sm-row"><span>Filament</span><select id="spFilament"></select></div>
+        <div class="sm-row sp-row"><span>Coral Wave Mode</span><select id="spFilament"></select></div>
       </section>
       <button id="settingsClose" type="button">Close</button>
     </div>

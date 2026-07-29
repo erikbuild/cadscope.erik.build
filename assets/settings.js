@@ -5,7 +5,7 @@ const STORAGE_KEY = 'cadscope-settings';
 
 export const DEFAULT_SETTINGS = Object.freeze({
   spacemouse: {
-    enabled: true,
+    enabled: false,
     mapping: {
       lr: { pair: 'x', invert: false },   // Left/Right
       io: { pair: 'z', invert: false },   // In/Out

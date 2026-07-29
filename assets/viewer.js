@@ -1438,7 +1438,7 @@ connectSpaceMouse();
   }
 
   const FILAMENT_LABELS = {
-    standard: 'Standard', coralwave: 'Coral Wave', coralwavehilbert: 'Coral Wave Hilbert',
+    standard: 'Off', coralwave: 'Coral Wave Basic', coralwavehilbert: 'Coral Wave Hilbert Curve',
   };
   {
     const select = document.getElementById('spFilament');
@@ -1506,6 +1506,10 @@ connectSpaceMouse();
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
   });
+
+  // The enable toggle lives in the title bar, visible before the modal
+  // ever opens — reflect the persisted state immediately.
+  render();
 })();
 
 // Initial render — every interactive control invalidates via requestRender()
