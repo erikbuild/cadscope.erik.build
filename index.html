@@ -25,6 +25,7 @@
     <header class="header">
       <div class="logo">
         <h1>CADScope</h1>
+        <a id="modelGithubLink" href="https://github.com/erikbuild/CADScope" target="_blank">GitHub</a>
       </div>
       <div class="header-links">
         <label class="theme-switch">
@@ -33,7 +34,7 @@
           <span class="theme-switch-track" aria-hidden="true"></span>
           <span aria-hidden="true">☀</span>
         </label>
-        <a href="https://github.com/erikbuild/CADScope" target="_blank">GitHub</a>
+        <button id="settingsBtn" class="settings-btn" type="button" aria-label="Settings">⚙</button>
       </div>
     </header>
 
@@ -119,10 +120,35 @@
 
         <!-- Attribution -->
         <div class="attribution">
-          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.8.1</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
+          <a href="https://github.com/erikbuild/CADScope" target="_blank">CADScope v1.9.0</a> by <a href="https://github.com/erikbuild" target="_blank">@erikbuild</a>
         </div>
       </div>
     </main>
+  </div>
+
+  <div id="settingsModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-backdrop"></div>
+    <div class="settings-dialog">
+      <h2 id="settingsTitle">Settings</h2>
+      <section class="settings-section">
+        <h3>SpaceMouse</h3>
+        <label class="settings-check"><input type="checkbox" id="smEnabled"> Enable SpaceMouse</label>
+        <div class="sm-mapping">
+          <div class="sm-row"><span>Right</span><select id="smDirRight"></select></div>
+          <div class="sm-row"><span>Left</span><select id="smDirLeft"></select></div>
+          <div class="sm-row"><span>In</span><select id="smDirIn"></select></div>
+          <div class="sm-row"><span>Out</span><select id="smDirOut"></select></div>
+          <div class="sm-row"><span>Down</span><select id="smDirDown"></select></div>
+          <div class="sm-row"><span>Up</span><select id="smDirUp"></select></div>
+        </div>
+        <label class="settings-check"><input type="checkbox" id="smSwap"> Swap In-Out and Down-Up</label>
+      </section>
+      <section class="settings-section">
+        <h3>Special</h3>
+        <div class="sm-row"><span>Filament</span><select id="spFilament"></select></div>
+      </section>
+      <button id="settingsClose" type="button">Close</button>
+    </div>
   </div>
 
   <script type="importmap">

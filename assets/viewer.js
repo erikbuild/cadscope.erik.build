@@ -15,6 +15,12 @@ import {
 } from './cadscope_state.js';
 import { treeLabel } from './prettify.js';
 import { coralWaveMode, splitUniformsForBox, patchMaterial, drawHilbertPattern } from './coralwave.js';
+import { createSession, NL_URL, NL_SUBPROTOCOL } from './spacemouse.js';
+import {
+  loadSettings, saveSettings, applySwapPreset, isSwapPreset,
+  remapMatrixFromMapping, isIdentityMapping, mat4Multiply, mat4Transpose, applyMat4ToVec3,
+  actionForDirection, setDirectionAction,
+} from './settings.js';
 import { initTheme } from './theme.js';
 
 const hdriLocation = "./assets/bg.hdr";
@@ -109,7 +115,9 @@ function requestRender() {
   requestAnimationFrame(() => {
     renderQueued = false;
     const stillAnimating = tickCameraAnimation();
-    if (!stillAnimating) controls.update();
+    // OrbitControls.update() re-aims the camera at controls.target, which
+    // would cancel externally driven motion (animations, SpaceMouse pans).
+    if (!stillAnimating && !spaceMouseDriving) controls.update();
     renderer.render(scene, camera);
     if (stillAnimating) requestRender();
   });
@@ -288,7 +296,7 @@ function unhighlightObject() {
 
 // Populate model select from manifest
 const modelSelect = document.getElementById('modelSelect');
-const githubLink = document.querySelector('.header-links a');
+const githubLink = document.getElementById('modelGithubLink');
 models.forEach((entry, i) => {
   const opt = document.createElement('option');
   opt.value = entry.id;
@@ -316,7 +324,8 @@ function updateGithubLink(entry) {
 function updateURL() {
   const params = new URLSearchParams();
   params.set('model', currentEntry ? currentEntry.id : models[0].id);
-  if (coralFilament) params.set('filament', coralFilament);
+  const filament = effectiveFilament();
+  if (filament) params.set('filament', filament);
   if (currentLookups) {
     const pickerValues = new Map();
     for (const [name, picker] of categoryPickers) pickerValues.set(name, picker.value);
@@ -374,7 +383,29 @@ const urlModel = urlParams.get('model');
 if (urlModel && models.some(m => m.id === urlModel)) {
   modelSelect.value = urlModel;
 }
-const coralFilament = coralWaveMode(urlParams);
+// Settings load before the first updateURL() below — the effective
+// filament and the SpaceMouse remap state both read from them.
+const settings = loadSettings(localStorage);
+let remapR = remapMatrixFromMapping(settings.spacemouse.mapping);
+let remapRt = mat4Transpose(remapR);
+let remapIdentity = isIdentityMapping(settings.spacemouse.mapping);
+let smSocket = null;
+let spaceMouseDriving = false;
+
+function refreshRemap() {
+  remapR = remapMatrixFromMapping(settings.spacemouse.mapping);
+  remapRt = mat4Transpose(remapR);
+  remapIdentity = isIdentityMapping(settings.spacemouse.mapping);
+}
+
+// Coral Wave can come from the URL (share links) or the settings panel;
+// a panel change clears the URL override and takes over.
+let urlFilament = coralWaveMode(urlParams);
+
+function effectiveFilament() {
+  if (urlFilament) return urlFilament;
+  return settings.special.filament === 'standard' ? null : settings.special.filament;
+}
 // Decode share state once at startup; `applySharedState` consumes it after
 // the model has loaded and the tree is built. readShareFromParams returns
 // {} when there are no codec params; null when present-but-malformed.
@@ -618,8 +649,9 @@ function coralHilbertTexture() {
 }
 
 function applyCoralWaveIfActive() {
-  if (!coralFilament) return;
-  const hilbert = coralFilament === 'coralwavehilbert';
+  const filament = effectiveFilament();
+  if (!filament) return;
+  const hilbert = filament === 'coralwavehilbert';
   for (const mesh of categoryMeshes.get('Accent') || []) {
     const box = new THREE.Box3().setFromObject(mesh);
     patchMaterial(mesh.material, {
@@ -1258,6 +1290,223 @@ window.resetZoom = function() {
   }, ANIM_ZOOM);
 };
 
+
+// SpaceMouse support: navlib session against the local 3DxNLServer. The
+// driver computes all motion (and handles the built-in Fit/view buttons)
+// from the properties served here; machines without the driver stay dormant.
+// The settings panel gates the connection and remaps axes by conjugating
+// all traffic with a signed-permutation matrix R (driver world → viewer
+// world): reads serve Rᵀ·M / Rᵀ·v, writes apply R·M / R·v.
+
+function readMatrix(m) { return remapIdentity ? m : mat4Multiply(remapRt, m); }
+function readVec(v) { return remapIdentity ? v : applyMat4ToVec3(remapRt, v); }
+function writeMatrix(m) { return remapIdentity ? m : mat4Multiply(remapR, m); }
+function writeVec(v) { return remapIdentity ? v : applyMat4ToVec3(remapR, v); }
+
+function connectSpaceMouse() {
+  if (!settings.spacemouse.enabled) {
+    console.log('[spacemouse] disabled');
+    return;
+  }
+  let ws;
+  try {
+    ws = new WebSocket(NL_URL, NL_SUBPROTOCOL);
+  } catch {
+    return;
+  }
+  smSocket = ws;
+  let registered = false;
+
+  function frustum() {
+    const top = camera.near * Math.tan((camera.fov * Math.PI) / 360);
+    const right = top * camera.aspect;
+    return [-right, right, -top, top, camera.near, camera.far];
+  }
+
+  const session = createSession({
+    send: (s) => ws.send(s),
+    now: Date.now,
+    readProperty: (name) => {
+      switch (name) {
+        case 'view.affine': camera.updateMatrixWorld(); return readMatrix(camera.matrixWorld.toArray());
+        case 'view.perspective': return true;
+        case 'view.fov': return (camera.fov * Math.PI) / 180;
+        case 'view.frustum': return frustum();
+        case 'view.target': return readVec(controls.target.toArray());
+        case 'view.rotatable': return true;
+        case 'model.extents': {
+          if (!currentModel) return undefined;
+          const box = new THREE.Box3().setFromObject(currentModel);
+          if (remapIdentity) return [box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z];
+          const lo = [Infinity, Infinity, Infinity];
+          const hi = [-Infinity, -Infinity, -Infinity];
+          for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+            const c = applyMat4ToVec3(remapRt, [x, y, z]);
+            for (let i = 0; i < 3; i++) { lo[i] = Math.min(lo[i], c[i]); hi[i] = Math.max(hi[i], c[i]); }
+          }
+          return [...lo, ...hi];
+        }
+        case 'model.unitsToMeters': return 1;
+        case 'selection.empty': return true;
+        case 'views.front': {
+          const pose = poseFromDirection(Z_FWD, Y_UP);
+          return readMatrix(new THREE.Matrix4()
+            .compose(pose.position, pose.quaternion, new THREE.Vector3(1, 1, 1))
+            .toArray());
+        }
+        case 'coordinateSystem': return new THREE.Matrix4().toArray();
+        case 'hit.lookat': return null;
+        default: return undefined;
+      }
+    },
+    applyUpdate: (name, value) => {
+      switch (name) {
+        case 'view.affine': {
+          cameraAnimation = null;
+          const m = new THREE.Matrix4().fromArray(writeMatrix(value));
+          m.decompose(camera.position, camera.quaternion, new THREE.Vector3());
+          camera.updateMatrixWorld();
+          break;
+        }
+        case 'view.target':
+          controls.target.fromArray(writeVec(value));
+          break;
+        case 'transaction':
+          if (value === 0) requestRender();
+          break;
+        case 'motion':
+          spaceMouseDriving = value === true;
+          if (value === false) {
+            // Re-seat the orbit target along the camera's final view axis at
+            // the prior target distance, so mouse orbiting pivots where the
+            // SpaceMouse left the view (and the next lookAt is a no-op).
+            const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+            const distance = camera.position.distanceTo(controls.target);
+            controls.target.copy(camera.position).addScaledVector(forward, distance);
+            updateURL();
+            requestRender();
+          }
+          break;
+      }
+    },
+    onRegistered: () => {
+      registered = true;
+      console.log('[spacemouse] registered');
+      (function pump() {
+        if (ws !== smSocket) return;   // superseded by disconnect/reconnect
+        session.pumpFrame();
+        requestAnimationFrame(pump);
+      })();
+    },
+  });
+
+  ws.onmessage = (ev) => session.onMessage(ev.data);
+  ws.onerror = () => { if (!registered) console.log('[spacemouse] no 3DxNLServer — dormant'); };
+}
+
+function disconnectSpaceMouse() {
+  if (smSocket) {
+    smSocket.close();
+    smSocket = null;
+    console.log('[spacemouse] disconnected');
+  }
+}
+
+connectSpaceMouse();
+
+// Settings modal: renders from the settings object and applies changes live.
+(function initSettingsPanel() {
+  const modal = document.getElementById('settingsModal');
+  const mapping = () => settings.spacemouse.mapping;
+  const directions = {
+    right: 'smDirRight', left: 'smDirLeft', in: 'smDirIn',
+    out: 'smDirOut', down: 'smDirDown', up: 'smDirUp',
+  };
+  const ACTION_LABELS = {
+    right: 'Move Right', left: 'Move Left', in: 'Move In',
+    out: 'Move Out', down: 'Move Down', up: 'Move Up',
+  };
+
+  for (const id of Object.values(directions)) {
+    const select = document.getElementById(id);
+    for (const [value, label] of Object.entries(ACTION_LABELS)) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    }
+  }
+
+  const FILAMENT_LABELS = {
+    standard: 'Standard', coralwave: 'Coral Wave', coralwavehilbert: 'Coral Wave Hilbert',
+  };
+  {
+    const select = document.getElementById('spFilament');
+    for (const [value, label] of Object.entries(FILAMENT_LABELS)) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      select.appendChild(option);
+    }
+  }
+
+  function render() {
+    document.getElementById('smEnabled').checked = settings.spacemouse.enabled;
+    for (const [dir, id] of Object.entries(directions)) {
+      document.getElementById(id).value = actionForDirection(mapping(), dir);
+    }
+    document.getElementById('smSwap').checked = isSwapPreset(mapping());
+    document.getElementById('spFilament').value = effectiveFilament() || 'standard';
+  }
+
+  function commit() {
+    saveSettings(localStorage, settings);
+    refreshRemap();
+    render();
+  }
+
+  document.getElementById('smEnabled').addEventListener('change', (e) => {
+    settings.spacemouse.enabled = e.target.checked;
+    commit();
+    if (settings.spacemouse.enabled) connectSpaceMouse();
+    else disconnectSpaceMouse();
+  });
+
+  for (const [dir, id] of Object.entries(directions)) {
+    document.getElementById(id).addEventListener('change', (e) => {
+      settings.spacemouse.mapping = setDirectionAction(mapping(), dir, e.target.value);
+      commit();
+    });
+  }
+
+  document.getElementById('spFilament').addEventListener('change', (e) => {
+    settings.special.filament = e.target.value;
+    urlFilament = null;   // the panel choice supersedes any share-link param
+    commit();
+    if (currentLookups && currentModel) {
+      applyColorSet(currentLookups, currentModel);
+      applyCoralWaveIfActive();
+    }
+    updateURL();
+    requestRender();
+  });
+
+  document.getElementById('smSwap').addEventListener('change', (e) => {
+    settings.spacemouse.mapping = e.target.checked
+      ? applySwapPreset(mapping())
+      : structuredClone(loadSettings({ getItem: () => null }).spacemouse.mapping);
+    commit();
+  });
+
+  const open = () => { render(); modal.classList.remove('hidden'); };
+  const close = () => modal.classList.add('hidden');
+  document.getElementById('settingsBtn').addEventListener('click', open);
+  document.getElementById('settingsClose').addEventListener('click', close);
+  modal.querySelector('.settings-backdrop').addEventListener('click', close);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
+  });
+})();
 
 // Initial render — every interactive control invalidates via requestRender()
 // from here on, so this is the only unconditional draw.
