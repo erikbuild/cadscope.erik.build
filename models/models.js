@@ -42,6 +42,14 @@ export const models = [
     github_text: "Positron V3.2.2 by Positron 3D on GitHub"
   },
   {
+    id: "Milo_V2.RC3",
+    name: "Milo V2 RC3",
+    model: "models/Milo_V2.RC3.glb",
+    colors: "models/Milo_V2.RC3.colors.json",
+    github: "https://github.com/MillenniumMachines/Milo-V2.0",
+    github_text: "Milo V2 by Millennium Machines on GitHub"
+  },
+  {
     id: "Voron_2.4r2",
     name: "Voron 2.4r2 (250 with ClickyClacky Door)",
     model: "models/Voron_2.4r2.glb",

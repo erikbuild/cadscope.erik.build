@@ -13,3 +13,14 @@ See [LICENSE-CC-BY-SA-4.0.txt](LICENSE-CC-BY-SA-4.0.txt).
 
 Copyright (c) Positron 3D
 Source: https://github.com/Positron3D/Positron
+
+## Millennium Machines Milo V2 (GPL-3.0)
+
+The following model is derived from Millennium Machines Milo V2.0 CAD files,
+licensed under the **GNU General Public License v3.0**.
+See [LICENSE-GPL-3.0.txt](LICENSE-GPL-3.0.txt).
+
+- `Milo_V2.RC3.glb`
+
+Copyright (c) Millennium Machines
+Source: https://github.com/MillenniumMachines/Milo-V2.0
