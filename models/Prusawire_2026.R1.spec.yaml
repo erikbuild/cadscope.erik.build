@@ -167,6 +167,8 @@ options:
     choices:
       - { id: stealthburner, label: "Stealthburner (Revo)", default: true }
       - { id: afterburner,   label: "Afterburner (With Owl)" }
+      - { id: anthead,       label: "AntHead (Experimental)" }
+      - { id: jabberwocky,   label: "Jabberwocky (Experimental)" }
   lcd_knob:
     label: "LCD Knob Style"
     choices:
@@ -177,6 +179,13 @@ options:
     choices:
       - { id: combined, label: "Combined (single color)", default: true }
       - { id: separate, label: "Separate Back + Text (multi-color)" }
+
+# Cross-option warnings rendered in the sidebar while their `when` matches.
+compatibility:
+  - when: { toolhead: anthead }
+    message: "AntHead is an experimental toolhead mount and is not shown in the 3D preview. Its README (included in the download) covers sourcing the rest of AntHead and where to send feedback."
+  - when: { toolhead: jabberwocky }
+    message: "Jabberwocky is an experimental toolhead mount and is not shown in the 3D preview."
 
 # ZIP download contents: base URL + always-included files + option-
 # gated groups. Unassigned STLs are listed at the bottom for sorting.
@@ -204,15 +213,12 @@ downloads:
     - "X_Gantry/carriage_block.stl"
     - "X_Gantry/gantry_frame_bumper.stl"
     - "X_Gantry/superpinda_bracket.stl"
-    - "X_Gantry/x_carriage_left.stl"
-    - "X_Gantry/x_carriage_right.stl"
     - "Y_Axis/[a]_belt_clip_x2.stl"
     - "Y_Axis/heatbed_cable_cover_bottom_2mm_nylon.stl"
     - "Y_Axis/heatbed_cable_cover_bottom_3mm_nylon.stl"
     - "Y_Axis/y_idler_bracket.stl"
     - "XZ_Axis/[a]_motor_mounts_b.stl"
     - "XZ_Axis/idler_blocks_b.stl"
-    - "X_Gantry/[a]_belt_tensioner_retainers.stl"
     - "X_Gantry/[a]_xz_end_clips.stl"
     - "X_Gantry/belt_clip_x2.stl"
     - "Y_Axis/heatbed_cable_cover_top.stl"
@@ -255,6 +261,25 @@ downloads:
     - when: { toolhead: stealthburner }
       files:
         - "Electronics/umbilical_strain_relief_by_nagelwerkstatt.stl"
+    - when: { toolhead: [stealthburner, afterburner] }
+      files:
+        - "X_Gantry/x_carriage_left.stl"
+        - "X_Gantry/x_carriage_right.stl"
+    - when: { toolhead: [stealthburner, afterburner, anthead] }
+      files:
+        - "X_Gantry/[a]_belt_tensioner_retainers.stl"
+    - when: { toolhead: anthead }
+      files:
+        - "Experimental Files/AntHead/README.md"
+        - "Experimental Files/AntHead/x_carriage_db_anthead_left.stl"
+        - "Experimental Files/AntHead/x_carriage_db_anthead_right.stl"
+    - when: { toolhead: jabberwocky }
+      files:
+        - "Experimental Files/Jabberwocky/README.md"
+        - "Experimental Files/Jabberwocky/JW_Belt_mounts.stl"
+        - "Experimental Files/Jabberwocky/JW_carriage_mounts_presupported.stl"
+        - "Experimental Files/Jabberwocky/JW_front_mount_plate.stl"
+        - "Experimental Files/Jabberwocky/PW_X_carriage_belt_clips.stl"
     - when: { toolhead_board: btt_sb2209 }
       files:
         - "Electronics/btt_sb2209_usb_bracket.stl"

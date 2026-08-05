@@ -211,6 +211,16 @@
           "id": "afterburner",
           "label": "Afterburner (With Owl)",
           "default": false
+        },
+        {
+          "id": "anthead",
+          "label": "AntHead (Experimental)",
+          "default": false
+        },
+        {
+          "id": "jabberwocky",
+          "label": "Jabberwocky (Experimental)",
+          "default": false
         }
       ]
     },
@@ -875,6 +885,22 @@
       }
     }
   ],
+  "compatibility": [
+    {
+      "when": {
+        "toolhead": "anthead"
+      },
+      "incompatible": true,
+      "message": "AntHead is an experimental toolhead mount and is not shown in the 3D preview. Its README (included in the download) covers sourcing the rest of AntHead and where to send feedback."
+    },
+    {
+      "when": {
+        "toolhead": "jabberwocky"
+      },
+      "incompatible": true,
+      "message": "Jabberwocky is an experimental toolhead mount and is not shown in the 3D preview."
+    }
+  ],
   "downloads": {
     "base": "https://raw.githubusercontent.com/Positron3D/Prusawire/main/STLs/",
     "always": [
@@ -899,15 +925,12 @@
       "X_Gantry/carriage_block.stl",
       "X_Gantry/gantry_frame_bumper.stl",
       "X_Gantry/superpinda_bracket.stl",
-      "X_Gantry/x_carriage_left.stl",
-      "X_Gantry/x_carriage_right.stl",
       "Y_Axis/[a]_belt_clip_x2.stl",
       "Y_Axis/heatbed_cable_cover_bottom_2mm_nylon.stl",
       "Y_Axis/heatbed_cable_cover_bottom_3mm_nylon.stl",
       "Y_Axis/y_idler_bracket.stl",
       "XZ_Axis/[a]_motor_mounts_b.stl",
       "XZ_Axis/idler_blocks_b.stl",
-      "X_Gantry/[a]_belt_tensioner_retainers.stl",
       "X_Gantry/[a]_xz_end_clips.stl",
       "X_Gantry/belt_clip_x2.stl",
       "Y_Axis/heatbed_cable_cover_top.stl",
@@ -984,6 +1007,52 @@
         },
         "files": [
           "Electronics/umbilical_strain_relief_by_nagelwerkstatt.stl"
+        ]
+      },
+      {
+        "when": {
+          "toolhead": [
+            "stealthburner",
+            "afterburner"
+          ]
+        },
+        "files": [
+          "X_Gantry/x_carriage_left.stl",
+          "X_Gantry/x_carriage_right.stl"
+        ]
+      },
+      {
+        "when": {
+          "toolhead": [
+            "stealthburner",
+            "afterburner",
+            "anthead"
+          ]
+        },
+        "files": [
+          "X_Gantry/[a]_belt_tensioner_retainers.stl"
+        ]
+      },
+      {
+        "when": {
+          "toolhead": "anthead"
+        },
+        "files": [
+          "Experimental Files/AntHead/README.md",
+          "Experimental Files/AntHead/x_carriage_db_anthead_left.stl",
+          "Experimental Files/AntHead/x_carriage_db_anthead_right.stl"
+        ]
+      },
+      {
+        "when": {
+          "toolhead": "jabberwocky"
+        },
+        "files": [
+          "Experimental Files/Jabberwocky/README.md",
+          "Experimental Files/Jabberwocky/JW_Belt_mounts.stl",
+          "Experimental Files/Jabberwocky/JW_carriage_mounts_presupported.stl",
+          "Experimental Files/Jabberwocky/JW_front_mount_plate.stl",
+          "Experimental Files/Jabberwocky/PW_X_carriage_belt_clips.stl"
         ]
       },
       {
