@@ -1,0 +1,598 @@
+{
+  "palette": {
+    "Main": {
+      "color": "#4A4A4A"
+    },
+    "Accent": {
+      "color": "#C41E1E"
+    },
+    "Frame": {
+      "color": "#3a3a3a",
+      "metalness": 0.7,
+      "showInPicker": false
+    },
+    "Hardware": {
+      "color": "#888888",
+      "metalness": 0.9,
+      "showInPicker": false
+    },
+    "Hardware Detail": {
+      "color": "#888888",
+      "metalness": 0.9,
+      "showInPicker": false,
+      "showInTree": false
+    },
+    "Black": {
+      "color": "#1e1e1e",
+      "showInPicker": false
+    },
+    "Bed": {
+      "color": "#A9A9A9",
+      "metalness": 0.6,
+      "showInPicker": false
+    },
+    "PEI Sheet": {
+      "color": "#F0B27A",
+      "showInPicker": false
+    },
+    "Electronics": {
+      "color": "#1d3b2a",
+      "metalness": 0.5,
+      "showInPicker": false
+    },
+    "Components": {
+      "color": "#2e2e2e",
+      "showInPicker": false,
+      "showInTree": false
+    },
+    "Glass": {
+      "color": "#ccddee",
+      "metalness": 0.1,
+      "opacity": 0.15,
+      "showInPicker": false
+    },
+    "Opaque Panels": {
+      "color": "#333333",
+      "showInPicker": false
+    }
+  },
+  "autoAssign": [
+    {
+      "match": "a*_x*",
+      "category": "Accent"
+    },
+    {
+      "match": "*_x*",
+      "category": "Main"
+    },
+    {
+      "match": "M3*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M5*",
+      "category": "Hardware"
+    },
+    {
+      "match": "9????A*",
+      "category": "Hardware"
+    },
+    {
+      "match": "*_pin*",
+      "category": "Hardware"
+    },
+    {
+      "match": "18mm_Spacer*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Threaded_Spacer_Nut*",
+      "category": "Hardware"
+    },
+    {
+      "match": "MGN9H_-_Carriage*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "MGN9_Carriage*",
+      "category": "Hardware"
+    },
+    {
+      "match": "MGN9*",
+      "category": "Frame"
+    },
+    {
+      "match": "Ball_Screw*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Spherical_Bearing*",
+      "category": "Hardware"
+    },
+    {
+      "match": "210mm_Tie_Rod*",
+      "category": "Black"
+    },
+    {
+      "match": "Belt_9mm*",
+      "category": "Black"
+    },
+    {
+      "match": "GT2_*",
+      "category": "Hardware"
+    },
+    {
+      "match": "17HS19*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Foot_Plate*",
+      "category": "Main"
+    },
+    {
+      "match": "Foot*",
+      "category": "Black"
+    },
+    {
+      "match": "HFSB5-*",
+      "category": "Frame"
+    },
+    {
+      "match": "D2F_ACTUATOR*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "D2F_BASE*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Contacts*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Lever*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Plunger*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Switch_Body*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "D2F*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Bed_Heater*",
+      "category": "Black"
+    },
+    {
+      "match": "Dragon_HF*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Heatsink*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Silicone_Sock*",
+      "category": "Black"
+    },
+    {
+      "match": "revo*",
+      "category": "Hardware"
+    },
+    {
+      "match": "PC4_M10*",
+      "category": "Hardware"
+    },
+    {
+      "match": "6020_Fan*",
+      "category": "Black"
+    },
+    {
+      "match": "3010_Blower_Fan*",
+      "category": "Black"
+    },
+    {
+      "match": "30X30X10_DC_fan*",
+      "category": "Black"
+    },
+    {
+      "match": "JST_*",
+      "category": "Components"
+    },
+    {
+      "match": "Magnets*",
+      "category": "Hardware"
+    },
+    {
+      "match": "printed_part*",
+      "category": "Main"
+    },
+    {
+      "match": "pcb*",
+      "category": "Electronics"
+    },
+    {
+      "match": "PCB",
+      "category": "Electronics"
+    },
+    {
+      "match": "BIGTREETECH_MANTA_M5P",
+      "category": "Electronics"
+    },
+    {
+      "match": "Board",
+      "category": "Electronics"
+    },
+    {
+      "match": "SSR*",
+      "category": "Electronics"
+    },
+    {
+      "match": "Main_Relay_Body*",
+      "category": "Electronics"
+    },
+    {
+      "match": "UHP-200_Mount*",
+      "category": "Main"
+    },
+    {
+      "match": "UHP-200",
+      "category": "Hardware"
+    },
+    {
+      "match": "249C*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "DG28C*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "FREE-MODELS*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Pico_Mount*",
+      "category": "Main"
+    },
+    {
+      "match": "C?",
+      "category": "Components"
+    },
+    {
+      "match": "C??",
+      "category": "Components"
+    },
+    {
+      "match": "R?",
+      "category": "Components"
+    },
+    {
+      "match": "R??",
+      "category": "Components"
+    },
+    {
+      "match": "R???",
+      "category": "Components"
+    },
+    {
+      "match": "D?",
+      "category": "Components"
+    },
+    {
+      "match": "D??",
+      "category": "Components"
+    },
+    {
+      "match": "E?",
+      "category": "Components"
+    },
+    {
+      "match": "F?",
+      "category": "Components"
+    },
+    {
+      "match": "H?",
+      "category": "Components"
+    },
+    {
+      "match": "J?",
+      "category": "Components"
+    },
+    {
+      "match": "J??",
+      "category": "Components"
+    },
+    {
+      "match": "K?",
+      "category": "Components"
+    },
+    {
+      "match": "L?",
+      "category": "Components"
+    },
+    {
+      "match": "P?",
+      "category": "Components"
+    },
+    {
+      "match": "P??",
+      "category": "Components"
+    },
+    {
+      "match": "Q?",
+      "category": "Components"
+    },
+    {
+      "match": "U?",
+      "category": "Components"
+    },
+    {
+      "match": "U??",
+      "category": "Components"
+    },
+    {
+      "match": "V?",
+      "category": "Components"
+    },
+    {
+      "match": "Y?",
+      "category": "Components"
+    },
+    {
+      "match": "SW?",
+      "category": "Components"
+    },
+    {
+      "match": "MCU-CARD",
+      "category": "Components"
+    },
+    {
+      "match": "SOC_CARD",
+      "category": "Components"
+    },
+    {
+      "match": "Pull_up",
+      "category": "Components"
+    },
+    {
+      "match": "USB*",
+      "category": "Components"
+    },
+    {
+      "match": "VUSB",
+      "category": "Components"
+    },
+    {
+      "match": "Side_Panels*",
+      "category": "Glass"
+    },
+    {
+      "match": "Top_Panel",
+      "category": "Glass"
+    },
+    {
+      "match": "Door_Handle*",
+      "category": "Main"
+    },
+    {
+      "match": "Panels",
+      "category": "Opaque Panels"
+    },
+    {
+      "match": "Corners",
+      "category": "Main"
+    },
+    {
+      "match": "Corners_Covers",
+      "category": "Main"
+    },
+    {
+      "match": "Skirts",
+      "category": "Main"
+    },
+    {
+      "match": "Toolhead",
+      "category": "Main"
+    },
+    {
+      "match": "Extruders",
+      "category": "Main"
+    },
+    {
+      "match": "SpoolHolder",
+      "category": "Main"
+    }
+  ],
+  "nodes": {
+    "Corners_Covers": {
+      "displayName": "Corner Covers"
+    },
+    "SpoolHolder": {
+      "displayName": "Spool Holder"
+    },
+    "Bed/Bed_(3)": {
+      "displayName": "Spring Steel Sheet",
+      "category": "PEI Sheet"
+    },
+    "Bed/Bed_(2)": {
+      "displayName": "Magnetic Sheet",
+      "category": "Black"
+    },
+    "Bed/Bed_(1)": {
+      "displayName": "Bed Plate",
+      "category": "Bed"
+    },
+    "Bed/Bed_Heater": {
+      "displayName": "Bed Heater"
+    },
+    "Bed/Bed_Hardware": {
+      "displayName": "Bed Hardware"
+    },
+    "Corners/Corner": {
+      "displayName": "Corner 1"
+    },
+    "Corners/Corner001": {
+      "displayName": "Corner 2"
+    },
+    "Corners/Corner002": {
+      "displayName": "Corner 3"
+    },
+    "Corners/Corner/Hardware/D2F-L": {
+      "displayName": "Omron D2F-L Endstop"
+    },
+    "Corners/Corner001/Hardware001/D2F-L001": {
+      "displayName": "Omron D2F-L Endstop"
+    },
+    "Corners/Corner002/Hardware002/D2F-L002": {
+      "displayName": "Omron D2F-L Endstop"
+    },
+    "Corners/Corner/Hardware/MGN9_-_400mm": {
+      "displayName": "MGN9 Rail 400mm"
+    },
+    "Corners/Corner001/Hardware001/MGN9_-_400mm001": {
+      "displayName": "MGN9 Rail 400mm"
+    },
+    "Corners/Corner002/Hardware002/MGN9_-_400mm002": {
+      "displayName": "MGN9 Rail 400mm"
+    },
+    "Corners/Corner/N17_Stepper_Mount/N17_Hardware/17HS19-2004S1_v1": {
+      "displayName": "NEMA17 Stepper 17HS19-2004S1"
+    },
+    "Corners/Corner001/N17_Stepper_Mount001/N17_Hardware001/17HS19-2004S1_v002": {
+      "displayName": "NEMA17 Stepper 17HS19-2004S1"
+    },
+    "Corners/Corner002/N17_Stepper_Mount002/N17_Hardware002/17HS19-2004S1_v003": {
+      "displayName": "NEMA17 Stepper 17HS19-2004S1"
+    },
+    "Corners_Covers/Corner_Cover": {
+      "displayName": "Corner Cover 1"
+    },
+    "Corners_Covers/Corner_Cover001": {
+      "displayName": "Corner Cover 2"
+    },
+    "Corners_Covers/Corner_Cover002": {
+      "displayName": "Corner Cover 3"
+    },
+    "Corners_Covers/Corner_Cover/Mid_Corners_(Mirror)_Door004": {
+      "displayName": "Mid Corner Door"
+    },
+    "Corners_Covers/Corner_Cover001/Mid_Corners_(Mirror)_Door009": {
+      "displayName": "Mid Corner Door"
+    },
+    "Corners_Covers/Corner_Cover002/Mid_Corners_(Mirror)_Door014": {
+      "displayName": "Mid Corner Door"
+    },
+    "Corners_Covers/Corner_Cover/Mid_Corners_Hinge": {
+      "displayName": "Mid Corner Hinge"
+    },
+    "Corners_Covers/Corner_Cover001/Mid_Corners_Hinge001": {
+      "displayName": "Mid Corner Hinge"
+    },
+    "Corners_Covers/Corner_Cover002/Mid_Corners_Hinge002": {
+      "displayName": "Mid Corner Hinge"
+    },
+    "Corners_Covers/Corner_Cover/Mid_Corners_Flat002": {
+      "displayName": "Mid Corner Flat",
+      "hidden": true
+    },
+    "Corners_Covers/Corner_Cover001/Mid_Corners_Flat005": {
+      "displayName": "Mid Corner Flat",
+      "hidden": true
+    },
+    "Corners_Covers/Corner_Cover002/Mid_Corners_Flat008": {
+      "displayName": "Mid Corner Flat",
+      "hidden": true
+    },
+    "Frame/HFSB5-2020-500-TPW_v1": {
+      "displayName": "2020 Extrusion 500mm"
+    },
+    "Frame/HFSB5-2020-500-TPW_v002": {
+      "displayName": "2020 Extrusion 500mm"
+    },
+    "Frame/HFSB5-2020-500-TPW_v003": {
+      "displayName": "2020 Extrusion 500mm"
+    },
+    "Frame/HFSB5-2040-235_v1": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Frame/HFSB5-2040-235_v002": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Frame/HFSB5-2040-235_v003": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Frame/HFSB5-2040-235_v004": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Frame/HFSB5-2040-235_v005": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Frame/HFSB5-2040-235_v006": {
+      "displayName": "2040 Extrusion 235mm"
+    },
+    "Electronics/Top": {
+      "displayName": "Top Electronics"
+    },
+    "Electronics/Bottom": {
+      "displayName": "Bottom Electronics"
+    },
+    "Electronics/BIGTREETECH_MANTA_M5P": {
+      "displayName": "BTT Manta M5P"
+    },
+    "Electronics/Bottom/Bottom_Electronics_Hardware/UHP-200": {
+      "displayName": "Mean Well UHP-200 PSU"
+    },
+    "Electronics/Bottom/Bottom_Electronics_Hardware/Main_Relay_Body006": {
+      "displayName": "Main Relay"
+    },
+    "Electronics/Bottom/UHP-200_Mount002": {
+      "displayName": "PSU Mount"
+    },
+    "Extruders/Bowden_G2SA": {
+      "hidden": true
+    },
+    "Extruders/Flying_G2_WIP": {
+      "hidden": true
+    },
+    "Toolhead/MiniSB": {
+      "displayName": "Mini Stealthburner"
+    },
+    "Toolhead/MiniSB/Dragon_HF": {
+      "displayName": "Dragon HF Hotend"
+    },
+    "Toolhead/MiniSB/Hotend_Mount_Revo_Voron_v1": {
+      "displayName": "Revo Voron Hotend",
+      "hidden": true
+    },
+    "Toolhead/MiniSB/Klicky_PCB": {
+      "displayName": "Klicky Probe"
+    },
+    "Skirts/Bottom_Skirts/Bottom_Skirts_DV": {
+      "displayName": "Bottom Skirts (DV)"
+    },
+    "Skirts/Bottom_Skirts/Bottom_Skirts_VD": {
+      "displayName": "Bottom Skirts (VD)",
+      "hidden": true
+    },
+    "Skirts/Top_Skirts/Top_Skirts_DV": {
+      "displayName": "Top Skirts (DV)"
+    },
+    "Skirts/Top_Skirts/Top_Skirts_VD": {
+      "displayName": "Top Skirts (VD)",
+      "hidden": true
+    },
+    "Panels/Inner_Top_Pannel": {
+      "displayName": "Inner Top Panel"
+    },
+    "Panels/Side_Panels003": {
+      "displayName": "Side Panels"
+    }
+  }
+}

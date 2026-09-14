@@ -42,6 +42,14 @@ export const models = [
     github_text: "Positron V3.2.2 by Positron 3D on GitHub"
   },
   {
+    id: "Doron_Velta_R2",
+    name: "Doron Velta R2",
+    model: "models/Doron_Velta_R2.glb",
+    colors: "models/Doron_Velta_R2.colors.json",
+    github: "https://github.com/rogerlz/Doron-Velta",
+    github_text: "Doron Velta by Rogerio Goncalves on GitHub"
+  },
+  {
     id: "Milo_V2.RC3",
     name: "Milo V2 RC3",
     model: "models/Milo_V2.RC3.glb",

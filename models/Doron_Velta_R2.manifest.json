@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "glb": "Doron_Velta_R2.glb",
+  "configOptions": {},
+  "parts": [
+    {
+      "id": "Corners_Covers/Corner_Cover/Mid_Corners_Flat002",
+      "nodes": [
+        "Corners_Covers/Corner_Cover/Mid_Corners_Flat002"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Corners_Covers/Corner_Cover001/Mid_Corners_Flat005",
+      "nodes": [
+        "Corners_Covers/Corner_Cover001/Mid_Corners_Flat005"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Corners_Covers/Corner_Cover002/Mid_Corners_Flat008",
+      "nodes": [
+        "Corners_Covers/Corner_Cover002/Mid_Corners_Flat008"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Extruders/Bowden_G2SA",
+      "nodes": [
+        "Extruders/Bowden_G2SA"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Extruders/Flying_G2_WIP",
+      "nodes": [
+        "Extruders/Flying_G2_WIP"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Toolhead/MiniSB/Hotend_Mount_Revo_Voron_v1",
+      "nodes": [
+        "Toolhead/MiniSB/Hotend_Mount_Revo_Voron_v1"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Skirts/Bottom_Skirts/Bottom_Skirts_VD",
+      "nodes": [
+        "Skirts/Bottom_Skirts/Bottom_Skirts_VD"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Skirts/Top_Skirts/Top_Skirts_VD",
+      "nodes": [
+        "Skirts/Top_Skirts/Top_Skirts_VD"
+      ],
+      "hidden": true
+    }
+  ]
+}
