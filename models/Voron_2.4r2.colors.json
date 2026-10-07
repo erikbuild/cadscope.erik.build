@@ -6,7 +6,22 @@
     "Accent": {
       "color": "#C41E1E"
     },
+    "Toolhead Main": {
+      "color": "#4A4A4A"
+    },
+    "Toolhead Accent": {
+      "color": "#C41E1E"
+    },
     "Frame": {
+      "color": "#3a3a3a",
+      "metalness": 0.7
+    },
+    "Rails": {
+      "color": "#3a3a3a",
+      "metalness": 0.7,
+      "showInPicker": false
+    },
+    "Corner Brackets": {
       "color": "#3a3a3a",
       "metalness": 0.7,
       "showInPicker": false
@@ -103,28 +118,28 @@
       "category": "Accent"
     },
     {
-      "match": "Stealthburner_Body*",
-      "category": "Accent"
-    },
-    {
-      "match": "Guilder_*",
-      "category": "Accent"
-    },
-    {
-      "match": "Shuttle*",
-      "category": "Accent"
-    },
-    {
-      "match": "PCB_Spacer*",
-      "category": "Accent"
-    },
-    {
       "match": "60mn_Exhaust_Fan_Grill*",
       "category": "Accent"
     },
     {
       "match": "Rear_Cover*",
       "category": "Accent"
+    },
+    {
+      "match": "Stealthburner_Body*",
+      "category": "Toolhead Accent"
+    },
+    {
+      "match": "Guilder_*",
+      "category": "Toolhead Accent"
+    },
+    {
+      "match": "Shuttle*",
+      "category": "Toolhead Accent"
+    },
+    {
+      "match": "PCB_Spacer*",
+      "category": "Toolhead Accent"
     },
     {
       "match": "Octopus_Bracket*",
@@ -160,7 +175,7 @@
     },
     {
       "match": "LED_Diffuser_Mask*",
-      "category": "Main"
+      "category": "Toolhead Main"
     },
     {
       "match": "M3_Threaded_Insert*",
@@ -304,11 +319,11 @@
     },
     {
       "match": "MGN9_-_300mm*",
-      "category": "Frame"
+      "category": "Rails"
     },
     {
       "match": "MGN12_rail*",
-      "category": "Frame"
+      "category": "Rails"
     },
     {
       "match": "MGN9H*",
@@ -329,6 +344,10 @@
     {
       "match": "HFSB5-*",
       "category": "Frame"
+    },
+    {
+      "match": "90deg_*",
+      "category": "Corner Brackets"
     },
     {
       "match": "10x11_*",
@@ -397,6 +416,18 @@
     {
       "match": "Bed_Components",
       "category": "Bed"
+    },
+    {
+      "match": "Stealthburner_Assembly",
+      "category": "Toolhead Main"
+    },
+    {
+      "match": "CW2_Assembly",
+      "category": "Toolhead Main"
+    },
+    {
+      "match": "SB_TOOLHEAD-Revo_Voron",
+      "category": "Toolhead Main"
     },
     {
       "match": "P6_Assembly*",
@@ -581,7 +612,7 @@
   ],
   "nodes": {
     "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Latch": {
-      "category": "Accent"
+      "category": "Toolhead Accent"
     },
     "Clicky_Clacky_Door/Panel_(1)": {
       "displayName": "Door Panel",

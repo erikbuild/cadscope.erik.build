@@ -13,7 +13,11 @@ model:
 palette:
   Main:               { color: "#4A4A4A" }                                            # printed parts
   Accent:             { color: "#C41E1E" }                                            # printed accent parts
-  Frame:              { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # extrusions and linear rails
+  Toolhead Main:      { color: "#4A4A4A" }                                            # Stealthburner, CW2 and hotend mount printed parts
+  Toolhead Accent:    { color: "#C41E1E" }                                            # toolhead accent parts
+  Frame:              { color: "#3a3a3a", metalness: 0.7 }                            # 2020 extrusions
+  Rails:              { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # MGN9 and MGN12 linear rails
+  Corner Brackets:    { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # cast 90° bed-support corners
   Hardware:           { color: "#888888", metalness: 0.9, showInPicker: false }       # fasteners, bearings, pulleys, steppers
   Hardware Detail:    { color: "#888888", metalness: 0.9, showInPicker: false, showInTree: false }   # sub-bodies of hardware
   Brass:              { color: "#C9A84C", metalness: 0.5, showInPicker: false }       # heat-set inserts and bushings
@@ -40,12 +44,14 @@ autoAssign:
   - { match: "Keystone_Blank*",           category: Accent }
   - { match: "D2F_Endstop_Pod*",          category: Accent }
   - { match: "Hall_Effect_Endstop_Pod*",  category: Accent }
-  - { match: "Stealthburner_Body*",       category: Accent }
-  - { match: "Guilder_*",                 category: Accent }   # CW2
-  - { match: "Shuttle*",                  category: Accent }   # CW2
-  - { match: "PCB_Spacer*",               category: Accent }   # CW2; must precede PCB*
   - { match: "60mn_Exhaust_Fan_Grill*",   category: Accent }
   - { match: "Rear_Cover*",               category: Accent }   # exhaust filter cover
+
+  # ---- Toolhead accent parts (the CW2 Latch is pinned by path below) ---
+  - { match: "Stealthburner_Body*",       category: "Toolhead Accent" }
+  - { match: "Guilder_*",                 category: "Toolhead Accent" }   # CW2
+  - { match: "Shuttle*",                  category: "Toolhead Accent" }   # CW2
+  - { match: "PCB_Spacer*",               category: "Toolhead Accent" }   # CW2; must precede PCB*
 
   # ---- Printed parts whose names would otherwise hit a hardware or
   #      electronics glob below. -----------------------------------------
@@ -57,7 +63,7 @@ autoAssign:
   - { match: "LRS_PSU_Bracket*",          category: Main }
   - { match: "RS-25_PSU_Bracket*",        category: Main }
   - { match: "PSU_Stabilizer*",           category: Main }
-  - { match: "LED_Diffuser_Mask*",        category: Main }
+  - { match: "LED_Diffuser_Mask*",        category: "Toolhead Main" }
 
   # ---- Inserts and bushings -------------------------------------------
   - { match: "M3_Threaded_Insert*",       category: Brass }
@@ -101,8 +107,8 @@ autoAssign:
   - { match: "Z_Belts",                   category: Black }
   - { match: "GT2_188mm_Belt*",           category: Black }      # must precede GT2_*
   - { match: "GT2_*",                     category: Hardware }   # pulleys and idlers
-  - { match: "MGN9_-_300mm*",             category: Frame }      # rails
-  - { match: "MGN12_rail*",               category: Frame }
+  - { match: "MGN9_-_300mm*",             category: Rails }
+  - { match: "MGN12_rail*",               category: Rails }
   - { match: "MGN9H*",                    category: Hardware }   # carriage blocks
   - { match: "MGN12H*",                   category: Hardware }
   - { match: "NEMA17*",                   category: Hardware }
@@ -110,6 +116,7 @@ autoAssign:
 
   # ---- Frame ----------------------------------------------------------
   - { match: "HFSB5-*",                   category: Frame }
+  - { match: "90deg_*",                   category: "Corner Brackets" }
 
   # ---- Cable chains, fans, rubber, tape -------------------------------
   - { match: "10x11_*",                   category: Black }      # X cable chain
@@ -133,6 +140,11 @@ autoAssign:
   - { match: "Bed_Components",            category: Bed }        # group; every part inside has its own rule
 
   # ---- Toolhead -------------------------------------------------------
+  #      The removable toolhead's groups; printed parts inside that no rule
+  #      above claimed inherit Toolhead Main.
+  - { match: "Stealthburner_Assembly",    category: "Toolhead Main" }
+  - { match: "CW2_Assembly",              category: "Toolhead Main" }
+  - { match: "SB_TOOLHEAD-Revo_Voron",    category: "Toolhead Main" }
   - { match: "P6_Assembly*",              category: Hardware }   # Revo hotend
   - { match: "Omron*",                    category: Hardware }   # probe and Z endstop switches
   - { match: "KW10_Microswitch*",         category: Hardware }
@@ -178,8 +190,9 @@ autoAssign:
   - { match: "Panels",                    category: "Opaque Panels" }   # deck, bottom and rear panels inherit
 
   # ---- Fallbacks by top-level group -----------------------------------
-  #      Anything in these subtrees that no rule above claimed is printed,
-  #      apart from Frame, whose leftovers are the cast corner brackets.
+  #      Anything in these subtrees that no rule above claimed is printed.
+  #      Every part under Frame has a rule of its own; its fallback only
+  #      covers the grouping nodes.
   - { match: "Frame",                     category: Frame }
   - { match: "Gantry",                    category: Main }
   - { match: "Z_Assembly",                category: Main }
@@ -192,7 +205,7 @@ autoAssign:
 # Per-node overrides. Paths come from .scaffold.json's _nodes.
 nodes:
   # Two leaves share a name with parts of a different colour.
-  Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Latch:  { category: Accent }
+  Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Latch:  { category: "Toolhead Accent" }
   Clicky_Clacky_Door/Panel_(1):                             { category: Glass, displayName: "Door Panel" }
 
   # Alternates that occupy the same space: the D2F microswitch endstop pod
