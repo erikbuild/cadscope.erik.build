@@ -3,9 +3,8 @@
 # autoAssign rules and nodes block below can target.
 #
 # GLTFLoader renames the second of two same-named nodes with a _1 suffix
-# (X_Carriage_1, Cable_Cover_1, Side_Skirt_B_250_1), so the viewer's paths
-# under those nodes differ from the scaffold's. Parts there are coloured by
-# autoAssign globs only, never by path.
+# (X_Carriage_1, Cable_Cover_1, Side_Skirt_B_250_1); paths below use those
+# names, as the scaffold lists them.
 
 model:
   name: Voron 2.4r2
@@ -198,9 +197,11 @@ nodes:
 
   # Alternates that occupy the same space: the D2F microswitch endstop pod
   # renders, the Hall-effect pod overlaps it; the 2-hole chain anchor renders,
-  # the 3-hole one overlaps it.
+  # the 3-hole one overlaps it; the toolhead-PCB cable cover renders, the
+  # plain one overlaps it.
   Gantry/X_Axis/XY_Joint_-_Right/Hall_Effect_Endstop_Pod:   { hidden: true }
   Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident:  { hidden: true }
+  Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Cable_Cover_1:  { hidden: true }
 
   # Frame extrusions.
   Frame/Bed_Supports/HFSB5-2020-370-TPW:                     { displayName: "2020 Extrusion 370mm" }
@@ -233,6 +234,7 @@ nodes:
   Gantry/AB_Drives/B_Drive/NEMA17_Black_(1)002:              { displayName: "B Motor (NEMA17)" }
 
   # Toolhead.
+  Gantry/X_Axis/X_Carriage/X_Carriage_1:                     { displayName: "X Carriage Frame" }
   Gantry/X_Axis/X_Carriage/Stealthburner_Assembly:           { displayName: "Stealthburner" }
   Gantry/X_Axis/X_Carriage/CW2_Assembly:                     { displayName: "Clockwork 2 Extruder" }
   Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron:           { displayName: "Revo Voron Hotend Mount" }

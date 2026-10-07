@@ -16,6 +16,13 @@
         "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident"
       ],
       "hidden": true
+    },
+    {
+      "id": "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Cable_Cover_1",
+      "nodes": [
+        "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Cable_Cover_1"
+      ],
+      "hidden": true
     }
   ]
 }

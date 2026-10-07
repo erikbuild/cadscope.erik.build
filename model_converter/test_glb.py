@@ -121,6 +121,87 @@ class TestBuildNodePaths(unittest.TestCase):
     def test_empty_scenes_returns_empty(self):
         self.assertEqual(build_node_paths({"scenes": [], "nodes": []}), [])
 
+    def test_repeated_names_get_numbered_suffixes_in_tree_order(self):
+        # GLTFLoader gives each repeat of a name a _1, _2, ... suffix, and the
+        # viewer builds its paths from those names.
+        glb = {
+            "scenes": [{"nodes": [0]}],
+            "scene": 0,
+            "nodes": [
+                {"name": "Root", "children": [1, 3, 5]},
+                {"name": "A_Drive", "children": [2]},
+                {"name": "Cable_Cover"},
+                {"name": "CW2", "children": [4]},
+                {"name": "Cable_Cover"},
+                {"name": "Cable_Cover"},
+            ],
+        }
+        pairs = build_node_paths(glb)
+        self.assertEqual(pairs, [
+            ("A_Drive", "A_Drive"),
+            ("A_Drive/Cable_Cover", "Cable_Cover"),
+            ("CW2", "CW2"),
+            ("CW2/Cable_Cover_1", "Cable_Cover_1"),
+            ("Cable_Cover_2", "Cable_Cover_2"),
+        ])
+
+    def test_nested_repeat_numbers_the_inner_node(self):
+        glb = {
+            "scenes": [{"nodes": [0]}],
+            "scene": 0,
+            "nodes": [
+                {"name": "Root", "children": [1]},
+                {"name": "X_Carriage", "children": [2]},
+                {"name": "X_Carriage", "children": [3]},
+                {"name": "Part"},
+            ],
+        }
+        pairs = build_node_paths(glb)
+        self.assertEqual(pairs, [
+            ("X_Carriage", "X_Carriage"),
+            ("X_Carriage/X_Carriage_1", "X_Carriage_1"),
+            ("X_Carriage/X_Carriage_1/Part", "Part"),
+        ])
+
+    def test_scene_name_is_reserved_before_nodes(self):
+        glb = {
+            "scenes": [{"name": "Scene", "nodes": [0]}],
+            "scene": 0,
+            "nodes": [
+                {"name": "Root", "children": [1]},
+                {"name": "Scene"},
+            ],
+        }
+        self.assertEqual(build_node_paths(glb), [("Scene_1", "Scene_1")])
+
+    def test_single_root_name_is_reserved(self):
+        glb = {
+            "scenes": [{"nodes": [0]}],
+            "scene": 0,
+            "nodes": [
+                {"name": "Frame", "children": [1]},
+                {"name": "Frame"},
+            ],
+        }
+        self.assertEqual(build_node_paths(glb), [("Frame_1", "Frame_1")])
+
+    def test_repeats_are_detected_after_sanitizing(self):
+        # "Part.001" and "Part001" are distinct glTF names but the same
+        # Three.js name once the reserved "." is stripped.
+        glb = {
+            "scenes": [{"nodes": [0]}],
+            "scene": 0,
+            "nodes": [
+                {"name": "Root", "children": [1, 2]},
+                {"name": "Part001"},
+                {"name": "Part.001"},
+            ],
+        }
+        self.assertEqual(build_node_paths(glb), [
+            ("Part001", "Part001"),
+            ("Part001_1", "Part001_1"),
+        ])
+
 
 class TestExtractNames(unittest.TestCase):
     def test_groups_and_parts_unique_and_sorted(self):

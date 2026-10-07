@@ -593,6 +593,9 @@
     "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident": {
       "hidden": true
     },
+    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Cable_Cover_1": {
+      "hidden": true
+    },
     "Frame/Bed_Supports/HFSB5-2020-370-TPW": {
       "displayName": "2020 Extrusion 370mm"
     },
@@ -670,6 +673,9 @@
     },
     "Gantry/AB_Drives/B_Drive/NEMA17_Black_(1)002": {
       "displayName": "B Motor (NEMA17)"
+    },
+    "Gantry/X_Axis/X_Carriage/X_Carriage_1": {
+      "displayName": "X Carriage Frame"
     },
     "Gantry/X_Axis/X_Carriage/Stealthburner_Assembly": {
       "displayName": "Stealthburner"

@@ -36,6 +36,16 @@ def clean_node_name(name):
     return clean.strip()
 
 
+def sanitize_node_name(name):
+    """Apply Three.js PropertyBinding.sanitizeNodeName() to a raw glTF name.
+
+    Whitespace becomes underscores and the animation-path characters
+    [ ] . : / are stripped. GLTFLoader uses the result as the key when it
+    makes node names unique.
+    """
+    return re.sub(r"[\[\].:\/]", "", re.sub(r"\s", "_", name))
+
+
 def strip_numeric_suffix(name):
     """Strip a trailing -N suffix, matching viewer.js stripNumericSuffix.
 
@@ -108,6 +118,12 @@ def build_node_paths(glb_json):
 
     Nameless nodes are skipped from the output but are descended through, so
     their named descendants still appear at the right depth.
+
+    Repeated names get the suffixes Three.js GLTFLoader gives them
+    (createUniqueName): the scene name is reserved first, then each node's
+    name in depth-first order, and every repeat of a sanitized name gains
+    _1, _2, ... The viewer builds its paths from those names. This models a
+    GLB with a single scene, which is what the converter exports.
     """
     nodes = glb_json.get("nodes", [])
     scenes = glb_json.get("scenes", [])
@@ -119,10 +135,24 @@ def build_node_paths(glb_json):
     root_indices = scenes[scene_idx].get("nodes", [])
 
     pairs = []
+    names_used = {}
+
+    def loader_suffix(raw_name):
+        """Reserve a name the way GLTFLoader does; return its _N suffix, if any."""
+        key = sanitize_node_name(raw_name)
+        if key in names_used:
+            names_used[key] += 1
+            return f"_{names_used[key]}"
+        names_used[key] = 0
+        return ""
+
+    if scenes[scene_idx].get("name"):
+        loader_suffix(scenes[scene_idx]["name"])
 
     def dfs(node_idx, ancestors):
         node = nodes[node_idx]
-        name = clean_node_name(node.get("name", ""))
+        raw_name = node.get("name")
+        name = clean_node_name(raw_name) + loader_suffix(raw_name) if raw_name else ""
         if name:
             components = ancestors + [name]
             pairs.append(("/".join(components), name))
@@ -133,7 +163,10 @@ def build_node_paths(glb_json):
             dfs(child_idx, child_ancestors)
 
     if len(root_indices) == 1:
-        for child_idx in nodes[root_indices[0]].get("children", []):
+        root = nodes[root_indices[0]]
+        if root.get("name"):
+            loader_suffix(root["name"])
+        for child_idx in root.get("children", []):
             dfs(child_idx, [])
     else:
         for root_idx in root_indices:

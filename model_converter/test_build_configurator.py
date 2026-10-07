@@ -436,6 +436,20 @@ autoAssign:
                                 capture_output=True, text=True, check=True)
         self.assertIn("zero-match", result.stdout)
 
+    def test_check_accepts_node_key_under_loader_renamed_path(self):
+        # Positron has two nodes named SOLID001; the viewer's GLTFLoader names
+        # the second one SOLID001_1, so that is the path a spec must key.
+        self._write_spec("""
+model: { name: T, glb: Model.glb }
+palette: { Frame: { color: '#444' } }
+nodes:
+  Toolhead_Assembly/PV3_Toolhead_PCB_V14_20230511_v1/R36/R0402/SOLID001_1: { category: Frame }
+""")
+        result = subprocess.run([sys.executable, SCRIPT, "--check", self.glb],
+                                capture_output=True, text=True, check=True)
+        self.assertNotIn("no matching path", result.stdout)
+        self.assertIn("+ 1 per-node overrides", result.stdout)
+
 
 @unittest.skipUnless(YAML_AVAILABLE and os.path.isfile(GLB_PATH),
                      "PyYAML or GLB fixture not present")
