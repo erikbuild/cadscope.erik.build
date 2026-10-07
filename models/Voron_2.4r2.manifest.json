@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "glb": "Voron_2.4r2.glb",
+  "configOptions": {},
+  "parts": [
+    {
+      "id": "Gantry/X_Axis/XY_Joint_-_Right/Hall_Effect_Endstop_Pod",
+      "nodes": [
+        "Gantry/X_Axis/XY_Joint_-_Right/Hall_Effect_Endstop_Pod"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident",
+      "nodes": [
+        "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident"
+      ],
+      "hidden": true
+    }
+  ]
+}

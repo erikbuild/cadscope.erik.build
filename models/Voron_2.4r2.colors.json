@@ -1,1413 +1,738 @@
 {
   "palette": {
     "Main": {
-      "color": "#FF6600"
+      "color": "#4A4A4A"
     },
     "Accent": {
-      "color": "#00AAFF"
+      "color": "#C41E1E"
     },
-    "PrintBed": {
-      "color": "#333333",
-      "metalness": 0.5
-    },
-    "Extrusions": {
-      "color": "#888888",
-      "metalness": 0.5
+    "Frame": {
+      "color": "#3a3a3a",
+      "metalness": 0.7,
+      "showInPicker": false
     },
     "Hardware": {
-      "color": "#E4E7EC",
-      "metalness": 0.5,
+      "color": "#888888",
+      "metalness": 0.9,
       "showInPicker": false
+    },
+    "Hardware Detail": {
+      "color": "#888888",
+      "metalness": 0.9,
+      "showInPicker": false,
+      "showInTree": false
     },
     "Brass": {
       "color": "#C9A84C",
       "metalness": 0.5,
       "showInPicker": false
     },
-    "Opaque Panels": {
-      "color": "#929292",
-      "metalness": 0.5
-    },
-    "Transparent Panels": {
-      "color": "#555555",
+    "Black": {
+      "color": "#1e1e1e",
       "showInPicker": false
+    },
+    "White": {
+      "color": "#f2f2f2",
+      "showInPicker": false
+    },
+    "Bed": {
+      "color": "#A9A9A9",
+      "metalness": 0.6,
+      "showInPicker": false
+    },
+    "PEI Sheet": {
+      "color": "#F0B27A",
+      "showInPicker": false
+    },
+    "Electronics": {
+      "color": "#1d3b2a",
+      "metalness": 0.5,
+      "showInPicker": false
+    },
+    "Components": {
+      "color": "#2e2e2e",
+      "showInPicker": false,
+      "showInTree": false
     },
     "Glass": {
       "color": "#ccddee",
       "metalness": 0.1,
       "opacity": 0.15,
       "showInPicker": false
+    },
+    "Opaque Panels": {
+      "color": "#333333",
+      "showInPicker": false
     }
   },
-  "autoAssign": [],
+  "autoAssign": [
+    {
+      "match": "a_*",
+      "category": "Accent"
+    },
+    {
+      "match": "chain_retainer_a*",
+      "category": "Accent"
+    },
+    {
+      "match": "Z_Belt_Clamp_*",
+      "category": "Accent"
+    },
+    {
+      "match": "Z_Tensioner_9mm*",
+      "category": "Accent"
+    },
+    {
+      "match": "Belt_Tensioner*",
+      "category": "Accent"
+    },
+    {
+      "match": "Belt_Guard*",
+      "category": "Accent"
+    },
+    {
+      "match": "Keystone_Blank*",
+      "category": "Accent"
+    },
+    {
+      "match": "D2F_Endstop_Pod*",
+      "category": "Accent"
+    },
+    {
+      "match": "Hall_Effect_Endstop_Pod*",
+      "category": "Accent"
+    },
+    {
+      "match": "Stealthburner_Body*",
+      "category": "Accent"
+    },
+    {
+      "match": "Guilder_*",
+      "category": "Accent"
+    },
+    {
+      "match": "Shuttle*",
+      "category": "Accent"
+    },
+    {
+      "match": "PCB_Spacer*",
+      "category": "Accent"
+    },
+    {
+      "match": "60mn_Exhaust_Fan_Grill*",
+      "category": "Accent"
+    },
+    {
+      "match": "Rear_Cover*",
+      "category": "Accent"
+    },
+    {
+      "match": "Octopus_Bracket*",
+      "category": "Main"
+    },
+    {
+      "match": "DIN_Clips*",
+      "category": "Main"
+    },
+    {
+      "match": "PCB_DIN_Clip*",
+      "category": "Main"
+    },
+    {
+      "match": "Raspberry_Bracket*",
+      "category": "Main"
+    },
+    {
+      "match": "SSR_Mount_Bracket*",
+      "category": "Main"
+    },
+    {
+      "match": "LRS_PSU_Bracket*",
+      "category": "Main"
+    },
+    {
+      "match": "RS-25_PSU_Bracket*",
+      "category": "Main"
+    },
+    {
+      "match": "PSU_Stabilizer*",
+      "category": "Main"
+    },
+    {
+      "match": "LED_Diffuser_Mask*",
+      "category": "Main"
+    },
+    {
+      "match": "M3_Threaded_Insert*",
+      "category": "Brass"
+    },
+    {
+      "match": "M3_5x4_Heatset_Insert*",
+      "category": "Brass"
+    },
+    {
+      "match": "M5x7x8_split_bushing*",
+      "category": "Brass"
+    },
+    {
+      "match": "MGN9H_-_Carriage*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "PRODUCT_NAME_*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "V7_wo_fan*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "Meanwell_RS-25_(*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "COMPOUND*",
+      "category": "Hardware Detail"
+    },
+    {
+      "match": "M2x*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M3*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M4*",
+      "category": "Hardware"
+    },
+    {
+      "match": "M5*",
+      "category": "Hardware"
+    },
+    {
+      "match": "2020_Drop-in*",
+      "category": "Hardware"
+    },
+    {
+      "match": "DIN_*",
+      "category": "Hardware"
+    },
+    {
+      "match": "DIN3_Rail*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Square_Washer*",
+      "category": "Hardware"
+    },
+    {
+      "match": "F695*",
+      "category": "Hardware"
+    },
+    {
+      "match": "625_*",
+      "category": "Hardware"
+    },
+    {
+      "match": "MR825*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Needle_Bearings*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Idler_Assembly*",
+      "category": "Hardware"
+    },
+    {
+      "match": "*Shaft*",
+      "category": "Hardware"
+    },
+    {
+      "match": "3x6mm_Magnet*",
+      "category": "Hardware"
+    },
+    {
+      "match": "6x3mm_magnet*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Thermal_Fuse*",
+      "category": "Hardware"
+    },
+    {
+      "match": "BSP_Bowden_Connector*",
+      "category": "Hardware"
+    },
+    {
+      "match": "221-*",
+      "category": "Hardware"
+    },
+    {
+      "match": "*_Hardware",
+      "category": "Hardware"
+    },
+    {
+      "match": "*_hardware",
+      "category": "Hardware"
+    },
+    {
+      "match": "Fasteners",
+      "category": "Hardware"
+    },
+    {
+      "match": "A_Belt*",
+      "category": "Black"
+    },
+    {
+      "match": "B_Belt*",
+      "category": "Black"
+    },
+    {
+      "match": "Z_Belts",
+      "category": "Black"
+    },
+    {
+      "match": "GT2_188mm_Belt*",
+      "category": "Black"
+    },
+    {
+      "match": "GT2_*",
+      "category": "Hardware"
+    },
+    {
+      "match": "MGN9_-_300mm*",
+      "category": "Frame"
+    },
+    {
+      "match": "MGN12_rail*",
+      "category": "Frame"
+    },
+    {
+      "match": "MGN9H*",
+      "category": "Hardware"
+    },
+    {
+      "match": "MGN12H*",
+      "category": "Hardware"
+    },
+    {
+      "match": "NEMA17*",
+      "category": "Hardware"
+    },
+    {
+      "match": "LDO-36STH*",
+      "category": "Hardware"
+    },
+    {
+      "match": "HFSB5-*",
+      "category": "Frame"
+    },
+    {
+      "match": "10x11_*",
+      "category": "Black"
+    },
+    {
+      "match": "Y_Cable_Chain",
+      "category": "Black"
+    },
+    {
+      "match": "IGUS_Z_*",
+      "category": "Black"
+    },
+    {
+      "match": "6020_*",
+      "category": "Black"
+    },
+    {
+      "match": "4010_Axial_Fan*",
+      "category": "Black"
+    },
+    {
+      "match": "5015_Fan*",
+      "category": "Black"
+    },
+    {
+      "match": "Filter_*",
+      "category": "Black"
+    },
+    {
+      "match": "Rubber_Foot*",
+      "category": "Black"
+    },
+    {
+      "match": "Foam_Tape*",
+      "category": "Black"
+    },
+    {
+      "match": "VHB*",
+      "category": "Black"
+    },
+    {
+      "match": "Switch_DPST*",
+      "category": "Black"
+    },
+    {
+      "match": "c-3-1609115*",
+      "category": "Black"
+    },
+    {
+      "match": "10in_MIC6_Plate*",
+      "category": "Bed"
+    },
+    {
+      "match": "Flex_Sheet*",
+      "category": "PEI Sheet"
+    },
+    {
+      "match": "Bed_heater*",
+      "category": "Black"
+    },
+    {
+      "match": "Magnet_Sheet*",
+      "category": "Black"
+    },
+    {
+      "match": "Bed_Components",
+      "category": "Bed"
+    },
+    {
+      "match": "P6_Assembly*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Omron*",
+      "category": "Hardware"
+    },
+    {
+      "match": "KW10_Microswitch*",
+      "category": "Hardware"
+    },
+    {
+      "match": "D2F_L*",
+      "category": "Hardware"
+    },
+    {
+      "match": "PTFE_Tube*",
+      "category": "White"
+    },
+    {
+      "match": "PFTE_insert*",
+      "category": "White"
+    },
+    {
+      "match": "4x3mm_PTFE_Guide_Tube*",
+      "category": "White"
+    },
+    {
+      "match": "LED_Carrier*",
+      "category": "White"
+    },
+    {
+      "match": "LED_Diffuser*",
+      "category": "White"
+    },
+    {
+      "match": "Meanwell*",
+      "category": "Hardware"
+    },
+    {
+      "match": "Octopus*",
+      "category": "Electronics"
+    },
+    {
+      "match": "Raspberry_Pi*",
+      "category": "Electronics"
+    },
+    {
+      "match": "SSR*",
+      "category": "Electronics"
+    },
+    {
+      "match": "Main_Relay_Body*",
+      "category": "Electronics"
+    },
+    {
+      "match": "rgbw_led_pcb*",
+      "category": "Electronics"
+    },
+    {
+      "match": "asxl345*",
+      "category": "Electronics"
+    },
+    {
+      "match": "VORONDESIGN_XY-Endstop*",
+      "category": "Electronics"
+    },
+    {
+      "match": "D2F_XY_Endstop_PCB*",
+      "category": "Electronics"
+    },
+    {
+      "match": "PCB",
+      "category": "Electronics"
+    },
+    {
+      "match": "1X4_CONN*",
+      "category": "Components"
+    },
+    {
+      "match": "JST_*",
+      "category": "Components"
+    },
+    {
+      "match": "molex*",
+      "category": "Components"
+    },
+    {
+      "match": "MOLEX*",
+      "category": "Components"
+    },
+    {
+      "match": "te_*",
+      "category": "Components"
+    },
+    {
+      "match": "PJ-*",
+      "category": "Components"
+    },
+    {
+      "match": "raspberry_pi_B*",
+      "category": "Components"
+    },
+    {
+      "match": "SD",
+      "category": "Components"
+    },
+    {
+      "match": "Corner_Clip_*",
+      "category": "Main"
+    },
+    {
+      "match": "Midspan_Clip_*",
+      "category": "Main"
+    },
+    {
+      "match": "Corner_Panel_Clip_*",
+      "category": "Main"
+    },
+    {
+      "match": "Midspan_Panel_Clip_*",
+      "category": "Main"
+    },
+    {
+      "match": "Bottom_Panel_Clip*",
+      "category": "Main"
+    },
+    {
+      "match": "Bottom_Panel_Hinge*",
+      "category": "Main"
+    },
+    {
+      "match": "Z_Belt_Cover_*",
+      "category": "Main"
+    },
+    {
+      "match": "side_panel_clear*",
+      "category": "Glass"
+    },
+    {
+      "match": "top_panel_clear*",
+      "category": "Glass"
+    },
+    {
+      "match": "Panels",
+      "category": "Opaque Panels"
+    },
+    {
+      "match": "Frame",
+      "category": "Frame"
+    },
+    {
+      "match": "Gantry",
+      "category": "Main"
+    },
+    {
+      "match": "Z_Assembly",
+      "category": "Main"
+    },
+    {
+      "match": "Skirt",
+      "category": "Main"
+    },
+    {
+      "match": "Electronics",
+      "category": "Main"
+    },
+    {
+      "match": "Exhaust_Filter_Assembly",
+      "category": "Main"
+    },
+    {
+      "match": "Spool_Holder",
+      "category": "Main"
+    },
+    {
+      "match": "Clicky_Clacky_Door",
+      "category": "Main"
+    }
+  ],
   "nodes": {
-    "Bed_Components/10in_Bed/Flex_Sheet": {
-      "category": "PrintBed"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly/HFSB5-2020-370-TPW_(10)": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly/M5x16_BHCS_(35)": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly/M5x16_BHCS_(35)001": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly001/HFSB5-2020-370-TPW_(10)001": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly001/M5x16_BHCS_(35)002": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly001/M5x16_BHCS_(35)003": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-430-LCP-RCP": {
-      "category": "Extrusions"
-    },
-    "Clicky_Clacky_Door/HFSB5-2020-430-LCP-RCP001": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Latch": {
+      "category": "Accent"
     },
     "Clicky_Clacky_Door/Panel_(1)": {
+      "displayName": "Door Panel",
       "category": "Glass"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(81)": {
-      "category": "Brass"
+    "Gantry/X_Axis/XY_Joint_-_Right/Hall_Effect_Endstop_Pod": {
+      "hidden": true
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(82)": {
-      "category": "Brass"
+    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident": {
+      "hidden": true
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(83)": {
-      "category": "Brass"
+    "Frame/Bed_Supports/HFSB5-2020-370-TPW": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(84)": {
-      "category": "Brass"
+    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(85)": {
-      "category": "Brass"
+    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(86)": {
-      "category": "Brass"
+    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(87)": {
-      "category": "Brass"
+    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Exhaust_Filter_Assembly/Exhaust_Housing/M3_Threaded_Insert_(88)": {
-      "category": "Brass"
+    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/90deg_Corner_(OpenBuilds)/90deg_openbuilds_corner_(3)": {
-      "category": "Extrusions"
+    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/90deg_Corner_(OpenBuilds)_(1)/90deg_openbuilds_corner_(1)": {
-      "category": "Extrusions"
+    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/90deg_Corner_(OpenBuilds)_(2)/90deg_openbuilds_corner_(2)": {
-      "category": "Extrusions"
+    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(3)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/90deg_Corner_(OpenBuilds)_(3)/90deg_openbuilds_corner": {
-      "category": "Extrusions"
+    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M3_(12)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)": {
+      "displayName": "2020 Extrusion 430mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M3_(13)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)": {
+      "displayName": "2020 Extrusion 430mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M3_(2)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)": {
+      "displayName": "2020 Extrusion 430mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M3_(57)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)": {
+      "displayName": "2020 Extrusion 430mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M5_(44)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/MGN9_-_300mm_(2)/SOLID004": {
+      "displayName": "MGN9 Rail"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/2020_Drop-in_T-nut_M5_(45)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/MGN9_-_300mm/SOLID007": {
+      "displayName": "MGN9 Rail"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/HFSB5-2020-370-TPW_(9)_(1)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/MGN9_-_300mm_(1)_(1)/SOLID005": {
+      "displayName": "MGN9 Rail"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/M5x16_BHCS_(19)": {
-      "category": "Extrusions"
+    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/MGN9_-_300mm_(1)/SOLID006": {
+      "displayName": "MGN9 Rail"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW/M5x16_BHCS_(20)": {
-      "category": "Extrusions"
+    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/2020_Drop-in_T-nut_M3": {
-      "category": "Extrusions"
+    "Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly001": {
+      "displayName": "2020 Extrusion 370mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/2020_Drop-in_T-nut_M3_(3)": {
-      "category": "Extrusions"
+    "Gantry/Gantry_Extrusions/HFSB5-2020-240": {
+      "displayName": "2020 Extrusion 240mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/2020_Drop-in_T-nut_M5_(43)": {
-      "category": "Extrusions"
+    "Gantry/Gantry_Extrusions/HFSB5-2020-350": {
+      "displayName": "2020 Extrusion 350mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/2020_Drop-in_T-nut_M5_(46)": {
-      "category": "Extrusions"
+    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)": {
+      "displayName": "2020 Extrusion 350mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/HFSB5-2020-370-TPW_(11)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/HFSB5-20-330": {
+      "displayName": "X Extrusion 330mm"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/M5x16_BHCS_(21)": {
-      "category": "Extrusions"
+    "Gantry/AB_Drives/A_Drive/NEMA17_Black002": {
+      "displayName": "A Motor (NEMA17)"
     },
-    "Frame/Bed_Supports/HFSB5-2020-370-TPW_(9)/M5x16_BHCS_(22)": {
-      "category": "Extrusions"
+    "Gantry/AB_Drives/B_Drive/NEMA17_Black_(1)002": {
+      "displayName": "B Motor (NEMA17)"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M3_(21)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/Stealthburner_Assembly": {
+      "displayName": "Stealthburner"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M3_(22)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/CW2_Assembly": {
+      "displayName": "Clockwork 2 Extruder"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M5_(31)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron": {
+      "displayName": "Revo Voron Hotend Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M5_(33)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/ADXL_Assembly_-_Generic": {
+      "displayName": "ADXL345 Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M5_(37)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/MGN12H": {
+      "displayName": "MGN12H Carriage"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M5_(38)": {
-      "category": "Extrusions"
+    "Gantry/X_Axis/X_Carriage/Omron_TL_Q5MC2": {
+      "displayName": "Omron TL-Q5MC2 Probe"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/2020_Drop-in_T-nut_M5_(9)": {
-      "category": "Extrusions"
+    "Electronics/Controllers_(1)/Octopus": {
+      "displayName": "BTT Octopus"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/HFSB5-2020-370-TPW_(8)_(4)": {
-      "category": "Extrusions"
+    "Electronics/Meanwell_LRS-200-24_(1)": {
+      "displayName": "Mean Well LRS-200-24 PSU"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/M5x16_BHCS_(29)": {
-      "category": "Extrusions"
+    "Electronics/Meanwell_LRS-200-24_(1)/PSU_Stabilizer/SOLID002": {
+      "displayName": "PSU Stabilizer"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5)/M5x16_BHCS_(30)": {
-      "category": "Extrusions"
+    "Electronics/Meanwell_RS-25": {
+      "displayName": "Mean Well RS-25 PSU"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(14)": {
-      "category": "Extrusions"
+    "Electronics/SSR_(1)": {
+      "displayName": "Solid State Relay"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(15)": {
-      "category": "Extrusions"
+    "Electronics/WAGO_221-415_mount-3x5": {
+      "displayName": "WAGO 221-415 Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(17)": {
-      "category": "Extrusions"
+    "Electronics/WAGO_221-415_mount-3x5/SOLID003": {
+      "displayName": "WAGO Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(18)": {
-      "category": "Extrusions"
+    "Exhaust_Filter_Assembly/Exhaust_Mount/SOLID010": {
+      "displayName": "Exhaust Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(19)": {
-      "category": "Extrusions"
+    "Exhaust_Filter_Assembly/Exhaust_Mount_(1)/SOLID011": {
+      "displayName": "Exhaust Mount"
     },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M3_(20)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(35)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(36)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(40)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(42)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(62)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/2020_Drop-in_T-nut_M5_(64)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/HFSB5-2020-370-TPW_(8)_(3)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/M5x16_BHCS_(27)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6)/M5x16_BHCS_(28)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(16)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(25)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(26)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(27)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(28)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M3_(29)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(27)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(29)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(32)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(34)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(61)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(63)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(65)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/2020_Drop-in_T-nut_M5_(66)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/HFSB5-2020-370-TPW_(8)_(2)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/M5x16_BHCS_(25)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7)/M5x16_BHCS_(26)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M3_(23)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M3_(24)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(10)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(28)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(30)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(39)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(41)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/2020_Drop-in_T-nut_M5_(67)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/HFSB5-2020-370-TPW_(8)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/M5x16_BHCS_(23)": {
-      "category": "Extrusions"
-    },
-    "Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8)/M5x16_BHCS_(24)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/2020_Drop-in_T-nut_M5_(19)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/2020_Drop-in_T-nut_M5_(20)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/2020_Drop-in_T-nut_M5_(21)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/2020_Drop-in_T-nut_M5_(22)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/HFSB5-2020-370-TPW_(4)_(4)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/M5x16_BHCS_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1)/M5x16_BHCS_(34)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/2020_Drop-in_T-nut_M5_(23)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/2020_Drop-in_T-nut_M5_(24)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/2020_Drop-in_T-nut_M5_(25)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/2020_Drop-in_T-nut_M5_(26)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/HFSB5-2020-370-TPW_(4)_(3)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/M5x16_BHCS_(3)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2)/M5x16_BHCS_(33)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(3)/HFSB5-2020-370-TPW_(4)_(2)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(3)/M5x16_BHCS_(32)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(3)/M5x16_BHCS_(4)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)/2020_Drop-in_T-nut_M5_(7)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)/2020_Drop-in_T-nut_M5_(8)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)/HFSB5-2020-370-TPW_(4)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)/M5x16_BHCS_(31)": {
-      "category": "Extrusions"
-    },
-    "Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4)/M5x16_BHCS_(5)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(58)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(59)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(60)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(61)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(62)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(63)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(64)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M3_(65)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/2020_Drop-in_T-nut_M5_(11)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/HFSB5-2020-430-LCP-RCP_(3)_(1)_(4)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(58)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(59)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(60)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(61)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(62)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(63)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(64)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M3_(65)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/2020_Drop-in_T-nut_M5_(11)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/HFSB5-2020-430-LCP-RCP_(3)_(1)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(58)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(59)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(60)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(61)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(62)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(63)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(64)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M3_(65)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/2020_Drop-in_T-nut_M5_(11)_(1)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/HFSB5-2020-430-LCP-RCP_(3)_(1)_(3)": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(58)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(59)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(60)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(61)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(62)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(63)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(64)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M3_(65)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/2020_Drop-in_T-nut_M5_(11)_(1)001": {
-      "category": "Extrusions"
-    },
-    "Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/HFSB5-2020-430-LCP-RCP_(3)_(1)_(2)": {
-      "category": "Extrusions"
-    },
-    "Gantry/AB_Drives/A_Drive/Chain_Retainer_Bracket/M3_Threaded_Insert": {
-      "category": "Brass"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(5)/F695_ZZ_(5)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(5)/F695_ZZ_(8)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(6)/F695_ZZ_(10)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(6)/F695_ZZ_(6)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(7)/F695_ZZ_(7)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/Idler_Assembly_(7)/F695_ZZ_(9)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/A_Drive/M3_Threaded_Insert_(4)": {
-      "category": "Brass"
-    },
-    "Gantry/AB_Drives/A_Drive/M3_Threaded_Insert_(5)": {
-      "category": "Brass"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(1)/F695_ZZ_(1)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(1)/F695_ZZ_(2)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(3)/F695_ZZ_(19)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(3)/F695_ZZ_(3)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(4)/F695_ZZ_(17)": {
-      "category": "Hardware"
-    },
-    "Gantry/AB_Drives/B_Drive/Idler_Assembly_(4)/F695_ZZ_(4)": {
-      "category": "Hardware"
-    },
-    "Gantry/Front_Idlers/Front_Idler_A/Tensioner_A/a_tensioner_right": {
-      "category": "Accent"
-    },
-    "Gantry/Front_Idlers/Front_Idler_A/Tensioner_A/Idler_Assembly_(10)/F695_ZZ_(15)": {
-      "category": "Hardware"
-    },
-    "Gantry/Front_Idlers/Front_Idler_A/Tensioner_A/Idler_Assembly_(10)/F695_ZZ_(16)": {
-      "category": "Hardware"
-    },
-    "Gantry/Front_Idlers/Front_Idler_A/Tensioner_A/M3_Threaded_Insert_(15)": {
-      "category": "Brass"
-    },
-    "Gantry/Front_Idlers/Front_Idler_B/Tensioner_B/a_tensioner_left": {
-      "category": "Accent"
-    },
-    "Gantry/Front_Idlers/Front_Idler_B/Tensioner_B/Idler_Assembly/F695_ZZ": {
-      "category": "Hardware"
-    },
-    "Gantry/Front_Idlers/Front_Idler_B/Tensioner_B/Idler_Assembly/F695_ZZ_(18)": {
-      "category": "Hardware"
-    },
-    "Gantry/Front_Idlers/Front_Idler_B/Tensioner_B/M3_Threaded_Insert_(1)": {
-      "category": "Brass"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(12)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(48)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(49)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(50)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(51)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(56)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(57)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(58)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/2020_Drop-in_T-nut_M5_(59)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-240/HFSB5-2020-240_(1)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(30)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(37)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(38)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(39)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(40)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(41)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(42)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(43)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(44)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(54)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M3_(56)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(13)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(14)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(15)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(53)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(54)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/2020_Drop-in_T-nut_M5_(55)": {
-      "category": "Hardware"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350/HFSB5-2020-350_(1)_(2)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(31)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(45)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(46)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(47)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(48)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(49)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(50)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(51)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(52)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M3_(55)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(16)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(17)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(18)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(47)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(52)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/2020_Drop-in_T-nut_M5_(60)": {
-      "category": "Extrusions"
-    },
-    "Gantry/Gantry_Extrusions/HFSB5-2020-350_(1)/HFSB5-2020-350_(1)_(1)": {
-      "category": "Extrusions"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(1)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(32)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(33)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(34)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(35)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(36)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M3_(53)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(1)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(2)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(3)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(4)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(5)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/2020_Drop-in_T-nut_M5_(6)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/HFSB5-20-330/HFSB5-20-330_(1)": {
-      "category": "Extrusions"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)001": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)002": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)003": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)004": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)005": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)006": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)007": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)008": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)009": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)010": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)011": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)012": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)013": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)014": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)015": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_hardware/M3_Threaded_Insert_(2)016": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron/M3_Threaded_Insert_(3)": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron/M3_Threaded_Insert_(3)001": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron/M3_Threaded_Insert_(3)002": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron/M3_Threaded_Insert_(3)003": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/Stealthburner_Assembly/Stealthburner_Printed/Stealthburner_Body": {
-      "category": "Accent"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Hardware/M3_Threaded_Insert_(6)002": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Hardware/M3_Threaded_Insert_(6)003": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Hardware/M3_Threaded_Insert_(6)004": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Hardware/M3_Threaded_Insert_(6)005": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Printed/probe_bracket/M3_Threaded_Insert_(6)": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/X_Carriage/X_Carriage/X_Carriage_Printed/probe_bracket/M3_Threaded_Insert_(6)001": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Left/Idler_Assembly_(2)/F695_ZZ_(11)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Left/Idler_Assembly_(2)/F695_ZZ_(12)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/Idler_Assembly_(9)/F695_ZZ_(13)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/Idler_Assembly_(9)/F695_ZZ_(14)": {
-      "category": "Hardware"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/XY_Cable_Chain_Bridge_-_3_Hole/a_xy_joint_cable_bridge_3hole": {
-      "category": "Accent"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/XY_Cable_Chain_Bridge_-_3_Hole/M3_Threaded_Insert_(24)": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/XY_Cable_Chain_Bridge_-_3_Hole/M3_Threaded_Insert_(25)": {
-      "category": "Brass"
-    },
-    "Gantry/X_Axis/XY_Joint_-_Right/XY_Cable_Chain_Bridge_-_3_Hole/M3_Threaded_Insert_(80)": {
-      "category": "Brass"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Clip/bottom_panel_clip_x4_(3)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Clip_(1)/bottom_panel_clip_x4": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Clip_(2)/bottom_panel_clip_x4_(1)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Clip_(3)/bottom_panel_clip_x4_(2)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Hinge/bottom_panel_hinge_x2_(1)002/bottom_panel_hinge_x2_(1)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Hinge/bottom_panel_hinge_x2_(1)002/bottom_panel_hinge_x2_(1)001": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Hinge_(1)/bottom_panel_hinge_x004/bottom_panel_hinge_x003": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Bottom_Panel_Hinge_(1)/bottom_panel_hinge_x004/bottom_panel_hinge_x2": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Bottom_Panel/Panel": {
-      "category": "Opaque Panels"
-    },
-    "Panels/Opaque_Panels/Deck_Panel": {
-      "category": "Opaque Panels"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm/corner_panel_clip_4mm": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm/M3_Hammerhead_T-Nut_(10)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm/M3_Hammerhead_T-Nut_(11)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm/M3x8_SHCS_(95)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm/M3x8_SHCS_(96)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(1)/corner_panel_clip_4mm_(1)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(1)/M3_Hammerhead_T-Nut_(12)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(1)/M3_Hammerhead_T-Nut_(14)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(1)/M3x8_SHCS_(97)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(1)/M3x8_SHCS_(98)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(2)/corner_panel_clip_4mm_(2)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(2)/M3_Hammerhead_T-Nut_(15)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(2)/M3_Hammerhead_T-Nut_(16)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(2)/M3x8_SHCS_(100)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(2)/M3x8_SHCS_(99)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(3)/corner_panel_clip_4mm_(3)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(3)/M3_Hammerhead_T-Nut_(17)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(3)/M3_Hammerhead_T-Nut_(18)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(3)/M3x8_SHCS_(101)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Corner_Panel_Clip_4mm_(3)/M3x8_SHCS_(102)": {
-      "category": "Main"
-    },
-    "Panels/Opaque_Panels/Rear_Panel/Midspan_Panel_Clip_4mm/corner_panel_clip_4mm_(4)": {
-      "category": "Main"
+    "Spool_Holder/Bowden_Tube_Holder/SOLID009": {
+      "displayName": "Bowden Tube Holder"
     },
     "Panels/Opaque_Panels/Rear_Panel/SOLID008": {
-      "category": "Opaque Panels"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(4)/corner_clip_6mm_(4)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(4)/M3_Hammerhead_T-Nut_(42)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(4)/M3_Hammerhead_T-Nut_(43)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(4)/M3x12_SHCS_(22)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(4)/M3x12_SHCS_(27)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(5)/corner_clip_6mm_(5)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(5)/M3_Hammerhead_T-Nut_(44)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(5)/M3_Hammerhead_T-Nut_(45)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(5)/M3x12_SHCS_(28)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(5)/M3x12_SHCS_(29)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(6)/corner_clip_6mm_(7)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(6)/M3_Hammerhead_T-Nut_(48)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(6)/M3_Hammerhead_T-Nut_(49)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(6)/M3x12_SHCS_(32)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(6)/M3x12_SHCS_(33)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(7)/corner_clip_6mm_(6)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(7)/M3_Hammerhead_T-Nut_(46)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(7)/M3_Hammerhead_T-Nut_(47)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(7)/M3x12_SHCS_(30)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/Corner_Clip_6mm_(7)/M3x12_SHCS_(31)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel/side_panel_clear": {
-      "category": "Glass"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm/corner_clip_6mm": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm/M3_Hammerhead_T-Nut_(1)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm/M3_Hammerhead_T-Nut_(2)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm/M3x12_SHCS_(4)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm/M3x12_SHCS_(5)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(1)/corner_clip_6mm_(1)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(1)/M3_Hammerhead_T-Nut_(7)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(1)/M3_Hammerhead_T-Nut_(8)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(1)/M3x12_SHCS_(15)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(1)/M3x12_SHCS_(16)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(2)/corner_clip_6mm_(2)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(2)/M3_Hammerhead_T-Nut_(13)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(2)/M3_Hammerhead_T-Nut_(9)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(2)/M3x12_SHCS_(17)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(2)/M3x12_SHCS_(18)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(3)/corner_clip_6mm_(3)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(3)/M3_Hammerhead_T-Nut_(22)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(3)/M3_Hammerhead_T-Nut_(23)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(3)/M3x12_SHCS_(19)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/Corner_Clip_6mm_(3)/M3x12_SHCS_(20)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Side_Panel_(1)/side_panel_clear_(1)": {
-      "category": "Glass"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm/corner_clip_4mm_(3)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm/M3_Hammerhead_T-Nut_(34)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm/M3_Hammerhead_T-Nut_(35)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm/M3x8_SHCS_(63)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm/M3x8_SHCS_(64)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(1)/corner_clip_4mm_(2)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(1)/M3_Hammerhead_T-Nut_(32)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(1)/M3_Hammerhead_T-Nut_(33)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(1)/M3x8_SHCS_(61)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(1)/M3x8_SHCS_(62)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(2)/corner_clip_4mm_(1)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(2)/M3_Hammerhead_T-Nut_(30)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(2)/M3_Hammerhead_T-Nut_(31)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(2)/M3x8_SHCS_(59)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(2)/M3x8_SHCS_(60)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(3)/corner_clip_4mm": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(3)/M3_Hammerhead_T-Nut_(24)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(3)/M3_Hammerhead_T-Nut_(25)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(3)/M3x8_SHCS_(53)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/Corner_Clip_4mm_(3)/M3x8_SHCS_(54)": {
-      "category": "Main"
-    },
-    "Panels/Transparent_Panels/Top_Panel/top_panel_clear": {
-      "category": "Glass"
+      "displayName": "Rear Panel"
     },
     "Skirt/Front/Front_Skirt_A/250": {
-      "category": "Main"
-    },
-    "Skirt/Front/Front_Skirt_A/M3_Threaded_Insert_(34)": {
-      "category": "Brass"
-    },
-    "Skirt/Front/Front_Skirt_A/M3_Threaded_Insert_(67)": {
-      "category": "Brass"
-    },
-    "Skirt/Front/Front_Skirt_A/M3_Threaded_Insert_(69)": {
-      "category": "Brass"
+      "displayName": "Front Skirt A"
     },
     "Skirt/Front/Front_Skirt_B/250_(1)": {
-      "category": "Main"
+      "displayName": "Front Skirt B"
     },
-    "Skirt/Front/Front_Skirt_B/M3_Threaded_Insert_(68)": {
-      "category": "Brass"
+    "Skirt/Rear/Left_Power_Inlet/Filtered": {
+      "displayName": "Filtered Power Inlet"
     },
-    "Skirt/Front/Front_Skirt_B/M3_Threaded_Insert_(70)": {
-      "category": "Brass"
-    },
-    "Skirt/Front/Front_Skirt_B/M3_Threaded_Insert_(71)": {
-      "category": "Brass"
-    },
-    "Skirt/Front/Front_Skirt_Logo": {
-      "category": "Main"
-    },
-    "Skirt/Rear/Left_Power_Inlet/Filtered/M3_Threaded_Insert_(98)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Left_Power_Inlet/Filtered/M3_Threaded_Insert_(99)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Left_Power_Inlet/M3_Threaded_Insert_(77)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Left_Power_Inlet/M3_Threaded_Insert_(78)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Left_Power_Inlet/M3_Threaded_Insert_(79)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Right_Keystone/M3_Threaded_Insert_(74)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Right_Keystone/M3_Threaded_Insert_(75)": {
-      "category": "Brass"
-    },
-    "Skirt/Rear/Right_Keystone/M3_Threaded_Insert_(76)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(3)/M3_Threaded_Insert_(100)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(3)/M3_Threaded_Insert_(101)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(3)/M3_Threaded_Insert_(102)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(3)/M3_Threaded_Insert_(89)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(4)/M3_Threaded_Insert_(103)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(4)/M3_Threaded_Insert_(104)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(4)/M3_Threaded_Insert_(105)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/6020_Fan_(4)/M3_Threaded_Insert_(106)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_A/a_fan_grill_a": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_A_(1)/a_fan_grill_a_(1)": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_B/a_fan_grill_b": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_B_(1)/a_fan_grill_b_(1)": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer/a_fan_grill_retainer": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer/M3_Threaded_Insert_(90)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer/M3_Threaded_Insert_(91)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer/M3_Threaded_Insert_(92)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer/M3_Threaded_Insert_(93)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer_(1)/a_fan_grill_retainer_(1)": {
-      "category": "Accent"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer_(1)/M3_Threaded_Insert_(94)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer_(1)/M3_Threaded_Insert_(95)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer_(1)/M3_Threaded_Insert_(96)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Fan_Grill_Retainer_(1)/M3_Threaded_Insert_(97)": {
-      "category": "Brass"
-    },
-    "Skirt/Sides/Side_Skirt_A/M3x8_SHCS_(40)": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_A/Side_Skirt_A_250": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_A_(1)/M3x8_SHCS_(41)": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_A_(1)/Side_Skirt_A_250_(1)": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_B/M3x8_SHCS_(39)": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_B/Side_Skirt_B_250": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_B_(1)/M3x8_SHCS_(42)": {
-      "category": "Main"
-    },
-    "Skirt/Sides/Side_Skirt_B_(1)/Side_Skirt_B_250": {
-      "category": "Main"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/Base_Plate/a_z_drive_baseplate_a_x2": {
-      "category": "Accent"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(16)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(26)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(27)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(28)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(29)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(30)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(35)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(36)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A/M3_Threaded_Insert_(37)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/Base_Plate_(2)/a_z_drive_baseplate_a_x2_(1)": {
-      "category": "Accent"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(47)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(50)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(51)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(52)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(53)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(54)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(55)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(56)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_A_(1)/M3_Threaded_Insert_(57)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/Base_Plate_(1)/a_z_drive_baseplate_b_x2": {
-      "category": "Accent"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(38)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(39)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(40)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(41)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(42)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(43)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(44)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(45)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B/M3_Threaded_Insert_(46)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/Base_Plate_(3)/a_z_drive_baseplate_b_x2_(1)": {
-      "category": "Accent"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(58)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(59)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(60)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(61)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(62)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(63)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(64)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(65)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Belt_Drive_B_(1)/M3_Threaded_Insert_(66)": {
-      "category": "Brass"
-    },
-    "Z_Assembly/Z_Chain_Lower_Mount/chain_retainer_bracket/a_z_chain_retainer_bracket": {
-      "category": "Accent"
-    },
-    "Z_Assembly/Z_Chain_Lower_Mount/chain_retainer_bracket/M3_Threaded_Insert_(107)": {
-      "category": "Brass"
+    "Z_Assembly/Mech_Z_Endstop_Assembly": {
+      "displayName": "Z Endstop"
     }
   }
 }

@@ -1,0 +1,260 @@
+# Presentation rules for the Voron 2.4r2 viewer sidecar.
+# The sibling .scaffold.json lists every group, part, and node path that the
+# autoAssign rules and nodes block below can target.
+#
+# GLTFLoader renames the second of two same-named nodes with a _1 suffix
+# (X_Carriage_1, Cable_Cover_1, Side_Skirt_B_250_1), so the viewer's paths
+# under those nodes differ from the scaffold's. Parts there are coloured by
+# autoAssign globs only, never by path.
+
+model:
+  name: Voron 2.4r2
+  glb: Voron_2.4r2.glb
+
+palette:
+  Main:               { color: "#4A4A4A" }                                            # printed parts
+  Accent:             { color: "#C41E1E" }                                            # printed accent parts
+  Frame:              { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # extrusions and linear rails
+  Hardware:           { color: "#888888", metalness: 0.9, showInPicker: false }       # fasteners, bearings, pulleys, steppers
+  Hardware Detail:    { color: "#888888", metalness: 0.9, showInPicker: false, showInTree: false }   # sub-bodies of hardware
+  Brass:              { color: "#C9A84C", metalness: 0.5, showInPicker: false }       # heat-set inserts and bushings
+  Black:              { color: "#1e1e1e", showInPicker: false }                       # belts, cable chains, fans, rubber, tape
+  White:              { color: "#f2f2f2", showInPicker: false }                       # PTFE tubing and LED diffusers
+  Bed:                { color: "#A9A9A9", metalness: 0.6, showInPicker: false }       # MIC6 bed plate
+  PEI Sheet:          { color: "#F0B27A", showInPicker: false }                       # spring steel build surface
+  Electronics:        { color: "#1d3b2a", metalness: 0.5, showInPicker: false }       # PCBs and relay
+  Components:         { color: "#2e2e2e", showInPicker: false, showInTree: false }    # board-mounted connectors
+  Glass:              { color: "#ccddee", metalness: 0.1, opacity: 0.15, showInPicker: false }   # clear side, top and door panels
+  Opaque Panels:      { color: "#333333", showInPicker: false }                       # deck, bottom and rear panels
+
+# Patterns are fnmatch globs against a node's leaf name.
+# Order matters — first match wins.
+autoAssign:
+  # ---- Accent printed parts. Voron's [a]_ prefix survives on a few; the
+  #      rest are the parts the STEP colours red. ------------------------
+  - { match: "a_*",                       category: Accent }
+  - { match: "chain_retainer_a*",         category: Accent }
+  - { match: "Z_Belt_Clamp_*",            category: Accent }
+  - { match: "Z_Tensioner_9mm*",          category: Accent }
+  - { match: "Belt_Tensioner*",           category: Accent }
+  - { match: "Belt_Guard*",               category: Accent }
+  - { match: "Keystone_Blank*",           category: Accent }
+  - { match: "D2F_Endstop_Pod*",          category: Accent }
+  - { match: "Hall_Effect_Endstop_Pod*",  category: Accent }
+  - { match: "Stealthburner_Body*",       category: Accent }
+  - { match: "Guilder_*",                 category: Accent }   # CW2
+  - { match: "Shuttle*",                  category: Accent }   # CW2
+  - { match: "PCB_Spacer*",               category: Accent }   # CW2; must precede PCB*
+  - { match: "60mn_Exhaust_Fan_Grill*",   category: Accent }
+  - { match: "Rear_Cover*",               category: Accent }   # exhaust filter cover
+
+  # ---- Printed parts whose names would otherwise hit a hardware or
+  #      electronics glob below. -----------------------------------------
+  - { match: "Octopus_Bracket*",          category: Main }
+  - { match: "DIN_Clips*",                category: Main }
+  - { match: "PCB_DIN_Clip*",             category: Main }
+  - { match: "Raspberry_Bracket*",        category: Main }
+  - { match: "SSR_Mount_Bracket*",        category: Main }
+  - { match: "LRS_PSU_Bracket*",          category: Main }
+  - { match: "RS-25_PSU_Bracket*",        category: Main }
+  - { match: "PSU_Stabilizer*",           category: Main }
+  - { match: "LED_Diffuser_Mask*",        category: Main }
+
+  # ---- Inserts and bushings -------------------------------------------
+  - { match: "M3_Threaded_Insert*",       category: Brass }
+  - { match: "M3_5x4_Heatset_Insert*",    category: Brass }
+  - { match: "M5x7x8_split_bushing*",     category: Brass }
+
+  # ---- Sub-bodies of hardware, kept out of the tree -------------------
+  - { match: "MGN9H_-_Carriage*",         category: "Hardware Detail" }   # under MGN9H_(N)
+  - { match: "PRODUCT_NAME_*",            category: "Hardware Detail" }   # under MGN12H
+  - { match: "V7_wo_fan*",                category: "Hardware Detail" }   # Revo heater internals
+  - { match: "Meanwell_RS-25_(*",         category: "Hardware Detail" }   # RS-25 case bodies
+  - { match: "COMPOUND*",                 category: "Hardware Detail" }   # LRS-200 case bodies
+
+  # ---- Fasteners, bearings, shafts, magnets ---------------------------
+  - { match: "M2x*",                      category: Hardware }
+  - { match: "M3*",                       category: Hardware }
+  - { match: "M4*",                       category: Hardware }
+  - { match: "M5*",                       category: Hardware }
+  - { match: "2020_Drop-in*",             category: Hardware }   # T-nuts
+  - { match: "DIN_*",                     category: Hardware }   # DIN-numbered screws
+  - { match: "DIN3_Rail*",                category: Hardware }
+  - { match: "Square_Washer*",            category: Hardware }
+  - { match: "F695*",                     category: Hardware }
+  - { match: "625_*",                     category: Hardware }
+  - { match: "MR825*",                    category: Hardware }
+  - { match: "Needle_Bearings*",          category: Hardware }
+  - { match: "Idler_Assembly*",           category: Hardware }
+  - { match: "*Shaft*",                   category: Hardware }
+  - { match: "3x6mm_Magnet*",             category: Hardware }
+  - { match: "6x3mm_magnet*",             category: Hardware }
+  - { match: "Thermal_Fuse*",             category: Hardware }
+  - { match: "BSP_Bowden_Connector*",     category: Hardware }
+  - { match: "221-*",                     category: Hardware }   # WAGO lever connectors
+  - { match: "*_Hardware",                category: Hardware }   # hardware sub-assembly groups
+  - { match: "*_hardware",                category: Hardware }
+  - { match: "Fasteners",                 category: Hardware }
+
+  # ---- Motion: belts, pulleys, rails, carriages, steppers -------------
+  - { match: "A_Belt*",                   category: Black }
+  - { match: "B_Belt*",                   category: Black }
+  - { match: "Z_Belts",                   category: Black }
+  - { match: "GT2_188mm_Belt*",           category: Black }      # must precede GT2_*
+  - { match: "GT2_*",                     category: Hardware }   # pulleys and idlers
+  - { match: "MGN9_-_300mm*",             category: Frame }      # rails
+  - { match: "MGN12_rail*",               category: Frame }
+  - { match: "MGN9H*",                    category: Hardware }   # carriage blocks
+  - { match: "MGN12H*",                   category: Hardware }
+  - { match: "NEMA17*",                   category: Hardware }
+  - { match: "LDO-36STH*",                category: Hardware }   # extruder stepper
+
+  # ---- Frame ----------------------------------------------------------
+  - { match: "HFSB5-*",                   category: Frame }
+
+  # ---- Cable chains, fans, rubber, tape -------------------------------
+  - { match: "10x11_*",                   category: Black }      # X cable chain
+  - { match: "Y_Cable_Chain",             category: Black }
+  - { match: "IGUS_Z_*",                  category: Black }
+  - { match: "6020_*",                    category: Black }
+  - { match: "4010_Axial_Fan*",           category: Black }
+  - { match: "5015_Fan*",                 category: Black }
+  - { match: "Filter_*",                  category: Black }      # exhaust carbon filter
+  - { match: "Rubber_Foot*",              category: Black }
+  - { match: "Foam_Tape*",                category: Black }
+  - { match: "VHB*",                      category: Black }
+  - { match: "Switch_DPST*",              category: Black }      # power switch
+  - { match: "c-3-1609115*",              category: Black }      # IEC power inlet
+
+  # ---- Bed ------------------------------------------------------------
+  - { match: "10in_MIC6_Plate*",          category: Bed }
+  - { match: "Flex_Sheet*",               category: "PEI Sheet" }
+  - { match: "Bed_heater*",               category: Black }      # silicone heater
+  - { match: "Magnet_Sheet*",             category: Black }
+  - { match: "Bed_Components",            category: Bed }        # group; every part inside has its own rule
+
+  # ---- Toolhead -------------------------------------------------------
+  - { match: "P6_Assembly*",              category: Hardware }   # Revo hotend
+  - { match: "Omron*",                    category: Hardware }   # probe and Z endstop switches
+  - { match: "KW10_Microswitch*",         category: Hardware }
+  - { match: "D2F_L*",                    category: Hardware }   # microswitches on the XY endstop PCB
+  - { match: "PTFE_Tube*",                category: White }
+  - { match: "PFTE_insert*",              category: White }      # spool holder PTFE (sic)
+  - { match: "4x3mm_PTFE_Guide_Tube*",    category: White }
+  - { match: "LED_Carrier*",              category: White }
+  - { match: "LED_Diffuser*",             category: White }
+
+  # ---- Electronics ----------------------------------------------------
+  - { match: "Meanwell*",                 category: Hardware }   # PSU cases
+  - { match: "Octopus*",                  category: Electronics }
+  - { match: "Raspberry_Pi*",             category: Electronics }
+  - { match: "SSR*",                      category: Electronics }
+  - { match: "Main_Relay_Body*",          category: Electronics }
+  - { match: "rgbw_led_pcb*",             category: Electronics }
+  - { match: "asxl345*",                  category: Electronics }   # ADXL345 board
+  - { match: "VORONDESIGN_XY-Endstop*",   category: Electronics }   # hall-effect endstop board
+  - { match: "D2F_XY_Endstop_PCB*",       category: Electronics }
+  - { match: "PCB",                       category: Electronics }
+  - { match: "1X4_CONN*",                 category: Components }
+  - { match: "JST_*",                     category: Components }
+  - { match: "molex*",                    category: Components }
+  - { match: "MOLEX*",                    category: Components }
+  - { match: "te_*",                      category: Components }
+  - { match: "PJ-*",                      category: Components }
+  - { match: "raspberry_pi_B*",           category: Components }
+  - { match: "SD",                        category: Components }   # Pi SD card
+
+  # ---- Panels ---------------------------------------------------------
+  #      Printed clips, hinges and belt covers sit under Panels; their groups
+  #      are claimed here so the Panels fallback only reaches the sheets.
+  - { match: "Corner_Clip_*",             category: Main }
+  - { match: "Midspan_Clip_*",            category: Main }
+  - { match: "Corner_Panel_Clip_*",       category: Main }
+  - { match: "Midspan_Panel_Clip_*",      category: Main }
+  - { match: "Bottom_Panel_Clip*",        category: Main }
+  - { match: "Bottom_Panel_Hinge*",       category: Main }
+  - { match: "Z_Belt_Cover_*",            category: Main }
+  - { match: "side_panel_clear*",         category: Glass }
+  - { match: "top_panel_clear*",          category: Glass }
+  - { match: "Panels",                    category: "Opaque Panels" }   # deck, bottom and rear panels inherit
+
+  # ---- Fallbacks by top-level group -----------------------------------
+  #      Anything in these subtrees that no rule above claimed is printed,
+  #      apart from Frame, whose leftovers are the cast corner brackets.
+  - { match: "Frame",                     category: Frame }
+  - { match: "Gantry",                    category: Main }
+  - { match: "Z_Assembly",                category: Main }
+  - { match: "Skirt",                     category: Main }
+  - { match: "Electronics",               category: Main }
+  - { match: "Exhaust_Filter_Assembly",   category: Main }
+  - { match: "Spool_Holder",              category: Main }
+  - { match: "Clicky_Clacky_Door",        category: Main }
+
+# Per-node overrides. Paths come from .scaffold.json's _nodes.
+nodes:
+  # Two leaves share a name with parts of a different colour.
+  Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Latch:  { category: Accent }
+  Clicky_Clacky_Door/Panel_(1):                             { category: Glass, displayName: "Door Panel" }
+
+  # Alternates that occupy the same space: the D2F microswitch endstop pod
+  # renders, the Hall-effect pod overlaps it; the 2-hole chain anchor renders,
+  # the 3-hole one overlaps it.
+  Gantry/X_Axis/XY_Joint_-_Right/Hall_Effect_Endstop_Pod:   { hidden: true }
+  Gantry/X_Axis/X_Carriage/CW2_Assembly/CW2_Printed/Chain_Anchors/Chain_Anchor_3_Hole_V2_Trident:  { hidden: true }
+
+  # Frame extrusions.
+  Frame/Bed_Supports/HFSB5-2020-370-TPW:                     { displayName: "2020 Extrusion 370mm" }
+  Frame/Bed_Supports/HFSB5-2020-370-TPW_(9):                 { displayName: "2020 Extrusion 370mm" }
+  Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(5):            { displayName: "2020 Extrusion 370mm" }
+  Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(6):            { displayName: "2020 Extrusion 370mm" }
+  Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(7):            { displayName: "2020 Extrusion 370mm" }
+  Frame/Bottom_Extrusions/HFSB5-2020-370-TPW_(8):            { displayName: "2020 Extrusion 370mm" }
+  Frame/Top_Extrusions/HFSB5-2020-370-TPW_(1):               { displayName: "2020 Extrusion 370mm" }
+  Frame/Top_Extrusions/HFSB5-2020-370-TPW_(2):               { displayName: "2020 Extrusion 370mm" }
+  Frame/Top_Extrusions/HFSB5-2020-370-TPW_(3):               { displayName: "2020 Extrusion 370mm" }
+  Frame/Top_Extrusions/HFSB5-2020-370-TPW_(4):               { displayName: "2020 Extrusion 370mm" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3):           { displayName: "2020 Extrusion 430mm" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1):       { displayName: "2020 Extrusion 430mm" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror):   { displayName: "2020 Extrusion 430mm" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1):  { displayName: "2020 Extrusion 430mm" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)/MGN9_-_300mm_(2)/SOLID004:          { displayName: "MGN9 Rail" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)_(1)/MGN9_-_300mm/SOLID007:          { displayName: "MGN9 Rail" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)/MGN9_-_300mm_(1)_(1)/SOLID005:  { displayName: "MGN9 Rail" }
+  Frame/Verticals_Extrusions/HFSB5-2020-430-LCP-RCP_(3)(Mirror)_(1)/MGN9_-_300mm_(1)/SOLID006:  { displayName: "MGN9 Rail" }
+  Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly:       { displayName: "2020 Extrusion 370mm" }
+  Clicky_Clacky_Door/HFSB5-2020-370-TPW_(10)_Assembly001:    { displayName: "2020 Extrusion 370mm" }
+
+  # Gantry.
+  Gantry/Gantry_Extrusions/HFSB5-2020-240:                   { displayName: "2020 Extrusion 240mm" }
+  Gantry/Gantry_Extrusions/HFSB5-2020-350:                   { displayName: "2020 Extrusion 350mm" }
+  Gantry/Gantry_Extrusions/HFSB5-2020-350_(1):               { displayName: "2020 Extrusion 350mm" }
+  Gantry/X_Axis/HFSB5-20-330:                                { displayName: "X Extrusion 330mm" }
+  Gantry/AB_Drives/A_Drive/NEMA17_Black002:                  { displayName: "A Motor (NEMA17)" }
+  Gantry/AB_Drives/B_Drive/NEMA17_Black_(1)002:              { displayName: "B Motor (NEMA17)" }
+
+  # Toolhead.
+  Gantry/X_Axis/X_Carriage/Stealthburner_Assembly:           { displayName: "Stealthburner" }
+  Gantry/X_Axis/X_Carriage/CW2_Assembly:                     { displayName: "Clockwork 2 Extruder" }
+  Gantry/X_Axis/X_Carriage/SB_TOOLHEAD-Revo_Voron:           { displayName: "Revo Voron Hotend Mount" }
+  Gantry/X_Axis/X_Carriage/ADXL_Assembly_-_Generic:          { displayName: "ADXL345 Mount" }
+  Gantry/X_Axis/X_Carriage/MGN12H:                           { displayName: "MGN12H Carriage" }
+  Gantry/X_Axis/X_Carriage/Omron_TL_Q5MC2:                   { displayName: "Omron TL-Q5MC2 Probe" }
+
+  # Electronics.
+  Electronics/Controllers_(1)/Octopus:                       { displayName: "BTT Octopus" }
+  Electronics/Meanwell_LRS-200-24_(1):                       { displayName: "Mean Well LRS-200-24 PSU" }
+  Electronics/Meanwell_LRS-200-24_(1)/PSU_Stabilizer/SOLID002:  { displayName: "PSU Stabilizer" }
+  Electronics/Meanwell_RS-25:                                { displayName: "Mean Well RS-25 PSU" }
+  Electronics/SSR_(1):                                       { displayName: "Solid State Relay" }
+  Electronics/WAGO_221-415_mount-3x5:                        { displayName: "WAGO 221-415 Mount" }
+  Electronics/WAGO_221-415_mount-3x5/SOLID003:               { displayName: "WAGO Mount" }
+
+  # Printed parts exported as bare bodies.
+  Exhaust_Filter_Assembly/Exhaust_Mount/SOLID010:            { displayName: "Exhaust Mount" }
+  Exhaust_Filter_Assembly/Exhaust_Mount_(1)/SOLID011:        { displayName: "Exhaust Mount" }
+  Spool_Holder/Bowden_Tube_Holder/SOLID009:                  { displayName: "Bowden Tube Holder" }
+  Panels/Opaque_Panels/Rear_Panel/SOLID008:                  { displayName: "Rear Panel" }
+  Skirt/Front/Front_Skirt_A/250:                             { displayName: "Front Skirt A" }
+  Skirt/Front/Front_Skirt_B/250_(1):                         { displayName: "Front Skirt B" }
+  Skirt/Rear/Left_Power_Inlet/Filtered:                      { displayName: "Filtered Power Inlet" }
+  Z_Assembly/Mech_Z_Endstop_Assembly:                        { displayName: "Z Endstop" }
