@@ -12,6 +12,7 @@ __pycache__/
 # Large model files (convert locally, don't commit)
 *.step
 *.stp
+*.FCStd
 *.obj
 *.mtl
 

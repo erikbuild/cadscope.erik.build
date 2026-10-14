@@ -1,13 +1,16 @@
 #!/bin/bash
-# Convert STEP files to Draco-compressed GLB with per-part colors.
+# ABOUTME: Converts a STEP file or FreeCAD document (.FCStd) to a Draco-compressed GLB.
+# ABOUTME: Runs color extraction, FreeCAD export, and Blender compression in sequence.
+# Convert STEP files or FreeCAD documents to Draco-compressed GLB with per-part colors.
 #
 # Three-stage pipeline:
-#   1. Extract colors from STEP text (Python)
+#   1. Extract colors from STEP text (Python; skipped for .FCStd)
 #   2. Import geometry + hierarchy (FreeCAD)
 #   3. Apply colors, compress, export (Blender)
 #
 # Usage:
 #   ./convert.sh input.step output.glb
+#   ./convert.sh input.FCStd output.glb             # FreeCAD document; all parts exported, no colors
 #   ./convert.sh --no-draco input.step output.glb
 #   ./convert.sh --keep-temp input.step output.glb   # saves FreeCAD intermediate as _temp.glb
 #   ./convert.sh --y-up input.step output.glb       # STEP modeled with Y as vertical (Fusion "Y up" designs)
@@ -33,7 +36,7 @@ for arg in "$@"; do
 done
 
 if [ ${#POSITIONAL[@]} -lt 2 ]; then
-    echo "Usage: $0 [--no-draco] [--keep-temp] [--y-up] <input.step> <output.glb>"
+    echo "Usage: $0 [--no-draco] [--keep-temp] [--y-up] <input.step|input.FCStd> <output.glb>"
     exit 1
 fi
 
@@ -43,13 +46,20 @@ EXT="${INPUT##*.}"
 EXT_LOWER="$(echo "$EXT" | tr '[:upper:]' '[:lower:]')"
 
 case "$EXT_LOWER" in
-    step|stp)
+    step|stp|fcstd)
         ;;
     *)
-        echo "Error: unsupported format '.$EXT_LOWER' (only .step/.stp supported)"
+        echo "Error: unsupported format '.$EXT_LOWER' (only .step/.stp/.FCStd supported)"
         exit 1
         ;;
 esac
+
+# The --y-up rotation is applied to App::Part children, which FreeCAD
+# document group trees don't have.
+if [ "$EXT_LOWER" = "fcstd" ] && [ -n "$Y_UP" ]; then
+    echo "Error: --y-up is not supported for .FCStd input"
+    exit 1
+fi
 
 if [ ! -x "$FREECADCMD" ]; then
     echo "Error: FreeCAD not found at $FREECADCMD"
@@ -67,15 +77,17 @@ trap 'rm -f "$TMPGLB" "$TMPJSON"' EXIT
 
 COLORS_ARGS=()
 echo "=== Stage 1/3: Extract colors ==="
-if python3 "$SCRIPT_DIR/extract_step_colors.py" "$INPUT" "$TMPJSON"; then
+if [ "$EXT_LOWER" = "fcstd" ]; then
+    echo "Skipped: FreeCAD documents keep colors in GUI data that headless FreeCAD can't read"
+elif python3 "$SCRIPT_DIR/extract_step_colors.py" "$INPUT" "$TMPJSON"; then
     COLORS_ARGS=(--colors "$TMPJSON")
 else
     echo "Warning: color extraction failed, continuing without colors"
 fi
 
 echo ""
-echo "=== Stage 2/3: STEP → GLB (FreeCAD) ==="
-"$FREECADCMD" "$SCRIPT_DIR/step_to_glb.py" -- $Y_UP "$INPUT" "$TMPGLB"
+echo "=== Stage 2/3: CAD → GLB (FreeCAD) ==="
+"$FREECADCMD" "$SCRIPT_DIR/cad_to_glb.py" -- $Y_UP "$INPUT" "$TMPGLB"
 
 if [ -n "$KEEP_TEMP" ]; then
     TEMP_DEST="$(dirname "$OUTPUT")/_temp.glb"
@@ -85,4 +97,4 @@ fi
 
 echo ""
 echo "=== Stage 3/3: GLB → Draco GLB (Blender) ==="
-"$BLENDER" --background --python "$SCRIPT_DIR/blender_export.py" -- $NO_DRACO "${COLORS_ARGS[@]}" "$TMPGLB" "$OUTPUT"
+"$BLENDER" --background --python "$SCRIPT_DIR/blender_export.py" -- $NO_DRACO ${COLORS_ARGS[@]+"${COLORS_ARGS[@]}"} "$TMPGLB" "$OUTPUT"

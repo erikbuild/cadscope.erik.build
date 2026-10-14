@@ -7,28 +7,33 @@
       "color": "#C41E1E"
     },
     "Frame": {
-      "color": "#3a3a3a",
-      "metalness": 0.7,
+      "color": "#757575",
+      "metalness": 0.3,
       "showInPicker": false
     },
     "Hardware": {
-      "color": "#888888",
-      "metalness": 0.9,
+      "color": "#C8C8C8",
+      "metalness": 0.3,
+      "showInPicker": false
+    },
+    "Fasteners": {
+      "color": "#B4B4B4",
+      "metalness": 0.3,
       "showInPicker": false
     },
     "Hardware Detail": {
-      "color": "#888888",
-      "metalness": 0.9,
+      "color": "#C8C8C8",
+      "metalness": 0.3,
       "showInPicker": false,
       "showInTree": false
     },
     "Black": {
-      "color": "#1e1e1e",
+      "color": "#5E5E5E",
       "showInPicker": false
     },
     "Bed": {
       "color": "#A9A9A9",
-      "metalness": 0.6,
+      "metalness": 0.3,
       "showInPicker": false
     },
     "PEI Sheet": {
@@ -37,7 +42,7 @@
     },
     "Electronics": {
       "color": "#1d3b2a",
-      "metalness": 0.5,
+      "metalness": 0.3,
       "showInPicker": false
     },
     "Components": {
@@ -67,39 +72,35 @@
     },
     {
       "match": "M3*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "M5*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "9????A*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "*_pin*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "18mm_Spacer*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "Threaded_Spacer_Nut*",
-      "category": "Hardware"
+      "category": "Fasteners"
     },
     {
       "match": "MGN9H_-_Carriage*",
       "category": "Hardware Detail"
     },
     {
-      "match": "MGN9_Carriage*",
-      "category": "Hardware"
-    },
-    {
       "match": "MGN9*",
-      "category": "Frame"
+      "category": "Hardware"
     },
     {
       "match": "Ball_Screw*",
@@ -123,7 +124,7 @@
     },
     {
       "match": "17HS19*",
-      "category": "Hardware"
+      "category": "Black"
     },
     {
       "match": "Foot_Plate*",

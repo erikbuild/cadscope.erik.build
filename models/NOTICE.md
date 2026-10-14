@@ -52,3 +52,42 @@ Copyright (c) Voron Design
 `Voron_2.4r2.glb` also includes the ClickyClacky Door from tanaes's Voron
 mods, licensed under the **GNU General Public License v3.0**.
 Source: https://github.com/tanaes/whopping_Voron_mods/tree/main/clickyclacky_door
+
+## Opulo LumenPnP (CERN-OHL-W v2)
+
+The following model is derived from the Opulo LumenPnP v4.1.0 hardware design
+files (`pnp/cad/assembly.FCStd`), licensed under the **CERN Open Hardware
+Licence Version 2 - Weakly Reciprocal**.
+See [LICENSE-CERN-OHL-W-2.0.txt](LICENSE-CERN-OHL-W-2.0.txt).
+
+- `LumenPnP_v4.1.0.glb`
+
+Copyright (c) Opulo
+Source: https://github.com/opulo-inc/lumenpnp (release v4.1.0)
+
+Modified 2026-10-14: converted from the FreeCAD assembly to a Draco-compressed
+GLB for viewing. Parts are tessellated to meshes, and part colors and default
+visibility come from the CADScope model spec. Geometry and assembly structure
+are otherwise unchanged.
+
+Opulo's license notice, reproduced as it requires:
+
+```text
+# Opulo LumenPnP License and Copyright Notices
+
+LumenPnP is (c) by Opulo
+
+This notice must be included in any distributions of this project or derivative works.
+
+Because this project consists of many types of source, individual parts of the project are made available under different licenses.
+
+1. The hardware designs located at `./pnp/cad` and `./pnp/pcb` are available under the CERN-OHL-W v2 license. Full text is available at https://cern.ch/cern-ohl.
+
+2. The software located at `./.github/workflows` is available under Mozilla MPL v2.0. Full text is available at https://www.mozilla.org/en-US/MPL/2.0/.
+
+3. The KiCAD libraries located at `./lib/kicad/` are available under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). Full text available at https://creativecommons.org/licenses/by-sa/4.0/
+
+4. Opulo's logo, branding, and other media is used throughout this project. This is Copyright (c) Opulo and all rights are reserved. You may not distribute derivative works or products bearing the Opulo logo, icon, or other relevant mark. Derivative works should remove Opulo branding.
+
+5. The name `Opulo` and `LumenPnP` are trademarked, and only to be used by Opulo. Any derivative works should remove both marks.
+```

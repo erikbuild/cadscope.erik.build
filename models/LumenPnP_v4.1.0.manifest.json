@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "glb": "LumenPnP_v4.1.0.glb",
+  "configOptions": {},
+  "parts": [
+    {
+      "id": "optional_strip_feeders",
+      "nodes": [
+        "optional_strip_feeders"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "components_installed_by_user/squaring-bracket",
+      "nodes": [
+        "components_installed_by_user/squaring-bracket"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "x-drag-chain-asm/cable-splay",
+      "nodes": [
+        "x-drag-chain-asm/cable-splay"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "x-gantry/Toolhead/X-Gantry-Back/CameraAndLight/top-light-mount",
+      "nodes": [
+        "x-gantry/Toolhead/X-Gantry-Back/CameraAndLight/top-light-mount"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "y-gantry-left/Y-Gantry-Left-Linear-Rail/Array/0",
+      "nodes": [
+        "y-gantry-left/Y-Gantry-Left-Linear-Rail/Array/0"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "y-gantry-right/Y-Gantry-Right-Linear-Rail/Array002/0001",
+      "nodes": [
+        "y-gantry-right/Y-Gantry-Right-Linear-Rail/Array002/0001"
+      ],
+      "hidden": true
+    },
+    {
+      "id": "x-gantry/X-Gantry-Linear-Axis/X-Gantry-Linear-Rail/Array004/6002",
+      "nodes": [
+        "x-gantry/X-Gantry-Linear-Axis/X-Gantry-Linear-Rail/Array004/6002"
+      ],
+      "hidden": true
+    }
+  ]
+}

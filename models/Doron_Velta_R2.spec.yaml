@@ -6,16 +6,19 @@ model:
   name: Doron Velta R2
   glb: Doron_Velta_R2.glb
 
+# Metalness stays at 0.3 or below: the viewer's environment map is dark, so
+# strongly metallic materials render near-black.
 palette:
   Main:               { color: "#4A4A4A" }                                            # printed parts
   Accent:             { color: "#C41E1E" }                                            # printed parts named with the a-prefix
-  Frame:              { color: "#3a3a3a", metalness: 0.7, showInPicker: false }       # extrusions and linear rails
-  Hardware:           { color: "#888888", metalness: 0.9, showInPicker: false }       # fasteners, bearings, steppers, hotend metal
-  Hardware Detail:    { color: "#888888", metalness: 0.9, showInPicker: false, showInTree: false }   # sub-bodies of hardware
-  Black:              { color: "#1e1e1e", showInPicker: false }                       # belts, carbon arms, fans, feet, silicone
-  Bed:                { color: "#A9A9A9", metalness: 0.6, showInPicker: false }       # aluminium bed plate
+  Frame:              { color: "#757575", metalness: 0.3, showInPicker: false }       # extrusions
+  Hardware:           { color: "#C8C8C8", metalness: 0.3, showInPicker: false }       # bearings, linear rails, pulleys, hotend metal
+  Fasteners:          { color: "#B4B4B4", metalness: 0.3, showInPicker: false }       # steel screws, nuts, inserts, spacers, pins
+  Hardware Detail:    { color: "#C8C8C8", metalness: 0.3, showInPicker: false, showInTree: false }   # sub-bodies of hardware
+  Black:              { color: "#5E5E5E", showInPicker: false }                       # belts, carbon arms, steppers, fans, feet, silicone
+  Bed:                { color: "#A9A9A9", metalness: 0.3, showInPicker: false }       # aluminium bed plate
   PEI Sheet:          { color: "#F0B27A", showInPicker: false }                       # spring steel build surface
-  Electronics:        { color: "#1d3b2a", metalness: 0.5, showInPicker: false }       # PCBs, relay, SSR
+  Electronics:        { color: "#1d3b2a", metalness: 0.3, showInPicker: false }       # PCBs, relay, SSR
   Components:         { color: "#2e2e2e", showInPicker: false, showInTree: false }    # mainboard components
   Glass:              { color: "#ccddee", metalness: 0.1, opacity: 0.15, showInPicker: false }   # clear side and top panels
   Opaque Panels:      { color: "#333333", showInPicker: false }                       # bottom and inner sheet panels
@@ -29,23 +32,22 @@ autoAssign:
   - { match: "*_x*",                      category: Main }
 
   # ---- Fasteners, inserts, pins ---------------------------------------
-  - { match: "M3*",                       category: Hardware }
-  - { match: "M5*",                       category: Hardware }
-  - { match: "9????A*",                   category: Hardware }   # McMaster part numbers
-  - { match: "*_pin*",                    category: Hardware }   # dowel and idler pins
-  - { match: "18mm_Spacer*",              category: Hardware }
-  - { match: "Threaded_Spacer_Nut*",      category: Hardware }
+  - { match: "M3*",                       category: Fasteners }
+  - { match: "M5*",                       category: Fasteners }
+  - { match: "9????A*",                   category: Fasteners }   # McMaster part numbers
+  - { match: "*_pin*",                    category: Fasteners }   # dowel and idler pins
+  - { match: "18mm_Spacer*",              category: Fasteners }
+  - { match: "Threaded_Spacer_Nut*",      category: Fasteners }
 
   # ---- Linear motion, delta arms, belts -------------------------------
   - { match: "MGN9H_-_Carriage*",         category: "Hardware Detail" }   # carriage block sub-bodies
-  - { match: "MGN9_Carriage*",            category: Hardware }
-  - { match: "MGN9*",                     category: Frame }      # rail assembly and rail
+  - { match: "MGN9*",                     category: Hardware }   # carriages, rail assembly, and rail
   - { match: "Ball_Screw*",               category: Hardware }
   - { match: "Spherical_Bearing*",        category: Hardware }   # rod ends and their bearings
   - { match: "210mm_Tie_Rod*",            category: Black }      # carbon tubes
   - { match: "Belt_9mm*",                 category: Black }
   - { match: "GT2_*",                     category: Hardware }   # pulleys and idlers
-  - { match: "17HS19*",                   category: Hardware }   # NEMA17 steppers
+  - { match: "17HS19*",                   category: Black }      # NEMA17 steppers
   - { match: "Foot_Plate*",               category: Main }       # printed; must precede Foot*
   - { match: "Foot*",                     category: Black }      # rubber feet
 

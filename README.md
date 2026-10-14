@@ -57,7 +57,7 @@ Enable it with the title-bar toggle; the choice persists per browser. Without th
 
 ## Adding a model
 
-1. Convert a STEP file to GLB (below) and place it in `models/`.
+1. Convert a STEP file or FreeCAD document to GLB (below) and place it in `models/`.
 2. Generate the color sidecar (below).
 3. Add an entry to `models/models.js` — array order sets dropdown order:
 
@@ -74,7 +74,7 @@ Enable it with the title-bar toggle; the choice persists per browser. Without th
 
 Models converted from third-party CAD carry their original licenses — record attribution in `models/NOTICE.md` alongside the license text.
 
-## Converting STEP to GLB
+## Converting STEP or FreeCAD files to GLB
 
 **Prerequisites:**
 - Python 3 (for STEP color extraction; stdlib only)
@@ -91,9 +91,14 @@ Models converted from third-party CAD carry their original licenses — record a
 
 # STEP modeled with Y as the vertical axis (Fusion "Y up" designs)
 ./model_converter/convert.sh --y-up models/input.step models/output.glb
+
+# FreeCAD document
+./model_converter/convert.sh models/input.FCStd models/output.glb
 ```
 
 The converter assumes Z-up STEP input. If the model loads lying on its side, re-run with `--y-up`.
+
+A FreeCAD document (`.FCStd`) is opened directly, so its group tree and labels carry through as node names. Every part is exported, including parts saved hidden; the model spec decides what starts hidden. The document's colors live in GUI-only data that headless FreeCAD can't read, so color comes from the spec. `--y-up` isn't supported for `.FCStd` input.
 
 ### Pipeline
 
@@ -115,7 +120,7 @@ python3 model_converter/extract_step_colors.py input.step /tmp/colors.json
 |------|------|
 | `convert.sh` | Orchestrates the three-stage pipeline |
 | `extract_step_colors.py` | Parses STEP text for color-to-part mappings (Python 3, no dependencies) |
-| `step_to_glb.py` | FreeCAD script: STEP import, tessellation, uncompressed GLB export |
+| `cad_to_glb.py` | FreeCAD script: STEP import or `.FCStd` open, tessellation, uncompressed GLB export |
 | `blender_export.py` | Blender script: GLB import, name cleaning, color application, Draco export |
 | `build_configurator.py` | Authoring tool: emits the scaffold and starter spec, then generates the viewer sidecar and configurator manifest |
 | `dump_parts.py` | Backwards-compatibility shim that calls `build_configurator.py --scaffold-only` |

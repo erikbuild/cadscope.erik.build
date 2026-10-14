@@ -1,14 +1,20 @@
+# ABOUTME: FreeCAD script that turns a STEP file or FreeCAD document into an uncompressed GLB.
+# ABOUTME: Stage 2 of the CAD→GLB conversion pipeline (see convert.sh).
 """
-FreeCAD Python script: Convert STEP to GLB with full assembly hierarchy.
+FreeCAD Python script: Convert a STEP file or FreeCAD document (.FCStd) to GLB
+with full assembly hierarchy.
 
 Usage (run via FreeCAD's CLI):
-    freecadcmd -c "exec(open('step_to_glb.py').read())" -- [--y-up] input.step output.glb
+    freecadcmd -c "exec(open('cad_to_glb.py').read())" -- [--y-up] input.step|input.FCStd output.glb
 
 --y-up: the STEP was modeled with Y as the vertical axis; the assembly is
 rotated so Y becomes Z before export, matching the Z-up convention the exporter assumes.
 
-Produces an uncompressed GLB that preserves the STEP assembly tree.
-Pipe through Blender for Draco compression (see convert.sh).
+A .FCStd document is opened directly and every part in it is exported,
+including parts saved hidden.
+
+Produces an uncompressed GLB that preserves the STEP assembly tree or the
+document's group tree. Pipe through Blender for Draco compression (see convert.sh).
 """
 
 import FreeCAD
@@ -24,7 +30,7 @@ def parse_args():
         sep = sys.argv.index("--")
     except ValueError:
         print("Error: pass arguments after '--'")
-        print("Usage: freecadcmd step_to_glb.py -- [--y-up] input.step output.glb")
+        print("Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb")
         sys.exit(1)
 
     args = sys.argv[sep + 1:]
@@ -33,10 +39,24 @@ def parse_args():
 
     if len(paths) < 2:
         print("Error: need input and output paths")
-        print("Usage: freecadcmd step_to_glb.py -- input.step output.glb")
+        print("Usage: freecadcmd cad_to_glb.py -- input.step|input.FCStd output.glb")
         sys.exit(1)
 
     return os.path.abspath(paths[0]), os.path.abspath(paths[1]), y_up
+
+
+def carries_geometry(obj):
+    """True if obj, or anything grouped under it, has faces the glTF writer meshes.
+
+    Datum features (coordinate systems, planes) report faces but are never
+    triangulated, so on their own they export as empty nodes.
+    """
+    if obj.isDerivedFrom("Part::Datum"):
+        return False
+    shape = getattr(obj, "Shape", None)
+    if shape is not None and not shape.isNull() and shape.Faces:
+        return True
+    return any(carries_geometry(child) for child in getattr(obj, "Group", []))
 
 
 def main():
@@ -46,16 +66,19 @@ def main():
         print(f"Error: input file not found: {input_path}")
         sys.exit(1)
 
-    print(f"\n--- STEP to GLB (FreeCAD) ---")
+    print(f"\n--- CAD to GLB (FreeCAD) ---")
     print(f"Input:  {input_path}")
     print(f"Output: {output_path}\n")
 
-    doc = FreeCAD.newDocument("convert")
-
-    # Import STEP
-    print("Importing STEP...")
+    is_document = input_path.lower().endswith(".fcstd")
     t0 = time.time()
-    Import.insert(input_path, "convert")
+    if is_document:
+        print("Opening FreeCAD document...")
+        doc = FreeCAD.openDocument(input_path)
+    else:
+        print("Importing STEP...")
+        doc = FreeCAD.newDocument("convert")
+        Import.insert(input_path, "convert")
     t1 = time.time()
     print(f"Import took {t1 - t0:.1f}s, {len(doc.Objects)} objects")
 
@@ -72,8 +95,15 @@ def main():
     # Find root App::Part objects for export
     roots = [o for o in doc.Objects if o.TypeId == "App::Part" and not o.InList]
     if not roots:
-        roots = [o for o in doc.Objects if not o.InList]
+        roots = [o for o in doc.Objects if not o.InList and carries_geometry(o)]
     print(f"Exporting roots: {[r.Label for r in roots]}")
+
+    # The glTF exporter drops any group with no visible child, so every object
+    # in a FreeCAD document is shown before export (the document is never
+    # saved). Which parts start hidden is the model spec's job.
+    if is_document:
+        for obj in doc.Objects:
+            obj.Visibility = True
 
     # The glTF exporter drops the Placement of the root containers it is
     # handed, so the upright rotation goes on each root's direct children.
