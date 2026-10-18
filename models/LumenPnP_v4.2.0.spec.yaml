@@ -146,15 +146,20 @@ autoAssign:
 # build plates override it.
 #
 # Hidden entries match the v4.1.0 defaults (v4.2's saved FreeCAD view is a
-# working view that hides the drag chains and feeder rails), plus the A2plus
-# primary-staging-plate group, whose only part is a bottom-camera that
-# duplicates the one in staging-plate-ASM. All remain toggleable in the tree.
+# working view that hides the drag chains and feeder rails) and remain
+# toggleable in the tree.
+#
+# The A2plus primary-staging-plate group is hidden and left out of the tree.
+# Its only part is a leftover bottom-camera (its source file is the v4.1 path
+# ./MISC/bottom-camera.FCStd) that duplicates the one in staging-plate-ASM;
+# the camera is left out too, so it can't surface at the tree's top level.
 nodes:
   Assembly:                                                       { category: Main }
   Assembly/Body008:                                               { category: Plate }
   Assembly/Body009:                                               { category: Plate }
   LumenPnP/staging-plate-ASM/Body:                                { category: Plate }
-  primary-staging-plate:                                          { hidden: true }
+  primary-staging-plate:                                          { hidden: true, showInTree: false }
+  primary-staging-plate/bottom-camera_001:                        { showInTree: false }
   optional_strip_feeders:                                         { hidden: true }
   components_installed_by_user/squaring-bracket:                  { hidden: true }
   x-drag-chain-asm/cable-splay:                                   { hidden: true }

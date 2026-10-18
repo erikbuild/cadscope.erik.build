@@ -368,7 +368,11 @@
       "category": "Plate"
     },
     "primary-staging-plate": {
-      "hidden": true
+      "hidden": true,
+      "showInTree": false
+    },
+    "primary-staging-plate/bottom-camera_001": {
+      "showInTree": false
     },
     "optional_strip_feeders": {
       "hidden": true
