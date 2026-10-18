@@ -1,0 +1,159 @@
+# Presentation rules for the LumenPnP v4.2.0 viewer sidecar.
+# The sibling .scaffold.json lists every group, part, and node path that the
+# autoAssign rules and nodes block below can target.
+#
+# Colors follow the part colors in the upstream FreeCAD assembly, checked
+# against Opulo's v4.2 build (img/4.2-iso-hero-medium-brighter.png in the
+# release): black printed parts with yellow accents, red/blue left/right Z
+# backplates, silver rails and fasteners, black V-slot and PCBs, and a
+# near-black bed. The bed plates are powder-coated steel (Opulo's BOM), not
+# PCBs. Upstream colors that are working markup or FreeCAD's unassigned
+# default (red M5 screws, cyan T-nut bars, gray board-mount fixture and build
+# plates) are not followed.
+# The blacks are dark grays rather than true black so surface shading stays
+# readable in the viewer.
+
+model:
+  name: LumenPnP v4.2.0
+  glb: LumenPnP_v4.2.0.glb
+
+# Metalness stays at 0.3 or below: the viewer's environment map is dark, so
+# strongly metallic materials render near-black.
+palette:
+  Main:               { color: "#3A3A3A" }                                            # printed parts
+  Accent:             { color: "#F2B01E" }                                            # yellow printed parts
+  Red:                { color: "#BD1C57", showInPicker: false }                       # left Z backplate
+  Blue:               { color: "#216CBD", showInPicker: false }                       # right Z backplate
+  Frame:              { color: "#757575", metalness: 0.3, showInPicker: false }       # black V-slot and corner brackets
+  Hardware:           { color: "#C8C8C8", metalness: 0.3, showInPicker: false }       # steel rails, carriages, pulleys, valves
+  Fasteners:          { color: "#B4B4B4", metalness: 0.3, showInPicker: false }       # steel screws, nuts, T-nuts
+  Brass:              { color: "#C9A13B", metalness: 0.3, showInPicker: false }       # nozzle holders
+  Black:              { color: "#5E5E5E", showInPicker: false }                       # belts, drag chains, steppers, cameras, pumps, nozzle tips
+  Electronics:        { color: "#474747", metalness: 0.1, showInPicker: false }       # black solder-mask PCBs
+  Plate:              { color: "#474747", showInPicker: false }                       # powder-coated steel bed plates
+
+# Patterns are case-sensitive fnmatch globs against a node's leaf name.
+# Order matters — first match wins. Several groups share a name with the
+# printed part inside them (y-gantry-left, control-box, y-limit-striker,
+# nozzle-rack-asm), so printed-part globs below never match the bare group
+# name; a group hit would cascade onto every unmatched descendant.
+autoAssign:
+  # ---- PCBs (before the printed blades, which share the blade1? prefix) ----
+  - { match: "blade1?-PCB*",              category: Electronics }
+  - { match: "blade1?_PCB*",              category: Electronics }
+  - { match: "mobo-REV*",                 category: Electronics }
+  - { match: "*-ring-light*",             category: Electronics }
+  - { match: "xy-limit*",                 category: Electronics }
+  - { match: "z-limit*",                  category: Electronics }
+  - { match: "x-cable-chain-support*",    category: Electronics }
+
+  # ---- Yellow printed parts (goldenrod in the upstream assembly) ---------
+  - { match: "*belt-tension-arm*",        category: Accent }
+  - { match: "belt-clamp*",               category: Accent }
+  - { match: "blade1?_0*",                category: Accent }   # feeder blades
+  - { match: "nozzle-rack",               category: Accent }
+  - { match: "squaring-bracket*",         category: Accent }
+
+  # ---- Left/right color-coded Z backplates ------------------------------
+  - { match: "z-gantry-backplate-left*",  category: Red }
+  - { match: "z-gantry-backplate-right*", category: Blue }
+
+  # ---- Printed parts (names follow the release's STL list) --------------
+  - { match: "*-strip-feeder*",           category: Main }
+  - { match: "back-leg*",                 category: Main }
+  - { match: "board-support*",            category: Main }
+  - { match: "bottom-camera-mount*",      category: Main }
+  - { match: "bottom-light-mount*",       category: Main }
+  - { match: "bottom-vision-cable-clamp*", category: Main }
+  - { match: "bottom-vision-cover*",      category: Main }
+  - { match: "cable-splay*",              category: Main }
+  - { match: "cal-fid-mount*",            category: Main }
+  - { match: "control-box?*",             category: Main }
+  - { match: "discard-bin*",              category: Main }   # bin and its mount
+  - { match: "extrusion-cable-clip*",     category: Main }
+  - { match: "front-leg-extension*",      category: Main }
+  - { match: "front-left-leg*",           category: Main }
+  - { match: "front-right-leg*",          category: Main }
+  - { match: "nozzle-camera-mask*",       category: Main }
+  - { match: "peek-cable-clamp*",         category: Main }
+  - { match: "top-light-mount*",          category: Main }
+  - { match: "x-gantry-back*",            category: Main }
+  - { match: "x-gantry-front*",           category: Main }
+  - { match: "x-idler-mount*",            category: Main }
+  - { match: "x-motor-mount*",            category: Main }
+  - { match: "y-gantry-left?*",           category: Main }
+  - { match: "y-gantry-right?*",          category: Main }
+  - { match: "y-limit-striker_*",         category: Main }
+  - { match: "z-gantry-left*",            category: Main }
+  - { match: "z-gantry-right*",           category: Main }
+
+  # ---- Thumb screw and the rail T-nut bar (before the fastener globs) ----
+  - { match: "m5-thumb-screw*",           category: Hardware }
+  - { match: "m3_t-nut_bar*",             category: Hardware }
+
+  # ---- Fasteners --------------------------------------------------------
+  - { match: "M*-Screw*",                 category: Fasteners }
+  - { match: "M*-BHCS*",                  category: Fasteners }   # ultra-low-profile button heads
+  - { match: "M*-Nut*",                   category: Fasteners }   # hex and wing nuts
+  - { match: "M*-tslot-nut*",             category: Fasteners }
+  - { match: "M*-cap-nut*",               category: Fasteners }
+  - { match: "Array",                     category: Fasteners }   # M3x8 rail-screw arrays
+  - { match: "Array002",                  category: Fasteners }
+  - { match: "Array004",                  category: Fasteners }
+
+  # ---- Linear motion and drive ------------------------------------------
+  - { match: "*MGN12H*",                  category: Hardware }    # rails and carriages
+  - { match: "mgn9-linear-rail-carriage*", category: Hardware }
+  - { match: "linear-rail-100mm*",        category: Hardware }
+  - { match: "GT2-idler*",                category: Hardware }
+  - { match: "GT2-pulley*",               category: Hardware }
+  - { match: "*-gt2-belt*",               category: Black }
+  - { match: "z-belt-loop*",              category: Black }
+  - { match: "NEMA*",                     category: Black }       # NEMA17 and NEMA11 steppers
+
+  # ---- Frame ------------------------------------------------------------
+  - { match: "vslot-extrusion*",          category: Frame }
+  - { match: "corner-bracket*",           category: Frame }
+
+  # ---- Cable management -------------------------------------------------
+  - { match: "drag-chain-link*",          category: Black }
+  - { match: "y-drag-chain-link-*",       category: Black }
+  - { match: "ldo-drag-chain-end*",       category: Black }
+  - { match: "Array005",                  category: Black }       # drag-chain link arrays
+  - { match: "Array006",                  category: Black }
+
+  # ---- Toolhead, vision, pneumatics -------------------------------------
+  - { match: "n*-nozzle*",                category: Black }      # nozzle tips
+  - { match: "nozzle-holder*",            category: Brass }
+  - { match: "rotary-pneumatic-adapter*", category: Hardware }
+  - { match: "top-camera*",               category: Black }
+  - { match: "bottom-camera*",            category: Black }
+  - { match: "vacuum-pump*",              category: Black }
+  - { match: "solenoid-valve*",           category: Hardware }
+  - { match: "reducing-union-tee*",       category: Hardware }
+  - { match: "*-valve-tube*",             category: Black }
+
+# Per-node overrides keyed by scaffold path.
+#
+# The bed comes from linked FreeCAD Assembly files, so several of its parts
+# carry generic link labels (Body008, …). "Assembly" is the board-mount
+# fixture: its category cascades to the board-mount bodies, and the two
+# build plates override it.
+#
+# Hidden entries match the v4.1.0 defaults (v4.2's saved FreeCAD view is a
+# working view that hides the drag chains and feeder rails), plus an A2plus
+# bottom-camera that duplicates the one in staging-plate-ASM. All remain
+# toggleable in the tree.
+nodes:
+  Assembly:                                                       { category: Main }
+  Assembly/Body008:                                               { category: Plate }
+  Assembly/Body009:                                               { category: Plate }
+  LumenPnP/staging-plate-ASM/Body:                                { category: Plate }
+  primary-staging-plate/bottom-camera_001:                        { hidden: true }
+  optional_strip_feeders:                                         { hidden: true }
+  components_installed_by_user/squaring-bracket:                  { hidden: true }
+  x-drag-chain-asm/cable-splay:                                   { hidden: true }
+  x-gantry/Toolhead/X-Gantry-Back/CameraAndLight/top-light-mount: { hidden: true }
+  y-gantry-left/Y-Gantry-Left-Linear-Rail/Array/0:                { hidden: true }
+  y-gantry-right/Y-Gantry-Right-Linear-Rail/Array002/0001:        { hidden: true }
+  x-gantry/X-Gantry-Linear-Axis/X-Gantry-Linear-Rail/Array004/6002: { hidden: true }

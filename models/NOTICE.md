@@ -55,20 +55,22 @@ Source: https://github.com/tanaes/whopping_Voron_mods/tree/main/clickyclacky_doo
 
 ## Opulo LumenPnP (CERN-OHL-W v2)
 
-The following model is derived from the Opulo LumenPnP v4.1.0 hardware design
-files (`pnp/cad/assembly.FCStd`), licensed under the **CERN Open Hardware
-Licence Version 2 - Weakly Reciprocal**.
+The following models are derived from the Opulo LumenPnP hardware design
+files, licensed under the **CERN Open Hardware Licence Version 2 - Weakly
+Reciprocal**.
 See [LICENSE-CERN-OHL-W-2.0.txt](LICENSE-CERN-OHL-W-2.0.txt).
 
-- `LumenPnP_v4.1.0.glb`
+- `LumenPnP_v4.1.0.glb`, from release v4.1.0 (`pnp/cad/assembly.FCStd`)
+- `LumenPnP_v4.2.0.glb`, from release v4.2.0 (`src/assembly.FCStd` and the
+  files it links under `src/`)
 
 Copyright (c) Opulo
-Source: https://github.com/opulo-inc/lumenpnp (release v4.1.0)
+Source: https://github.com/opulo-inc/lumenpnp (releases v4.1.0 and v4.2.0)
 
-Modified 2026-10-14: converted from the FreeCAD assembly to a Draco-compressed
-GLB for viewing. Parts are tessellated to meshes, and part colors and default
-visibility come from the CADScope model spec. Geometry and assembly structure
-are otherwise unchanged.
+Modified 2026-10-14 (v4.1.0) and 2026-10-17 (v4.2.0): converted from the
+FreeCAD assembly to a Draco-compressed GLB for viewing. Parts are tessellated
+to meshes, and part colors and default visibility come from the CADScope
+model spec. Geometry and assembly structure are otherwise unchanged.
 
 Opulo's license notice, reproduced as it requires:
 
@@ -91,3 +93,5 @@ Because this project consists of many types of source, individual parts of the p
 
 5. The name `Opulo` and `LumenPnP` are trademarked, and only to be used by Opulo. Any derivative works should remove both marks.
 ```
+
+In the v4.2.0 release these hardware designs are under `src/`.

@@ -11,7 +11,8 @@ Usage (run via FreeCAD's CLI):
 rotated so Y becomes Z before export, matching the Z-up convention the exporter assumes.
 
 A .FCStd document is opened directly and every part in it is exported,
-including parts saved hidden.
+including parts saved hidden. Parts it links in from other files are exported
+too, and conversion stops if a linked file can't be found.
 
 Produces an uncompressed GLB that preserves the STEP assembly tree or the
 document's group tree. Pipe through Blender for Draco compression (see convert.sh).
@@ -59,6 +60,17 @@ def carries_geometry(obj):
     return any(carries_geometry(child) for child in getattr(obj, "Group", []))
 
 
+def unresolved_links(documents):
+    """Name each link in documents whose target wasn't loaded, as "Document/Label".
+
+    A link into a file that isn't at its saved relative path opens with no
+    target, and the exporter would silently leave its parts out.
+    """
+    return [f"{doc.Label}/{obj.Label}"
+            for doc in documents for obj in doc.Objects
+            if "LinkedObject" in obj.PropertiesList and obj.LinkedObject is None]
+
+
 def main():
     input_path, output_path, y_up = parse_args()
 
@@ -75,6 +87,16 @@ def main():
     if is_document:
         print("Opening FreeCAD document...")
         doc = FreeCAD.openDocument(input_path)
+        # Opening a document also loads the documents it links to, and those
+        # carry links of their own.
+        broken = unresolved_links(FreeCAD.listDocuments().values())
+        if broken:
+            print("Error: unresolved links (are the linked files at their saved relative paths?)")
+            for name in broken:
+                print(f"  {name}")
+            # freecadcmd drops unflushed output when a script exits.
+            sys.stdout.flush()
+            sys.exit(1)
     else:
         print("Importing STEP...")
         doc = FreeCAD.newDocument("convert")

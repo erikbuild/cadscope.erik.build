@@ -98,7 +98,7 @@ Models converted from third-party CAD carry their original licenses — record a
 
 The converter assumes Z-up STEP input. If the model loads lying on its side, re-run with `--y-up`.
 
-A FreeCAD document (`.FCStd`) is opened directly, so its group tree and labels carry through as node names. Every part is exported, including parts saved hidden; the model spec decides what starts hidden. The document's colors live in GUI-only data that headless FreeCAD can't read, so color comes from the spec. `--y-up` isn't supported for `.FCStd` input.
+A FreeCAD document (`.FCStd`) is opened directly, so its group tree and labels carry through as node names. Every part is exported, including parts saved hidden; the model spec decides what starts hidden. A document that links parts in from other files is converted in place, with those files at their saved relative paths, and the converter stops if any link can't be resolved. The document's colors live in GUI-only data that headless FreeCAD can't read, so color comes from the spec. `--y-up` isn't supported for `.FCStd` input.
 
 ### Pipeline
 

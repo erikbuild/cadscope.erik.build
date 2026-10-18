@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# ABOUTME: End-to-end tests for convert.sh axis handling using a probe box STEP.
-# ABOUTME: Runs FreeCAD and Blender for real; skipped when either app is missing.
+# ABOUTME: End-to-end tests for convert.sh axis handling using a probe box STEP, plus the shared
+# ABOUTME: FreeCAD probe-script runner; runs FreeCAD and Blender for real, skipped when missing.
 
 import os
 import shutil
@@ -27,6 +27,22 @@ part.addObject(box)
 doc.recompute()
 Import.export([part], {path!r})
 """
+
+
+def run_freecad_script(script, workdir):
+    """Run a FreeCAD script from a file in workdir; raise if it fails.
+
+    freecadcmd also opens its command-line text as files, so the script goes
+    in a file rather than through -c, and it reports a script's exception
+    without a failing exit code, so its output is checked too.
+    """
+    path = os.path.join(workdir, "make_probe.py")
+    with open(path, "w") as f:
+        f.write(script)
+    result = subprocess.run([FREECADCMD, path], capture_output=True, text=True)
+    output = result.stdout + result.stderr
+    if result.returncode != 0 or "Exception while processing file" in output:
+        raise RuntimeError(f"FreeCAD script failed:\n{output}")
 
 
 def _node_matrix(node):
@@ -74,6 +90,29 @@ def gltf_world_extents_mm(glb_path):
     return ([round(v * 1000) for v in lo], [round(v * 1000) for v in hi])
 
 
+@unittest.skipUnless(os.path.isfile(FREECADCMD), "FreeCAD required")
+class TestRunFreeCADScript(unittest.TestCase):
+    """Probe scripts run as files and fail the test when they raise."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    def test_long_lines_run(self):
+        # freecadcmd treats command-line text as file names, and a run of more
+        # than 255 characters without a slash crashes it.
+        marker = os.path.join(self.tmp, "marker.txt")
+        run_freecad_script("# " + "a" * 300 + "\n" + f"open({marker!r}, 'w').write('ok')\n", self.tmp)
+        with open(marker) as f:
+            self.assertEqual(f.read(), "ok")
+
+    def test_script_errors_fail_loudly(self):
+        # freecadcmd exits 0 after an exception in a script file.
+        with self.assertRaises(RuntimeError) as cm:
+            run_freecad_script('raise RuntimeError("probe failed")\n', self.tmp)
+        self.assertIn("probe failed", str(cm.exception))
+
+
 @unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),
                      "FreeCAD and Blender required")
 class TestConvertAxes(unittest.TestCase):
@@ -83,10 +122,7 @@ class TestConvertAxes(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
         cls.step = os.path.join(cls.tmp, "box.step")
-        subprocess.run(
-            [FREECADCMD, "-c", MAKE_BOX.format(path=cls.step)],
-            capture_output=True, text=True, check=True,
-        )
+        run_freecad_script(MAKE_BOX.format(path=cls.step), cls.tmp)
         assert os.path.isfile(cls.step)
 
     @classmethod

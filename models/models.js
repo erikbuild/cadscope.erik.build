@@ -58,6 +58,14 @@ export const models = [
     github_text: "LumenPnP v4.1.0 by Opulo on GitHub"
   },
   {
+    id: "LumenPnP_v4.2.0",
+    name: "LumenPnP v4.2.0",
+    model: "models/LumenPnP_v4.2.0.glb",
+    colors: "models/LumenPnP_v4.2.0.colors.json",
+    github: "https://github.com/opulo-inc/lumenpnp",
+    github_text: "LumenPnP v4.2.0 by Opulo on GitHub"
+  },
+  {
     id: "Milo_V2.RC3",
     name: "Milo V2 RC3",
     model: "models/Milo_V2.RC3.glb",
