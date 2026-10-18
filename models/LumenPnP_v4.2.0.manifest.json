@@ -4,9 +4,9 @@
   "configOptions": {},
   "parts": [
     {
-      "id": "primary-staging-plate/bottom-camera_001",
+      "id": "primary-staging-plate",
       "nodes": [
-        "primary-staging-plate/bottom-camera_001"
+        "primary-staging-plate"
       ],
       "hidden": true
     },

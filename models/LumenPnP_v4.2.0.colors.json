@@ -14,6 +14,10 @@
       "color": "#216CBD",
       "showInPicker": false
     },
+    "White": {
+      "color": "#F5F5F5",
+      "showInPicker": false
+    },
     "Frame": {
       "color": "#757575",
       "metalness": 0.3,
@@ -106,6 +110,14 @@
       "category": "Blue"
     },
     {
+      "match": "bottom-light-mount*",
+      "category": "White"
+    },
+    {
+      "match": "top-light-mount*",
+      "category": "White"
+    },
+    {
       "match": "*-strip-feeder*",
       "category": "Main"
     },
@@ -119,10 +131,6 @@
     },
     {
       "match": "bottom-camera-mount*",
-      "category": "Main"
-    },
-    {
-      "match": "bottom-light-mount*",
       "category": "Main"
     },
     {
@@ -171,10 +179,6 @@
     },
     {
       "match": "peek-cable-clamp*",
-      "category": "Main"
-    },
-    {
-      "match": "top-light-mount*",
       "category": "Main"
     },
     {
@@ -363,7 +367,7 @@
     "LumenPnP/staging-plate-ASM/Body": {
       "category": "Plate"
     },
-    "primary-staging-plate/bottom-camera_001": {
+    "primary-staging-plate": {
       "hidden": true
     },
     "optional_strip_feeders": {

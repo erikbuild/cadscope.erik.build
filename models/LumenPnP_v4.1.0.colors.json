@@ -14,6 +14,10 @@
       "color": "#216CBD",
       "showInPicker": false
     },
+    "White": {
+      "color": "#F5F5F5",
+      "showInPicker": false
+    },
     "Frame": {
       "color": "#757575",
       "metalness": 0.3,
@@ -118,6 +122,14 @@
       "category": "Blue"
     },
     {
+      "match": "bottom-light-mount*",
+      "category": "White"
+    },
+    {
+      "match": "top-light-mount*",
+      "category": "White"
+    },
+    {
       "match": "*-strip-feeder*",
       "category": "Main"
     },
@@ -143,10 +155,6 @@
     },
     {
       "match": "bottom-camera-mount*",
-      "category": "Main"
-    },
-    {
-      "match": "bottom-light-mount*",
       "category": "Main"
     },
     {
@@ -187,10 +195,6 @@
     },
     {
       "match": "static-camera-foot*",
-      "category": "Main"
-    },
-    {
-      "match": "top-light-mount*",
       "category": "Main"
     },
     {

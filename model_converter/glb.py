@@ -47,7 +47,7 @@ def sanitize_node_name(name):
 
 
 def strip_numeric_suffix(name):
-    """Strip a trailing -N suffix, matching viewer.js stripNumericSuffix.
+    """Strip a trailing -N suffix.
 
     Operates on already-cleaned GLB node names where the only surviving
     instance pattern is the STEP -N suffix.

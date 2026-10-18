@@ -149,5 +149,56 @@ class TestConvertAxes(unittest.TestCase):
         self.assertEqual((lo, hi), ([0, 0, 0], [10, 20, 30]))
 
 
+@unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),
+                     "FreeCAD and Blender required")
+class TestConvertStageFailures(unittest.TestCase):
+    """convert.sh exits non-zero whenever a stage or the script itself fails."""
+
+    LEFTOVER = "/tmp/convert_step_XXXXXX.glb"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp()
+        cls.step = os.path.join(cls.tmp, "box.step")
+        run_freecad_script(MAKE_BOX.format(path=cls.step), cls.tmp)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_blender_failure_fails(self):
+        # Blender creates missing output folders, but not under a file.
+        blocker = os.path.join(self.tmp, "blocker")
+        open(blocker, "w").close()
+        result = subprocess.run([CONVERT, self.step, os.path.join(blocker, "out.glb")],
+                                capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_leftover_temp_file_does_not_block(self):
+        if os.path.exists(self.LEFTOVER):
+            self.skipTest(f"{self.LEFTOVER} already exists")
+        open(self.LEFTOVER, "w").close()
+        self.addCleanup(os.remove, self.LEFTOVER)
+        out = os.path.join(self.tmp, "leftover.glb")
+        result = subprocess.run([CONVERT, self.step, out], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(os.path.isfile(out))
+
+    def test_script_error_after_trap_fails(self):
+        # macOS bash 3.2 exits with the EXIT trap's status after an
+        # unbound-variable error, so the trap has to report failure itself.
+        with open(CONVERT) as f:
+            lines = f.readlines()
+        trap = next(i for i, line in enumerate(lines) if line.startswith("trap "))
+        lines.insert(trap + 1, ': "$UNSET_PROBE"\n')
+        broken = os.path.join(self.tmp, "convert_broken.sh")
+        with open(broken, "w") as f:
+            f.writelines(lines)
+        result = subprocess.run(["/bin/bash", broken, self.step, os.path.join(self.tmp, "b.glb")],
+                                capture_output=True, text=True)
+        self.assertIn("UNSET_PROBE", result.stderr)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

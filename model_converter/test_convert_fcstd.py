@@ -11,7 +11,8 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(__file__))
 from glb import read_glb_json  # noqa: E402
-from test_convert_y_up import BLENDER, CONVERT, FREECADCMD, gltf_world_extents_mm, run_freecad_script  # noqa: E402
+from test_convert_y_up import (  # noqa: E402
+    BLENDER, CONVERT, FREECADCMD, gltf_world_extents_mm, run_freecad_script)
 
 # A visible group holding a 10x20x30 box, a hidden group whose only child is
 # a hidden box (inside the first box's extents), and a shapeless top-level
@@ -59,6 +60,18 @@ link.Label = "linked-widget"
 bed.addObject(link)
 doc.recompute()
 doc.save()
+"""
+
+# A 10x20x30 box beside an App::Link that was never given a target.
+MAKE_EMPTY_LINK_DOC = """
+import FreeCAD
+doc = FreeCAD.newDocument("probe")
+box = doc.addObject("Part::Box", "Box")
+box.Length = 10; box.Width = 20; box.Height = 30
+link = doc.addObject("App::Link", "Link")
+link.Label = "empty-link"
+doc.recompute()
+doc.saveAs({path!r})
 """
 
 
@@ -134,6 +147,42 @@ class TestConvertFreeCADDocument(unittest.TestCase):
     def test_document_z_is_up(self):
         self.assertEqual(gltf_world_extents_mm(self.glb), ([0, 0, -20], [10, 30, 0]))
 
+    def test_conversion_output_has_no_reopen_noise(self):
+        output = self.result.stdout + self.result.stderr
+        self.assertNotIn("Cannot load Gui module", output)
+        self.assertNotIn("Exception while processing file", output)
+
+
+@unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),
+                     "FreeCAD and Blender required")
+class TestConvertFailures(unittest.TestCase):
+    """A conversion that can't finish exits non-zero, says why, and writes no GLB."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.glb = os.path.join(self.tmp, "out.glb")
+
+    def convert(self, doc):
+        return subprocess.run([CONVERT, doc, self.glb], capture_output=True, text=True)
+
+    def test_missing_input_reports_why(self):
+        doc = os.path.join(self.tmp, "nope.FCStd")
+        result = self.convert(doc)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn(f"input file not found: {doc}", result.stdout + result.stderr)
+        self.assertNotIn("Stage 3/3", result.stdout)
+
+    def test_unreadable_document_fails(self):
+        doc = os.path.join(self.tmp, "bad.FCStd")
+        with open(doc, "w") as f:
+            f.write("not a FreeCAD document")
+        result = self.convert(doc)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Error: conversion failed", result.stdout + result.stderr)
+        self.assertNotIn("Stage 3/3", result.stdout)
+        self.assertFalse(os.path.exists(self.glb))
+
 
 @unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),
                      "FreeCAD and Blender required")
@@ -183,6 +232,22 @@ class TestConvertBrokenLink(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("linked-widget", result.stdout + result.stderr)
         self.assertFalse(os.path.exists(glb))
+
+
+@unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),
+                     "FreeCAD and Blender required")
+class TestConvertEmptyLink(unittest.TestCase):
+    """A link with no target exports nothing, so it isn't a missing linked file."""
+
+    def test_empty_link_is_not_an_error(self):
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp, True)
+        doc = os.path.join(tmp, "probe.FCStd")
+        run_freecad_script(MAKE_EMPTY_LINK_DOC.format(path=doc), tmp)
+        glb = os.path.join(tmp, "probe.glb")
+        result = subprocess.run([CONVERT, doc, glb], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Box", node_paths(glb))
 
 
 @unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),

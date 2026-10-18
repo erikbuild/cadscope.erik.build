@@ -25,9 +25,22 @@ export function prettifyNodeName(name) {
   do {
     prev = s;
     s = s.replace(/[_ ]?\(\d+\)$/, '');   // CAD duplicate "(N)"
+    const unversioned = s.replace(/[_ -]v\d+$/, '');  // version marker "v2" (lowercase only)
+    if (unversioned !== s) {
+      // Inside a version marker only more version markers and duplicate
+      // "(N)"s are stripped; what's left is the part's own name, part
+      // numbers included.
+      let inner;
+      s = unversioned;
+      do {
+        inner = s;
+        s = s.replace(/[_ ]?\(\d+\)$/, '').replace(/[_ -]v\d+$/, '');
+      } while (s !== inner);
+      s = s.replace(/[_ -]+$/, '');
+      break;
+    }
     s = s.replace(/(\D)\d{3,}$/, '$1');   // trailing run of 3+ digits
     s = s.replace(/-\d+$/, '');           // pipeline dedup "-N"
-    s = s.replace(/[_ -]v\d+$/, '');      // version marker "v2" (lowercase only)
     s = s.replace(/[_ -]+$/, '');         // dangling separators
   } while (s !== prev);                   // stacked suffixes strip until stable
   if (!s) return name;

@@ -159,9 +159,9 @@ model_converter/.venv/bin/python model_converter/build_configurator.py --check m
 - **`autoAssign`** — ordered glob rules assigning categories by node name, first match wins. Globs match a node's **leaf name** (`*` any sequence, `?` one character), and a category propagates to descendant meshes — categorize a whole assembly with one entry.
 - **`nodes`** — per-node overrides keyed by slash-joined path from the visual root: `displayName`, `category`, `hidden`, conditional `visible`, and STL paths. A per-node `category` always beats an `autoAssign` match.
 
-### Node keys: paths vs. bare leaves
+### Node keys are paths
 
-The canonical key format for `nodes` is the slash-joined path from the visual root. Bare leaf names (no slash) are accepted as a forgiveness fallback — they resolve via the same name-cleaning logic as the conversion pipeline (strips path prefixes, `.step` suffixes, `(mesh)`/`(group)` suffixes) and will retry with a trailing `-N` numeric suffix stripped. Bare-leaf keys log a console warning to nudge you toward paths.
+Every key in `nodes` is a slash-joined path from the visual root, as listed in the model's `.scaffold.json`. A top-level node's path is its bare name, so a key without a slash (`Frame`) names that top-level node, not every node called `Frame`. `build_configurator.py --check` warns about keys that aren't in the scaffold.
 
 ## Development
 

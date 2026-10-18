@@ -2,6 +2,8 @@
 # ABOUTME: Tests for spec.py — parsing, validation, and the visibility DSL evaluator.
 # ABOUTME: Skipped when PyYAML is not installed so scaffold-only environments still test green.
 
+import contextlib
+import io
 import os
 import sys
 import textwrap
@@ -376,6 +378,11 @@ class TestParse(unittest.TestCase):
         text = textwrap.dedent("""
             model: { name: T, glb: f.glb }
             palette: { Main: { color: '#fff' } }
+            options:
+              pulley:
+                choices:
+                  - { id: a, default: true }
+                  - { id: b }
             downloads:
               base: "https://example.com/"
               groups:
@@ -384,6 +391,22 @@ class TestParse(unittest.TestCase):
         """).strip()
         s = parse(text)
         self.assertEqual(s.downloads["groups"][0]["when"], {"pulley": ["a", "b"]})
+
+    def test_downloads_when_warns_on_unknown_option(self):
+        text = textwrap.dedent("""
+            model: { name: T, glb: f.glb }
+            palette: { Main: { color: '#fff' } }
+            downloads:
+              base: "https://example.com/"
+              groups:
+                - when: { pulley: b }
+                  files: [ "f.stl" ]
+        """).strip()
+        stderr = io.StringIO()
+        with contextlib.redirect_stderr(stderr):
+            parse(text)
+        self.assertEqual(stderr.getvalue(),
+                         "warning: downloads.groups[0].when references unknown option 'pulley'\n")
 
     def test_downloads_requires_base(self):
         text = textwrap.dedent("""
@@ -410,6 +433,11 @@ class TestParse(unittest.TestCase):
         text = textwrap.dedent("""
             model: { name: T, glb: f.glb }
             palette: { Main: { color: '#fff' } }
+            options:
+              pulley:
+                choices:
+                  - { id: a, default: true }
+                  - { id: b }
             downloads:
               base: "https://example.com/"
               groups:

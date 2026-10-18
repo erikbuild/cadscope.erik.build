@@ -71,9 +71,12 @@ if [ ! -x "$BLENDER" ]; then
     exit 1
 fi
 
-TMPGLB="$(mktemp /tmp/convert_step_XXXXXX.glb)"
-TMPJSON="$(mktemp /tmp/convert_step_XXXXXX.json)"
-trap 'rm -f "$TMPGLB" "$TMPJSON"' EXIT
+WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/convert.XXXXXX")"
+TMPGLB="$WORKDIR/freecad.glb"
+TMPJSON="$WORKDIR/colors.json"
+# macOS bash 3.2 exits with this trap's status even after an unbound-variable
+# error, so the trap fails the run unless the script reached its last line.
+trap 'rm -rf "$WORKDIR"; [ "${FINISHED:-}" = 1 ] || exit 1' EXIT
 
 COLORS_ARGS=()
 echo "=== Stage 1/3: Extract colors ==="
@@ -97,4 +100,5 @@ fi
 
 echo ""
 echo "=== Stage 3/3: GLB → Draco GLB (Blender) ==="
-"$BLENDER" --background --python "$SCRIPT_DIR/blender_export.py" -- $NO_DRACO ${COLORS_ARGS[@]+"${COLORS_ARGS[@]}"} "$TMPGLB" "$OUTPUT"
+"$BLENDER" --background --python-exit-code 1 --python "$SCRIPT_DIR/blender_export.py" -- $NO_DRACO ${COLORS_ARGS[@]+"${COLORS_ARGS[@]}"} "$TMPGLB" "$OUTPUT"
+FINISHED=1

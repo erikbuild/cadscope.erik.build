@@ -5,7 +5,7 @@ FreeCAD Python script: Convert a STEP file or FreeCAD document (.FCStd) to GLB
 with full assembly hierarchy.
 
 Usage (run via FreeCAD's CLI):
-    freecadcmd -c "exec(open('cad_to_glb.py').read())" -- [--y-up] input.step|input.FCStd output.glb
+    freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb
 
 --y-up: the STEP was modeled with Y as the vertical axis; the assembly is
 rotated so Y becomes Z before export, matching the Z-up convention the exporter assumes.
@@ -20,9 +20,21 @@ document's group tree. Pipe through Blender for Draco compression (see convert.s
 
 import FreeCAD
 import Import
+import io
 import sys
 import os
 import time
+import traceback
+import xml.etree.ElementTree as ET
+import zipfile
+
+
+def fail(message):
+    """Print message and exit with status 1."""
+    print(message)
+    # freecadcmd drops unflushed output when a script exits.
+    sys.stdout.flush()
+    sys.exit(1)
 
 
 def parse_args():
@@ -30,18 +42,16 @@ def parse_args():
     try:
         sep = sys.argv.index("--")
     except ValueError:
-        print("Error: pass arguments after '--'")
-        print("Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb")
-        sys.exit(1)
+        fail("Error: pass arguments after '--'\n"
+             "Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb")
 
     args = sys.argv[sep + 1:]
     paths = [a for a in args if not a.startswith("--")]
     y_up = "--y-up" in args
 
     if len(paths) < 2:
-        print("Error: need input and output paths")
-        print("Usage: freecadcmd cad_to_glb.py -- input.step|input.FCStd output.glb")
-        sys.exit(1)
+        fail("Error: need input and output paths\n"
+             "Usage: freecadcmd cad_to_glb.py -- input.step|input.FCStd output.glb")
 
     return os.path.abspath(paths[0]), os.path.abspath(paths[1]), y_up
 
@@ -60,23 +70,34 @@ def carries_geometry(obj):
     return any(carries_geometry(child) for child in getattr(obj, "Group", []))
 
 
+def links_to_something(obj):
+    """False for a link saved without a target, which exports nothing.
+
+    A link whose target file is missing still records the target's name.
+    """
+    content = zipfile.ZipFile(io.BytesIO(obj.dumpPropertyContent("LinkedObject")))
+    xlink = ET.fromstring(content.read("Persistence.xml")).find("XLink")
+    return xlink is None or bool(xlink.get("name"))
+
+
 def unresolved_links(documents):
     """Name each link in documents whose target wasn't loaded, as "Document/Label".
 
     A link into a file that isn't at its saved relative path opens with no
-    target, and the exporter would silently leave its parts out.
+    target, and the exporter would silently leave its parts out. Links saved
+    without a target are not counted.
     """
     return [f"{doc.Label}/{obj.Label}"
             for doc in documents for obj in doc.Objects
-            if "LinkedObject" in obj.PropertiesList and obj.LinkedObject is None]
+            if "LinkedObject" in obj.PropertiesList and obj.LinkedObject is None
+            and links_to_something(obj)]
 
 
 def main():
     input_path, output_path, y_up = parse_args()
 
     if not os.path.isfile(input_path):
-        print(f"Error: input file not found: {input_path}")
-        sys.exit(1)
+        fail(f"Error: input file not found: {input_path}")
 
     print(f"\n--- CAD to GLB (FreeCAD) ---")
     print(f"Input:  {input_path}")
@@ -91,12 +112,8 @@ def main():
         # carry links of their own.
         broken = unresolved_links(FreeCAD.listDocuments().values())
         if broken:
-            print("Error: unresolved links (are the linked files at their saved relative paths?)")
-            for name in broken:
-                print(f"  {name}")
-            # freecadcmd drops unflushed output when a script exits.
-            sys.stdout.flush()
-            sys.exit(1)
+            fail("Error: unresolved links (are the linked files at their saved relative paths?)\n"
+                 + "\n".join(f"  {name}" for name in broken))
     else:
         print("Importing STEP...")
         doc = FreeCAD.newDocument("convert")
@@ -154,4 +171,12 @@ def main():
     print(f"  Output:  {size_mb:.1f} MB")
 
 
-main()
+# freecadcmd reports an uncaught script exception but still exits 0, and after
+# the script it opens its trailing arguments as files; exiting explicitly
+# avoids both.
+try:
+    main()
+except Exception:
+    fail("Error: conversion failed\n" + traceback.format_exc())
+sys.stdout.flush()
+sys.exit(0)

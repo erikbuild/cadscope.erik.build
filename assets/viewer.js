@@ -14,6 +14,7 @@ import {
   collectColorOverrides,
 } from './cadscope_state.js';
 import { treeLabel } from './prettify.js';
+import { buildSidecarLookups, lookupNode } from './sidecar.js';
 import { coralWaveMode, splitUniformsForBox, patchMaterial, drawHilbertPattern } from './coralwave.js';
 import { createSession, NL_URL, NL_SUBPROTOCOL } from './spacemouse.js';
 import {
@@ -463,17 +464,6 @@ function cleanNodeName(name) {
   return cleaned.trim();
 }
 
-function stripNumericSuffix(name) {
-  return name.replace(/-\d+$/, '');
-}
-
-// Translate a shell-style glob (* and ?) to an anchored regex.
-function globToRegExp(glob) {
-  const escaped = glob.replace(/[.+^${}()|[\]\\]/g, '\\$&');
-  const pattern = escaped.replace(/\*/g, '.*').replace(/\?/g, '.');
-  return new RegExp('^' + pattern + '$');
-}
-
 // Append a child's cleaned name to a parent path. Empty/nameless components
 // are skipped so JS paths match the scaffold emitted by dump_parts.py.
 function extendPath(parentPath, childName) {
@@ -482,81 +472,13 @@ function extendPath(parentPath, childName) {
   return parentPath ? `${parentPath}/${cleaned}` : cleaned;
 }
 
-// Resolve a sidecar into ready-to-query lookup tables.
-// palette: name -> { color, metalness, opacity, showInPicker, showInTree }
-// autoAssign: ordered [{ category, regex }] — first match wins
-// nodesByPath: full slash-joined path -> entry
-// nodesByLeaf: bare-leaf key -> entry (legacy/forgiveness path)
-function buildSidecarLookups(colorSet) {
-  const palette = new Map();
-  const autoAssign = [];
-  const nodesByPath = new Map();
-  const nodesByLeaf = new Map();
-
-  if (colorSet?.palette) {
-    for (const [name, raw] of Object.entries(colorSet.palette)) {
-      palette.set(name, {
-        color: raw.color,
-        metalness: raw.metalness ?? 0.0,
-        opacity: raw.opacity ?? 1.0,
-        showInPicker: raw.showInPicker !== false,
-        showInTree: raw.showInTree !== false,
-      });
-    }
-  }
-
-  if (Array.isArray(colorSet?.autoAssign)) {
-    for (const rule of colorSet.autoAssign) {
-      if (!rule || !rule.category || !rule.match) continue;
-      if (!palette.has(rule.category)) {
-        console.warn(`Sidecar autoAssign rule references category "${rule.category}" which is not defined in palette.`);
-      }
-      autoAssign.push({ category: rule.category, regex: globToRegExp(rule.match) });
-    }
-  }
-
-  let warnedAboutLeafKeys = false;
-  if (colorSet?.nodes) {
-    for (const [key, entry] of Object.entries(colorSet.nodes)) {
-      if (entry?.category && !palette.has(entry.category)) {
-        console.warn(`Sidecar node "${key}" references category "${entry.category}" which is not defined in palette.`);
-      }
-      if (key.includes('/')) {
-        nodesByPath.set(key, entry);
-      } else {
-        nodesByLeaf.set(key, entry);
-        if (!warnedAboutLeafKeys) {
-          console.warn(`Sidecar uses bare-leaf node keys (e.g. "${key}"). Path-based keys are preferred for unambiguous matching.`);
-          warnedAboutLeafKeys = true;
-        }
-      }
-    }
-  }
-
-  return { palette, autoAssign, nodesByPath, nodesByLeaf };
-}
-
-// Look up the sidecar entry for a node by its path. Tries exact-path first,
-// then falls back to fuzzy-matched bare-leaf keys (cleaned, then -N stripped).
-function lookupNode(lookups, path) {
-  if (!lookups) return null;
-  const direct = lookups.nodesByPath.get(path);
-  if (direct) return direct;
-  if (lookups.nodesByLeaf.size === 0) return null;
-  const leaf = path.includes('/') ? path.substring(path.lastIndexOf('/') + 1) : path;
-  const cleaned = cleanNodeName(leaf);
-  return lookups.nodesByLeaf.get(cleaned)
-      || lookups.nodesByLeaf.get(stripNumericSuffix(cleaned))
-      || null;
-}
-
 // Identify the visual root (skip the glTF "Scene" wrapper if present), matching buildTree.
 function visualRoot(model) {
   return (model.children.length === 1 && model.name === 'Scene') ? model.children[0] : model;
 }
 
 function applyDefaultConfiguration(lookups, model) {
-  if (!lookups || (lookups.nodesByPath.size === 0 && lookups.nodesByLeaf.size === 0)) return;
+  if (!lookups || lookups.nodesByPath.size === 0) return;
   const root = visualRoot(model);
   function walk(node, path) {
     const entry = lookupNode(lookups, path);

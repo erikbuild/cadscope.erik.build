@@ -10,6 +10,8 @@
 # PCBs. Upstream colors that are working markup or FreeCAD's unassigned
 # default (red M5 screws, cyan T-nut bars, gray board-mount fixture and build
 # plates) are not followed.
+# The two light mounts are white: Opulo's BOM has them printed in white
+# filament as light diffusers.
 # The blacks are dark grays rather than true black so surface shading stays
 # readable in the viewer.
 
@@ -24,6 +26,7 @@ palette:
   Accent:             { color: "#F2B01E" }                                            # yellow printed parts
   Red:                { color: "#BD1C57", showInPicker: false }                       # left Z backplate
   Blue:               { color: "#216CBD", showInPicker: false }                       # right Z backplate
+  White:              { color: "#F5F5F5", showInPicker: false }                       # light-diffuser mounts
   Frame:              { color: "#757575", metalness: 0.3, showInPicker: false }       # black V-slot and corner brackets
   Hardware:           { color: "#C8C8C8", metalness: 0.3, showInPicker: false }       # steel rails, carriages, pulleys, valves
   Fasteners:          { color: "#B4B4B4", metalness: 0.3, showInPicker: false }       # steel screws, nuts, T-nuts
@@ -58,12 +61,15 @@ autoAssign:
   - { match: "z-gantry-backplate-left*",  category: Red }
   - { match: "z-gantry-backplate-right*", category: Blue }
 
+  # ---- White light-diffuser mounts --------------------------------------
+  - { match: "bottom-light-mount*",       category: White }
+  - { match: "top-light-mount*",          category: White }
+
   # ---- Printed parts (names follow the release's STL list) --------------
   - { match: "*-strip-feeder*",           category: Main }
   - { match: "back-leg*",                 category: Main }
   - { match: "board-support*",            category: Main }
   - { match: "bottom-camera-mount*",      category: Main }
-  - { match: "bottom-light-mount*",       category: Main }
   - { match: "bottom-vision-cable-clamp*", category: Main }
   - { match: "bottom-vision-cover*",      category: Main }
   - { match: "cable-splay*",              category: Main }
@@ -76,7 +82,6 @@ autoAssign:
   - { match: "front-right-leg*",          category: Main }
   - { match: "nozzle-camera-mask*",       category: Main }
   - { match: "peek-cable-clamp*",         category: Main }
-  - { match: "top-light-mount*",          category: Main }
   - { match: "x-gantry-back*",            category: Main }
   - { match: "x-gantry-front*",           category: Main }
   - { match: "x-idler-mount*",            category: Main }
@@ -141,15 +146,15 @@ autoAssign:
 # build plates override it.
 #
 # Hidden entries match the v4.1.0 defaults (v4.2's saved FreeCAD view is a
-# working view that hides the drag chains and feeder rails), plus an A2plus
-# bottom-camera that duplicates the one in staging-plate-ASM. All remain
-# toggleable in the tree.
+# working view that hides the drag chains and feeder rails), plus the A2plus
+# primary-staging-plate group, whose only part is a bottom-camera that
+# duplicates the one in staging-plate-ASM. All remain toggleable in the tree.
 nodes:
   Assembly:                                                       { category: Main }
   Assembly/Body008:                                               { category: Plate }
   Assembly/Body009:                                               { category: Plate }
   LumenPnP/staging-plate-ASM/Body:                                { category: Plate }
-  primary-staging-plate/bottom-camera_001:                        { hidden: true }
+  primary-staging-plate:                                          { hidden: true }
   optional_strip_feeders:                                         { hidden: true }
   components_installed_by_user/squaring-bracket:                  { hidden: true }
   x-drag-chain-asm/cable-splay:                                   { hidden: true }
