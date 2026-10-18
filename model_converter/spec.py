@@ -454,8 +454,8 @@ _COVERAGE_SAMPLE_LIMIT = 10
 def _leaf_matches(path: str, pattern: str) -> bool:
     """Match a pattern against the bare leaf name of a path.
 
-    Mirrors viewer.js:533, which tests `node.name` (the leaf) against each
-    autoAssign rule. Patterns that only match via full-path syntax (e.g.
+    Mirrors resolveCategory in viewer.js, which tests `node.name` (the leaf)
+    against each autoAssign rule. Patterns that only match via full-path syntax (e.g.
     `Group/*`) are dead at runtime — leaves never contain slashes.
     """
     return fnmatchcase(path.split("/")[-1], pattern)

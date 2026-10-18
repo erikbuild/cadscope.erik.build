@@ -28,6 +28,8 @@ import traceback
 import xml.etree.ElementTree as ET
 import zipfile
 
+USAGE = "Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb"
+
 
 def fail(message):
     """Print message and exit with status 1."""
@@ -42,16 +44,14 @@ def parse_args():
     try:
         sep = sys.argv.index("--")
     except ValueError:
-        fail("Error: pass arguments after '--'\n"
-             "Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb")
+        fail(f"Error: pass arguments after '--'\n{USAGE}")
 
     args = sys.argv[sep + 1:]
     paths = [a for a in args if not a.startswith("--")]
     y_up = "--y-up" in args
 
     if len(paths) < 2:
-        fail("Error: need input and output paths\n"
-             "Usage: freecadcmd cad_to_glb.py -- input.step|input.FCStd output.glb")
+        fail(f"Error: need input and output paths\n{USAGE}")
 
     return os.path.abspath(paths[0]), os.path.abspath(paths[1]), y_up
 
@@ -71,13 +71,15 @@ def carries_geometry(obj):
 
 
 def links_to_something(obj):
-    """False for a link saved without a target, which exports nothing.
+    """True if obj's link names a target object, loaded or not.
 
-    A link whose target file is missing still records the target's name.
+    A link whose target file is missing still records the target's name; a
+    link saved without a target, or a plain link (which can't point into
+    another file), names nothing a missing file could hold.
     """
     content = zipfile.ZipFile(io.BytesIO(obj.dumpPropertyContent("LinkedObject")))
     xlink = ET.fromstring(content.read("Persistence.xml")).find("XLink")
-    return xlink is None or bool(xlink.get("name"))
+    return xlink is not None and bool(xlink.get("name"))
 
 
 def unresolved_links(documents):

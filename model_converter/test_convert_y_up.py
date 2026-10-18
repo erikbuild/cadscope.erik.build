@@ -172,6 +172,7 @@ class TestConvertStageFailures(unittest.TestCase):
         open(blocker, "w").close()
         result = subprocess.run([CONVERT, self.step, os.path.join(blocker, "out.glb")],
                                 capture_output=True, text=True)
+        self.assertIn("Stage 3/3", result.stdout)
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_leftover_temp_file_does_not_block(self):
@@ -184,9 +185,8 @@ class TestConvertStageFailures(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(os.path.isfile(out))
 
-    def test_script_error_after_trap_fails(self):
-        # macOS bash 3.2 exits with the EXIT trap's status after an
-        # unbound-variable error, so the trap has to report failure itself.
+    def run_with_error_after_trap(self, env=None):
+        """Run a copy of convert.sh that hits an unbound variable right after its trap."""
         with open(CONVERT) as f:
             lines = f.readlines()
         trap = next(i for i, line in enumerate(lines) if line.startswith("trap "))
@@ -194,8 +194,18 @@ class TestConvertStageFailures(unittest.TestCase):
         broken = os.path.join(self.tmp, "convert_broken.sh")
         with open(broken, "w") as f:
             f.writelines(lines)
-        result = subprocess.run(["/bin/bash", broken, self.step, os.path.join(self.tmp, "b.glb")],
-                                capture_output=True, text=True)
+        return subprocess.run(["/bin/bash", broken, self.step, os.path.join(self.tmp, "b.glb")],
+                              capture_output=True, text=True, env=env)
+
+    def test_script_error_after_trap_fails(self):
+        # macOS bash 3.2 exits with the EXIT trap's status after an
+        # unbound-variable error, so the trap has to report failure itself.
+        result = self.run_with_error_after_trap()
+        self.assertIn("UNSET_PROBE", result.stderr)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_inherited_finished_does_not_mask_errors(self):
+        result = self.run_with_error_after_trap(env={**os.environ, "FINISHED": "1"})
         self.assertIn("UNSET_PROBE", result.stderr)
         self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 

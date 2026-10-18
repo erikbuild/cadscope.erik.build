@@ -62,13 +62,14 @@ doc.recompute()
 doc.save()
 """
 
-# A 10x20x30 box beside an App::Link that was never given a target.
+# A 10x20x30 box beside a link object that was never given a target;
+# {make_link} creates it as `link`.
 MAKE_EMPTY_LINK_DOC = """
 import FreeCAD
 doc = FreeCAD.newDocument("probe")
 box = doc.addObject("Part::Box", "Box")
 box.Length = 10; box.Width = 20; box.Height = 30
-link = doc.addObject("App::Link", "Link")
+{make_link}
 link.Label = "empty-link"
 doc.recompute()
 doc.saveAs({path!r})
@@ -173,6 +174,15 @@ class TestConvertFailures(unittest.TestCase):
         self.assertIn(f"input file not found: {doc}", result.stdout + result.stderr)
         self.assertNotIn("Stage 3/3", result.stdout)
 
+    def test_missing_output_path_shows_usage(self):
+        script = os.path.join(os.path.dirname(CONVERT), "cad_to_glb.py")
+        result = subprocess.run([FREECADCMD, script, "--", os.path.join(self.tmp, "only.FCStd")],
+                                capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Error: need input and output paths\n"
+                      "Usage: freecadcmd cad_to_glb.py -- [--y-up] input.step|input.FCStd output.glb",
+                      result.stdout)
+
     def test_unreadable_document_fails(self):
         doc = os.path.join(self.tmp, "bad.FCStd")
         with open(doc, "w") as f:
@@ -239,15 +249,23 @@ class TestConvertBrokenLink(unittest.TestCase):
 class TestConvertEmptyLink(unittest.TestCase):
     """A link with no target exports nothing, so it isn't a missing linked file."""
 
-    def test_empty_link_is_not_an_error(self):
+    def assert_converts_beside(self, make_link):
         tmp = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, tmp, True)
         doc = os.path.join(tmp, "probe.FCStd")
-        run_freecad_script(MAKE_EMPTY_LINK_DOC.format(path=doc), tmp)
+        run_freecad_script(MAKE_EMPTY_LINK_DOC.format(make_link=make_link, path=doc), tmp)
         glb = os.path.join(tmp, "probe.glb")
         result = subprocess.run([CONVERT, doc, glb], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("Box", node_paths(glb))
+
+    def test_empty_link_is_not_an_error(self):
+        self.assert_converts_beside('link = doc.addObject("App::Link", "Link")')
+
+    def test_empty_plain_link_property_is_not_an_error(self):
+        # A plain App::PropertyLink can't point into another file.
+        self.assert_converts_beside('link = doc.addObject("App::FeaturePython", "Custom")\n'
+                                    'link.addProperty("App::PropertyLink", "LinkedObject")')
 
 
 @unittest.skipUnless(os.path.isfile(FREECADCMD) and os.path.isfile(BLENDER),

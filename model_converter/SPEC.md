@@ -93,8 +93,8 @@ before any rule is tested.
 
 ### Matching: leaf names only
 
-Globs match against the **bare leaf name** of a node (`node.name` in
-`viewer.js:533`), not the full slash-joined path. Patterns like `Frame/*` or
+Globs match against the **bare leaf name** of a node (`node.name`, as
+`resolveCategory` in `viewer.js` tests it), not the full slash-joined path. Patterns like `Frame/*` or
 `Electronics/*` are dead — leaves never contain `/`. To match a top-level
 group, use the bare name (`Frame`) or a leaf-name glob that hits it
 (`Frame*`).
@@ -102,7 +102,8 @@ group, use the bare name (`Frame`) or a leaf-name glob that hits it
 ### Descendant cascade
 
 The viewer applies categories top-down: a node without its own match
-inherits the nearest matched ancestor's category (`viewer.js:541-542`). One
+inherits the nearest matched ancestor's category (`applyColorSet` in
+`viewer.js`). One
 rule that hits a top-level group leaf — e.g. `{ match: "Frame", category:
 Frame }` — colors the entire `Frame` subtree, because every descendant
 inherits.

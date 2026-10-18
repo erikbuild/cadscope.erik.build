@@ -76,6 +76,7 @@ TMPGLB="$WORKDIR/freecad.glb"
 TMPJSON="$WORKDIR/colors.json"
 # macOS bash 3.2 exits with this trap's status even after an unbound-variable
 # error, so the trap fails the run unless the script reached its last line.
+FINISHED=
 trap 'rm -rf "$WORKDIR"; [ "${FINISHED:-}" = 1 ] || exit 1' EXIT
 
 COLORS_ARGS=()
