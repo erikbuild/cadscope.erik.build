@@ -165,17 +165,21 @@ Every key in `nodes` is a slash-joined path from the visual root, as listed in t
 
 ## Development
 
-The viewer is dependency-free ES modules — no bundler, no install step. Logic that can be tested without a browser lives in small modules under `assets/` with suites in `tests/`:
+The viewer is dependency-free ES modules — no bundler, no install step. Serve it from the checkout with `python3 serve.py` and open http://127.0.0.1:8000/ (pass a port number to use another). `python3 -m http.server` can intermittently fail to load the viewer: it queues only five connections, and the viewer requests all of its modules at once.
+
+Logic that can be tested without a browser lives in small modules under `assets/` with suites in `tests/`:
 
 ```sh
 node --test tests/*.test.js                                        # viewer modules
+python3 -m unittest discover -s tests                              # dev server
 model_converter/.venv/bin/python -m unittest discover -s model_converter -q   # converter
 ```
 
 | Path | Contents |
 |------|----------|
 | `index.html`, `assets/viewer.js` | Page shell and the viewer (scene, tree, controls, panels) |
-| `assets/` modules | `settings`, `spacemouse`, `coralwave`, `prettify`, `share_codec`, `cadscope_state`, `theme` |
+| `assets/` modules | `settings`, `spacemouse`, `coralwave`, `prettify`, `sidecar`, `share_codec`, `cadscope_state`, `theme` |
+| `serve.py` | Local development server |
 | `models/` | GLBs, specs, generated sidecars, `models.js`, and `NOTICE.md` |
 | `model_converter/` | STEP→GLB pipeline, spec parser, and `SPEC.md` |
 
